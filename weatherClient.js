@@ -62,7 +62,16 @@ export function buildForecast(info, temperatureUnit) {
         if (!entry)
             continue;
 
-        const date = GLib.DateTime.new_from_unix_local(entry.get_value_update()[1]).to_timezone(tz);
+        // MET Norway's forecast list always leads with one placeholder entry
+        // whose update time (and temperature) is unset - [valid, value] both
+        // read (false, 0) - which would otherwise bucket as its own bogus
+        // "day" dated the Unix epoch. Confirmed via a live fetch for Tallinn:
+        // 1 invalid entry out of 86, always at index 0.
+        const [updateValid, updateTime] = entry.get_value_update();
+        if (!updateValid)
+            continue;
+
+        const date = GLib.DateTime.new_from_unix_local(updateTime).to_timezone(tz);
         if (lastDayOfMonth !== null && date.get_day_of_month() !== lastDayOfMonth)
             days.push({hours: {}, date});
         else if (days.length === 0)

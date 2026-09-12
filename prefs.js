@@ -10,11 +10,17 @@ const GWEATHER_SCHEMA = 'org.gnome.GWeather4';
 const WORLD = GWeather.Location.get_world();
 const SEARCH_RESULT_LIMIT = 30;
 
+// Strips accents/diacritics so e.g. "Sao" matches "São" - typing an accented
+// letter is often impractical on a plain keyboard layout.
+function foldAccents(s) {
+    return s.normalize('NFD').replace(/[̀-ͯ]/g, '');
+}
+
 // GWeather 4 dropped the GWeather.LocationEntry widget, so city search is
 // a plain recursive walk of the location tree (see the plan's benchmark:
 // ~13,000 nodes, ~20-40ms per search — fast enough for search-as-you-type).
 function searchCities(query) {
-    const needle = query.trim().toLowerCase();
+    const needle = foldAccents(query.trim().toLowerCase());
     if (!needle)
         return [];
 
@@ -23,7 +29,7 @@ function searchCities(query) {
         if (results.length >= SEARCH_RESULT_LIMIT)
             return;
         if (location.get_level() === GWeather.LocationLevel.CITY && location.has_coords() &&
-            (location.get_name() ?? '').toLowerCase().includes(needle))
+            foldAccents((location.get_name() ?? '').toLowerCase()).includes(needle))
             results.push(location);
 
         let child = location.next_child(null);

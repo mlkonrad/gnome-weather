@@ -44,7 +44,7 @@ export function localeTime(date, clockFormat) {
 }
 
 export function temperatureString(unit, temp, _) {
-    const value = (Math.round(temp * 10) / 10).toLocaleString();
+    const value = Math.round(temp).toLocaleString();
     switch (unit) {
     case GWeather.TemperatureUnit.FAHRENHEIT:
         return _('%s °F').replace('%s', value);

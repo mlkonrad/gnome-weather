@@ -57,8 +57,8 @@ export function temperatureString(unit, temp, _) {
     }
 }
 
-export function windString(unit, speed, directionIndex, useArrows, _) {
-    if (!speed)
+export function windString(unit, valid, speed, directionIndex, useArrows, _) {
+    if (!valid)
         return '-';
 
     const value = (Math.round(speed * 10) / 10).toLocaleString();

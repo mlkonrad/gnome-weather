@@ -260,16 +260,27 @@ class WeatherIndicator extends PanelMenu.Button {
 
         this._setPanelIcon(info.get_icon_name());
 
-        const wind = info.get_value_wind(speedUnit);
+        // GWeather's get_value_*() accessors return [valid, ...] - not every
+        // provider reports every field (e.g. METAR often omits apparent
+        // temperature/sunrise/sunset), so each renders as '-' rather than
+        // trusting the value when its validity flag is false.
+        const [tempValid, tempValue] = info.get_value_temp(temperatureUnit);
+        const [apparentValid, apparentValue] = info.get_value_apparent(temperatureUnit);
+        const [windValid, windSpeed, windDirection] = info.get_value_wind(speedUnit);
+
+        const tempString = tempValid ? temperatureString(temperatureUnit, tempValue, _) : '-';
+        const apparentString = apparentValid ? temperatureString(temperatureUnit, apparentValue, _) : '-';
+        const windStr = windString(speedUnit, windValid, windSpeed, windDirection, this._settings.get_boolean('wind-direction'), _);
+
         const panelParts = [];
         if (this._settings.get_boolean('show-comment-in-panel'))
             panelParts.push(conditions);
         if (this._settings.get_boolean('show-text-in-panel'))
-            panelParts.push(temperatureString(temperatureUnit, info.get_value_temp(temperatureUnit)[1], _));
+            panelParts.push(tempString);
         if (this._settings.get_boolean('show-humidity-in-panel'))
             panelParts.push(info.get_humidity());
         if (this._settings.get_boolean('show-wind-in-panel'))
-            panelParts.push(windString(speedUnit, wind[1], wind[2], this._settings.get_boolean('wind-direction'), _));
+            panelParts.push(windStr);
         this._panelLabel.text = panelParts.join(_(', '));
 
         const icon = new St.Icon({
@@ -280,14 +291,17 @@ class WeatherIndicator extends PanelMenu.Button {
 
         const location = new St.Label({text: `${info.get_location().get_city_name()}${_(', ')}${conditions}`});
         const summary = new St.Label({
-            text: temperatureString(temperatureUnit, info.get_value_apparent(temperatureUnit)[1], _),
+            text: apparentString,
             style_class: 'weather-current-summary',
         });
 
         const tz = info.get_location().get_timezone();
-        const sunrise = localeTime(GLib.DateTime.new_from_unix_local(info.get_value_sunrise()[1]).to_timezone(tz), clockFormat);
-        const sunset = localeTime(GLib.DateTime.new_from_unix_local(info.get_value_sunset()[1]).to_timezone(tz), clockFormat);
-        const updated = localeTime(GLib.DateTime.new_from_unix_local(info.get_value_update()[1]).to_timezone(GLib.TimeZone.new_local()), clockFormat);
+        const [sunriseValid, sunriseTime] = info.get_value_sunrise();
+        const [sunsetValid, sunsetTime] = info.get_value_sunset();
+        const [updateValid, updateTime] = info.get_value_update();
+        const sunrise = sunriseValid ? localeTime(GLib.DateTime.new_from_unix_local(sunriseTime).to_timezone(tz), clockFormat) : '-';
+        const sunset = sunsetValid ? localeTime(GLib.DateTime.new_from_unix_local(sunsetTime).to_timezone(tz), clockFormat) : '-';
+        const updated = updateValid ? localeTime(GLib.DateTime.new_from_unix_local(updateTime).to_timezone(GLib.TimeZone.new_local()), clockFormat) : '-';
 
         const infoBox = new St.BoxLayout({style_class: 'weather-current-infobox'});
         infoBox.add_child(new St.Icon({icon_size: 15, icon_name: iconType('weather-clear', symbolic), style_class: 'weather-sunrise-icon'}));
@@ -309,11 +323,11 @@ class WeatherIndicator extends PanelMenu.Button {
         dataBox.add_child(values);
 
         const rows = [
-            [_('Feels like'), 'show-feels-like', temperatureString(temperatureUnit, info.get_value_apparent(temperatureUnit)[1], _)],
+            [_('Feels like'), 'show-feels-like', apparentString],
             [_('Visibility'), 'show-visibility', `${info.get_visibility()}`],
             [_('Humidity'), 'show-humidity', info.get_humidity()],
             [_('Pressure'), 'show-pressure', `${info.get_pressure()}`],
-            [_('Wind'), 'show-wind', windString(speedUnit, wind[1], wind[2], this._settings.get_boolean('wind-direction'), _)],
+            [_('Wind'), 'show-wind', windStr],
         ].filter(([, key]) => this._settings.get_boolean(key));
         for (const [caption, , value] of rows) {
             captions.add_child(new St.Label({text: caption}));
@@ -355,22 +369,23 @@ class WeatherIndicator extends PanelMenu.Button {
             {
                 label: _('Now'),
                 icon: info.get_icon_name(),
-                temp: info.get_value_temp(temperatureUnit)[1],
+                temp: info.get_value_temp(temperatureUnit),
                 humidity: info.get_humidity(),
             },
             ...hours.map(({date, entry}) => ({
                 label: localeTime(date, clockFormat),
                 icon: entry.get_icon_name(),
-                temp: entry.get_value_temp(temperatureUnit)[1],
+                temp: entry.get_value_temp(temperatureUnit),
                 humidity: entry.get_humidity(),
             })),
         ];
 
         const row = new St.BoxLayout();
         for (const item of entries) {
+            const [itemTempValid, itemTempValue] = item.temp;
             const column = new St.BoxLayout({vertical: true, style_class: 'weather-hourly-box'});
             column.add_child(new St.Label({
-                text: temperatureString(temperatureUnit, item.temp, _),
+                text: itemTempValid ? temperatureString(temperatureUnit, itemTempValue, _) : '-',
                 style_class: 'weather-hourly-temp',
             }));
             column.add_child(new St.Icon({

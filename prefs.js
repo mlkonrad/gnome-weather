@@ -182,6 +182,13 @@ export default class WeatherPreferences extends ExtensionPreferences {
                 return;
             cities.splice(index, 1);
             setCities(settings, cities);
+
+            // Keep 'actual-city' pointing at the same city it did before the
+            // removal - without this, removing any city ahead of the selected
+            // one silently shifts the selection onto a different city.
+            const actual = settings.get_int('actual-city');
+            if (index < actual)
+                settings.set_int('actual-city', actual - 1);
         });
 
         dialog.present(window);

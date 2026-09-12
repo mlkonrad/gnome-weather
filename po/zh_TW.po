@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: simon 04-gnome-shell-extension-weather-452bcfe\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-12 23:38+0300\n"
+"POT-Creation-Date: 2026-09-12 23:39+0300\n"
 "PO-Revision-Date: 2012-05-13 22:41+0100\n"
 "Last-Translator: Anton Yu <anton.tw@gmail.com>\n"
 "Language-Team: Chinese (Traditional)\n"
@@ -137,7 +137,7 @@ msgid "NNW"
 msgstr "北北西"
 
 #: ../indicator.js:67 ../indicator.js:216 ../indicator.js:221
-#: ../indicator.js:226 ../prefs.js:60 ../prefs.js:294
+#: ../indicator.js:226
 msgid "Weather"
 msgstr "氣象設定"
 
@@ -152,7 +152,7 @@ msgstr "重新載入氣象資訊"
 #: ../indicator.js:98
 #, fuzzy
 #| msgid "Weather Settings"
-msgid "Weather Settings"
+msgid "Wetter Settings"
 msgstr "氣象設定"
 
 #: ../indicator.js:217
@@ -193,6 +193,10 @@ msgstr "風力"
 
 #: ../indicator.js:370
 msgid "Now"
+msgstr ""
+
+#: ../prefs.js:60 ../prefs.js:294
+msgid "Wetter"
 msgstr ""
 
 #: ../prefs.js:111
@@ -439,7 +443,7 @@ msgid "About"
 msgstr ""
 
 #: ../prefs.js:296
-msgid "Weather conditions and forecasts for multiple locations"
+msgid "GNOME weather extension with forecasts for multiple locations"
 msgstr ""
 
 #: ../prefs.js:301

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Neroth-gnome-shell-extension-weather 3696468\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-12 23:38+0300\n"
+"POT-Creation-Date: 2026-09-12 23:39+0300\n"
 "PO-Revision-Date: 2013-07-25 15:05+0200\n"
 "Last-Translator: Peter Bojtos <ptr@ulx.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -138,7 +138,7 @@ msgid "NNW"
 msgstr "ÉÉNY"
 
 #: ../indicator.js:67 ../indicator.js:216 ../indicator.js:221
-#: ../indicator.js:226 ../prefs.js:60 ../prefs.js:294
+#: ../indicator.js:226
 msgid "Weather"
 msgstr "Időjárás-előrejelzés"
 
@@ -153,7 +153,7 @@ msgstr "Meteorológiai információk újratöltése"
 #: ../indicator.js:98
 #, fuzzy
 #| msgid "Weather Settings"
-msgid "Weather Settings"
+msgid "Wetter Settings"
 msgstr "Meteorológiai beállítások"
 
 #: ../indicator.js:217
@@ -194,6 +194,10 @@ msgstr "Szél"
 
 #: ../indicator.js:370
 msgid "Now"
+msgstr ""
+
+#: ../prefs.js:60 ../prefs.js:294
+msgid "Wetter"
 msgstr ""
 
 #: ../prefs.js:111
@@ -440,7 +444,7 @@ msgid "About"
 msgstr ""
 
 #: ../prefs.js:296
-msgid "Weather conditions and forecasts for multiple locations"
+msgid "GNOME weather extension with forecasts for multiple locations"
 msgstr ""
 
 #: ../prefs.js:301

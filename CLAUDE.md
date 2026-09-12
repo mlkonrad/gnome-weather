@@ -5,6 +5,34 @@ ported 2026-09-12 from its original ~2013-era `imports.lang`/`Mainloop`/
 autotools shape to current GNOME Shell (ESM, `GObject.registerClass`) and
 `libgweather-4`, under a new fork identity (`gnome-weather@mlkonrad.github.com`).
 
+## Display name is "Wetter" - the uuid/schema are not
+
+2026-09-12: the user-visible name was rebranded to "Wetter - GNOME Weather
+Extension" (`metadata.json`'s `name`, the README title, the "Wetter"/"About"
+tab titles in `prefs.js`, and the "Wetter Settings" menu item in
+`indicator.js`). This was a **deliberate display-only rename** - the `uuid`
+(`gnome-weather@mlkonrad.github.com`), the GSettings schema id/path
+(`org.gnome.shell.extensions.gnome-weather`), and the gettext domain were all
+left unchanged on purpose, because changing any of those would make GNOME
+Shell treat it as a brand-new extension and orphan the user's already-saved
+settings (cities, units, panel prefs) at the old dconf path. If a "real"
+identity change (new uuid/schema) is ever wanted, it needs an explicit
+migration step for existing users' settings, not just a search-and-replace.
+
+Generic uses of the word "weather" describing content/state - the panel's
+placeholder label text (`_panelLabel.text = _('Weather')` in `indicator.js`'s
+`no-location`/`loading`/`error` states) and the `WeatherIndicator`/
+`WeatherClient` class/file names - were deliberately left as "Weather", not
+renamed to "Wetter". Those aren't branding, they're describing the subject
+matter, same as how GNOME's own Weather app would still say "weather" in its
+own UI regardless of what it's called.
+
+The GitHub repo was renamed from `mlkonrad/gnome-weather` to `mlkonrad/wetter`
+to match (`gh repo rename wetter`, which also updated the local `origin`
+remote automatically) — GitHub auto-redirects the old URL, so existing
+clones/links keep working. This is purely a repo-slug/URL change; it has no
+effect on the uuid/schema decision above.
+
 ## Local install is a symlink
 
 `~/.local/share/gnome-shell/extensions/gnome-weather@mlkonrad.github.com` is

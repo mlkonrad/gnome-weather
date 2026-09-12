@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.4.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-12 23:38+0300\n"
+"POT-Creation-Date: 2026-09-12 23:39+0300\n"
 "PO-Revision-Date: 2012-04-07 03:07+0200\n"
 "Last-Translator: Michael Rasmussen <mir@datanom.net>\n"
 "Language-Team: Danish <>\n"
@@ -145,7 +145,7 @@ msgid "NNW"
 msgstr "NV"
 
 #: ../indicator.js:67 ../indicator.js:216 ../indicator.js:221
-#: ../indicator.js:226 ../prefs.js:60 ../prefs.js:294
+#: ../indicator.js:226
 msgid "Weather"
 msgstr ""
 
@@ -158,7 +158,7 @@ msgid "Reload Weather Information"
 msgstr ""
 
 #: ../indicator.js:98
-msgid "Weather Settings"
+msgid "Wetter Settings"
 msgstr ""
 
 #: ../indicator.js:217
@@ -203,6 +203,10 @@ msgstr "Vind:"
 
 #: ../indicator.js:370
 msgid "Now"
+msgstr ""
+
+#: ../prefs.js:60 ../prefs.js:294
+msgid "Wetter"
 msgstr ""
 
 #: ../prefs.js:111
@@ -434,7 +438,7 @@ msgid "About"
 msgstr ""
 
 #: ../prefs.js:296
-msgid "Weather conditions and forecasts for multiple locations"
+msgid "GNOME weather extension with forecasts for multiple locations"
 msgstr ""
 
 #: ../prefs.js:301

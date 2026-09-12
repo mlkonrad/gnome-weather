@@ -1,9 +1,9 @@
 {
     "uuid": "gnome-weather@mlkonrad.github.com",
-    "name": "Weather",
+    "name": "Wetter - GNOME Weather Extension",
     "description": "A simple extension for displaying weather information from several cities in GNOME Shell",
     "shell-version": ["49", "50"],
     "settings-schema": "org.gnome.shell.extensions.gnome-weather",
     "gettext-domain": "gnome-weather@mlkonrad.github.com",
-    "url": "https://github.com/mlkonrad/gnome-weather"
+    "url": "https://github.com/mlkonrad/wetter"
 }

@@ -1,4 +1,4 @@
-# Weather Extension &nbsp;<img src="gnome-weather-logo.svg" height="40" valign="middle">
+# Wetter — GNOME Weather Extension &nbsp;<img src="gnome-weather-logo.svg" height="40" valign="middle">
 
 ![Screenshot](Screenshot.png)
 
@@ -20,12 +20,12 @@ from-scratch location search).
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/mlkonrad/gnome-weather.git
+   git clone https://github.com/mlkonrad/wetter.git
    ```
 
 2. Copy to your GNOME extensions directory:
    ```bash
-   cp -r gnome-weather ~/.local/share/gnome-shell/extensions/gnome-weather@mlkonrad.github.com
+   cp -r wetter ~/.local/share/gnome-shell/extensions/gnome-weather@mlkonrad.github.com
    ```
 
 3. Compile the settings schema:
@@ -40,7 +40,7 @@ from-scratch location search).
 
 ## Configuration
 
-Open **Weather Settings** from the panel dropdown (or `gnome-extensions prefs
+Open **Wetter Settings** from the panel dropdown (or `gnome-extensions prefs
 gnome-weather@mlkonrad.github.com`) to add/remove locations, switch units, and
 change how the panel indicator looks.
 

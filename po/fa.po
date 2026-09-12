@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-shell-extension-weather 0.13\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-12 23:38+0300\n"
+"POT-Creation-Date: 2026-09-12 23:39+0300\n"
 "PO-Revision-Date: 2014-04-04 20:26+0330\n"
 "Last-Translator: Nasrollah Noori <nanopqr@gmail.com>\n"
 "Language-Team: فارسی <> <nanopqr@gmail.com>\n"
@@ -140,7 +140,7 @@ msgid "NNW"
 msgstr "ش ش‌ب"
 
 #: ../indicator.js:67 ../indicator.js:216 ../indicator.js:221
-#: ../indicator.js:226 ../prefs.js:60 ../prefs.js:294
+#: ../indicator.js:226
 msgid "Weather"
 msgstr "هواشناسی"
 
@@ -155,7 +155,7 @@ msgstr "بارگیری دوباره داده‌های هواشناسی"
 #: ../indicator.js:98
 #, fuzzy
 #| msgid "Weather Settings"
-msgid "Weather Settings"
+msgid "Wetter Settings"
 msgstr "تنظیمات هواشناسی"
 
 #: ../indicator.js:217
@@ -196,6 +196,10 @@ msgstr "باد"
 
 #: ../indicator.js:370
 msgid "Now"
+msgstr ""
+
+#: ../prefs.js:60 ../prefs.js:294
+msgid "Wetter"
 msgstr ""
 
 #: ../prefs.js:111
@@ -442,7 +446,7 @@ msgid "About"
 msgstr ""
 
 #: ../prefs.js:296
-msgid "Weather conditions and forecasts for multiple locations"
+msgid "GNOME weather extension with forecasts for multiple locations"
 msgstr ""
 
 #: ../prefs.js:301

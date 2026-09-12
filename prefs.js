@@ -57,7 +57,7 @@ export default class WeatherPreferences extends ExtensionPreferences {
         const settings = this.getSettings();
         const gweatherSettings = new Gio.Settings({schema_id: GWEATHER_SCHEMA});
 
-        const page = new Adw.PreferencesPage({title: _('Weather'), icon_name: 'preferences-system-symbolic'});
+        const page = new Adw.PreferencesPage({title: _('Wetter'), icon_name: 'preferences-system-symbolic'});
         window.add(page);
 
         this._buildLocationsGroup(page, window, settings);
@@ -291,9 +291,9 @@ export default class WeatherPreferences extends ExtensionPreferences {
         header.append(new Gtk.Image({
             file: this.dir.get_child('gnome-weather-logo.svg').get_path(), pixel_size: 96,
         }));
-        header.append(new Gtk.Label({label: _('Weather'), css_classes: ['title-1']}));
+        header.append(new Gtk.Label({label: _('Wetter'), css_classes: ['title-1']}));
         header.append(new Gtk.Label({
-            label: _('Weather conditions and forecasts for multiple locations'),
+            label: _('GNOME weather extension with forecasts for multiple locations'),
             css_classes: ['dim-label'], justify: Gtk.Justification.CENTER, wrap: true,
         }));
         headerGroup.add(header);
@@ -301,9 +301,9 @@ export default class WeatherPreferences extends ExtensionPreferences {
         const linksGroup = new Adw.PreferencesGroup({title: _('Links')});
         page.add(linksGroup);
         linksGroup.add(this._linkRow(window, _('Source Code'),
-            'github.com/mlkonrad/gnome-weather', 'https://github.com/mlkonrad/gnome-weather'));
+            'github.com/mlkonrad/wetter', 'https://github.com/mlkonrad/wetter'));
         linksGroup.add(this._linkRow(window, _('Report an Issue'),
-            'github.com/mlkonrad/gnome-weather/issues', 'https://github.com/mlkonrad/gnome-weather/issues'));
+            'github.com/mlkonrad/wetter/issues', 'https://github.com/mlkonrad/wetter/issues'));
 
         const legalGroup = new Adw.PreferencesGroup({title: _('Legal')});
         page.add(legalGroup);

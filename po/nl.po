@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-12 23:38+0300\n"
+"POT-Creation-Date: 2026-09-12 23:39+0300\n"
 "PO-Revision-Date: 2012-05-13 22:39+0100\n"
 "Last-Translator: Pjotr <pjotrvertaalt@gmail.com>\n"
 "Language-Team: \n"
@@ -137,7 +137,7 @@ msgid "NNW"
 msgstr "NNW"
 
 #: ../indicator.js:67 ../indicator.js:216 ../indicator.js:221
-#: ../indicator.js:226 ../prefs.js:60 ../prefs.js:294
+#: ../indicator.js:226
 msgid "Weather"
 msgstr "Weer"
 
@@ -152,7 +152,7 @@ msgstr "Weerinformatie herladen"
 #: ../indicator.js:98
 #, fuzzy
 #| msgid "Weather Settings"
-msgid "Weather Settings"
+msgid "Wetter Settings"
 msgstr "Weerinstellingen"
 
 #: ../indicator.js:217
@@ -193,6 +193,10 @@ msgstr "Wind:"
 
 #: ../indicator.js:370
 msgid "Now"
+msgstr ""
+
+#: ../prefs.js:60 ../prefs.js:294
+msgid "Wetter"
 msgstr ""
 
 #: ../prefs.js:111
@@ -439,7 +443,7 @@ msgid "About"
 msgstr ""
 
 #: ../prefs.js:296
-msgid "Weather conditions and forecasts for multiple locations"
+msgid "GNOME weather extension with forecasts for multiple locations"
 msgstr ""
 
 #: ../prefs.js:301

@@ -95,7 +95,7 @@ class WeatherIndicator extends PanelMenu.Button {
         this._reloadItem.hide();
         this.menu.addMenuItem(this._reloadItem);
 
-        const prefsItem = new PopupMenu.PopupMenuItem(_('Weather Settings'));
+        const prefsItem = new PopupMenu.PopupMenuItem(_('Wetter Settings'));
         prefsItem.connect('activate', () => this._openPrefsFn());
         this.menu.addMenuItem(prefsItem);
     }

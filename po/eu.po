@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-12 23:38+0300\n"
+"POT-Creation-Date: 2026-09-12 23:39+0300\n"
 "PO-Revision-Date: 2013-11-17 18:00+0100\n"
 "Last-Translator: Asier Sarasua Garmendia <asier.sarasua@gmail.com>\n"
 "Language-Team: Basque <librezale@librezale.org>\n"
@@ -136,7 +136,7 @@ msgid "NNW"
 msgstr "IIM"
 
 #: ../indicator.js:67 ../indicator.js:216 ../indicator.js:221
-#: ../indicator.js:226 ../prefs.js:60 ../prefs.js:294
+#: ../indicator.js:226
 msgid "Weather"
 msgstr "Eguraldia"
 
@@ -151,7 +151,7 @@ msgstr "Birkargatu eguraldi-informazioa"
 #: ../indicator.js:98
 #, fuzzy
 #| msgid "Weather Settings"
-msgid "Weather Settings"
+msgid "Wetter Settings"
 msgstr "Eguraldi-ezarpenak"
 
 #: ../indicator.js:217
@@ -192,6 +192,10 @@ msgstr "Haizea"
 
 #: ../indicator.js:370
 msgid "Now"
+msgstr ""
+
+#: ../prefs.js:60 ../prefs.js:294
+msgid "Wetter"
 msgstr ""
 
 #: ../prefs.js:111
@@ -438,7 +442,7 @@ msgid "About"
 msgstr ""
 
 #: ../prefs.js:296
-msgid "Weather conditions and forecasts for multiple locations"
+msgid "GNOME weather extension with forecasts for multiple locations"
 msgstr ""
 
 #: ../prefs.js:301

@@ -1,5 +1,5 @@
 {
-  "name": "gnome-weather",
+  "name": "wetter",
   "private": true,
   "type": "module",
   "scripts": {

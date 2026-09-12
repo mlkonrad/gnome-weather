@@ -71,6 +71,12 @@
   text-align: center;
 }
 
+.weather-forecast-humidity {
+  color: #999999;
+  font-size: 90%;
+  text-align: center;
+}
+
 .weather-forecast-summary {
   text-align: center;
 }

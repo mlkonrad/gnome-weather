@@ -40,10 +40,10 @@ export class WeatherClient {
 
 /**
  * Groups a GWeather.Info's flat forecast list into per-day buckets with a
- * representative icon and min/max temperature, for the forecast strip.
- * Behaviorally identical to the original extension's day-bucketing: pick
- * the icon from whichever of afternoon/morning/evening/night has data for
- * that day, preferring afternoon.
+ * representative icon/humidity and min/max temperature, for the forecast
+ * strip. Behaviorally identical to the original extension's day-bucketing:
+ * pick the representative entry from whichever of afternoon/morning/evening/
+ * night has data for that day, preferring afternoon.
  */
 export function buildForecast(info, temperatureUnit) {
     const list = info.get_forecast_list();
@@ -86,13 +86,16 @@ export function buildForecast(info, temperatureUnit) {
         day.maxTemp = day.maxTemp === undefined ? temp : Math.max(day.maxTemp, temp);
     }
 
-    for (const day of days)
-        day.icon = representativeIcon(day.hours);
+    for (const day of days) {
+        const entry = representativeEntry(day.hours);
+        day.icon = entry?.get_icon_name() ?? '';
+        day.humidity = entry?.get_humidity() ?? '';
+    }
 
     return days;
 }
 
-function representativeIcon(hours) {
+function representativeEntry(hours) {
     const buckets = [[], [], [], []]; // night, morning, afternoon, evening
     for (const [hour, entry] of Object.entries(hours)) {
         const h = Number(hour);
@@ -109,7 +112,7 @@ function representativeIcon(hours) {
     // Prefer afternoon, then morning, then evening, then night.
     for (const bucket of [buckets[2], buckets[1], buckets[3], buckets[0]]) {
         if (bucket.length)
-            return bucket[Math.floor(bucket.length / 2)].get_icon_name();
+            return bucket[Math.floor(bucket.length / 2)];
     }
-    return '';
+    return null;
 }

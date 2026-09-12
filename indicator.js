@@ -346,6 +346,7 @@ class WeatherIndicator extends PanelMenu.Button {
             const column = new St.BoxLayout({vertical: true, style_class: 'weather-forecast-box'});
             column.add_child(iconMinMaxBin);
             column.add_child(dayBox);
+            column.add_child(new St.Label({text: day.humidity, style_class: 'weather-forecast-humidity'}));
 
             row.add_child(column);
         }

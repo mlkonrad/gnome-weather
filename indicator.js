@@ -10,12 +10,16 @@ import * as PanelMenu from 'resource:///org/gnome/shell/ui/panelMenu.js';
 
 import {gettext as _} from 'resource:///org/gnome/shell/extensions/extension.js';
 
-import {WeatherClient, buildForecast} from './weatherClient.js';
+import {WeatherClient, buildForecast, buildHourlyForecast} from './weatherClient.js';
 import {iconType, dayName, localeTime, temperatureString, windString} from './helpers.js';
 
 const GWEATHER_SCHEMA = 'org.gnome.GWeather4';
 const INTERFACE_SCHEMA = 'org.gnome.desktop.interface';
 const REFRESH_INTERVAL_SECONDS = 30 * 60;
+
+// Matches the nick order of the time-format enum in the schema.
+const TIME_FORMAT_AUTO = 0;
+const TIME_FORMAT_12H = 1;
 
 const WORLD = GWeather.Location.get_world();
 
@@ -46,7 +50,7 @@ class WeatherIndicator extends PanelMenu.Button {
 
         this._settingsChangedId = this._settings.connect('changed', (_s, key) => this._onSettingChanged(key));
         this._gweatherChangedId = this._gweatherSettings.connect('changed', () => this._refreshReadyDisplay());
-        this._interfaceChangedId = this._interfaceSettings.connect('changed::clock-format', () => this._renderCurrent());
+        this._interfaceChangedId = this._interfaceSettings.connect('changed::clock-format', () => this._refreshReadyDisplay());
 
         this._reload();
     }
@@ -68,11 +72,14 @@ class WeatherIndicator extends PanelMenu.Button {
         topBox.add_child(this._panelLabel);
         this.add_child(topBox);
 
+        this._hourlyBin = new St.Bin({style_class: 'hourly'});
         this._currentBin = new St.Bin({style_class: 'current'});
         this._forecastBin = new St.Bin({style_class: 'forecast'});
         this._attributionBin = new St.Bin({style_class: 'attribution'});
 
         this.menu.box.add_child(this._currentBin);
+        this.menu.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
+        this.menu.box.add_child(this._hourlyBin);
         this.menu.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
         this.menu.box.add_child(this._forecastBin);
         this.menu.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
@@ -111,8 +118,17 @@ class WeatherIndicator extends PanelMenu.Button {
             this._updatePanelLabelVisibility();
             this._renderCurrent();
             break;
+        case 'show-daily-forecast':
         case 'forecast-days':
             this._renderForecast();
+            break;
+        case 'show-hourly-forecast':
+        case 'hourly-forecast-count':
+            this._renderHourly();
+            break;
+        case 'time-format':
+            this._renderCurrent();
+            this._renderHourly();
             break;
         case 'position-in-panel':
             // handled by the owning extension, which recreates the indicator
@@ -135,6 +151,17 @@ class WeatherIndicator extends PanelMenu.Button {
     _refreshReadyDisplay() {
         this._renderCurrent();
         this._renderForecast();
+        this._renderHourly();
+    }
+
+    // Resolves the effective clock format ('12h'/'24h') from the
+    // extension's own time-format setting, falling back to the system
+    // clock format when it's left on "Automatic".
+    _resolveClockFormat() {
+        const pref = this._settings.get_enum('time-format');
+        if (pref === TIME_FORMAT_AUTO)
+            return this._interfaceSettings.get_string('clock-format');
+        return pref === TIME_FORMAT_12H ? '12h' : '24h';
     }
 
     _cities() {
@@ -178,6 +205,7 @@ class WeatherIndicator extends PanelMenu.Button {
 
     _setState(state) {
         this._state = state;
+        this._hourlyBin.hide();
         this._forecastBin.hide();
         this._attributionBin.hide();
         this._reloadItem.hide();
@@ -212,6 +240,7 @@ class WeatherIndicator extends PanelMenu.Button {
         }
         this._state = 'ready';
         this._renderCurrent();
+        this._renderHourly();
         this._renderForecast();
         this._renderAttribution();
     }
@@ -226,7 +255,7 @@ class WeatherIndicator extends PanelMenu.Button {
         const symbolic = this._settings.get_boolean('use-symbolic-icons');
         const temperatureUnit = this._gweatherSettings.get_enum('temperature-unit');
         const speedUnit = this._gweatherSettings.get_enum('speed-unit');
-        const clockFormat = this._interfaceSettings.get_string('clock-format');
+        const clockFormat = this._resolveClockFormat();
         const conditions = info.get_conditions() === '-' ? info.get_sky() : info.get_conditions();
 
         this._setPanelIcon(info.get_icon_name());
@@ -301,9 +330,79 @@ class WeatherIndicator extends PanelMenu.Button {
         this._currentBin.set_child(box);
     }
 
+    _renderHourly() {
+        if (this._state !== 'ready' || !this._client)
+            return;
+
+        if (!this._settings.get_boolean('show-hourly-forecast')) {
+            this._hourlyBin.hide();
+            return;
+        }
+
+        const info = this._client.info;
+        const symbolic = this._settings.get_boolean('use-symbolic-icons');
+        const temperatureUnit = this._gweatherSettings.get_enum('temperature-unit');
+        const clockFormat = this._resolveClockFormat();
+
+        // "Now" counts as the first of the total, so only count-1 future hours follow it.
+        const hours = buildHourlyForecast(info).slice(0, this._settings.get_int('hourly-forecast-count') - 1);
+        if (!hours.length) {
+            this._hourlyBin.hide();
+            return;
+        }
+
+        const entries = [
+            {
+                label: _('Now'),
+                icon: info.get_icon_name(),
+                temp: info.get_value_temp(temperatureUnit)[1],
+                humidity: info.get_humidity(),
+            },
+            ...hours.map(({date, entry}) => ({
+                label: localeTime(date, clockFormat),
+                icon: entry.get_icon_name(),
+                temp: entry.get_value_temp(temperatureUnit)[1],
+                humidity: entry.get_humidity(),
+            })),
+        ];
+
+        const row = new St.BoxLayout();
+        for (const item of entries) {
+            const column = new St.BoxLayout({vertical: true, style_class: 'weather-hourly-box'});
+            column.add_child(new St.Label({
+                text: temperatureString(temperatureUnit, item.temp, _),
+                style_class: 'weather-hourly-temp',
+            }));
+            column.add_child(new St.Icon({
+                icon_size: 24,
+                icon_name: iconType(item.icon, symbolic),
+                style_class: 'weather-hourly-icon',
+                x_align: Clutter.ActorAlign.CENTER,
+            }));
+            column.add_child(new St.Label({text: item.humidity, style_class: 'weather-hourly-humidity'}));
+            column.add_child(new St.Label({text: item.label, style_class: 'weather-hourly-time'}));
+            row.add_child(column);
+        }
+
+        const scroll = new St.ScrollView({
+            style_class: 'weather-hourlys',
+            hscrollbar_policy: St.PolicyType.AUTOMATIC,
+            vscrollbar_policy: St.PolicyType.NEVER,
+        });
+        scroll.add_child(row);
+
+        this._hourlyBin.set_child(scroll);
+        this._hourlyBin.show();
+    }
+
     _renderForecast() {
         if (this._state !== 'ready' || !this._client)
             return;
+
+        if (!this._settings.get_boolean('show-daily-forecast')) {
+            this._forecastBin.hide();
+            return;
+        }
 
         const info = this._client.info;
         const symbolic = this._settings.get_boolean('use-symbolic-icons');

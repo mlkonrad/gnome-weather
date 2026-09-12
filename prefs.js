@@ -61,9 +61,10 @@ export default class WeatherPreferences extends ExtensionPreferences {
         window.add(page);
 
         this._buildLocationsGroup(page, window, settings);
-        this._buildUnitsGroup(page, gweatherSettings);
+        this._buildUnitsGroup(page, settings, gweatherSettings);
         this._buildPanelGroup(page, settings);
         this._buildDetailsGroup(page, settings);
+        this._buildForecastGroup(page, settings);
     }
 
     _buildLocationsGroup(page, window, settings) {
@@ -186,9 +187,13 @@ export default class WeatherPreferences extends ExtensionPreferences {
         dialog.present(window);
     }
 
-    _buildUnitsGroup(page, gweatherSettings) {
+    _buildUnitsGroup(page, settings, gweatherSettings) {
         const group = new Adw.PreferencesGroup({title: _('Units')});
         page.add(group);
+
+        group.add(this._enumRow(_('Time Format'), settings, 'time-format', [
+            [0, _('Automatic')], [1, _('12-hour')], [2, _('24-hour')],
+        ]));
 
         // GWeather's unit enums start at 1 (0 is INVALID), so options are
         // given as explicit [value, label] pairs rather than assuming the
@@ -243,7 +248,7 @@ export default class WeatherPreferences extends ExtensionPreferences {
     _buildDetailsGroup(page, settings) {
         const group = new Adw.PreferencesGroup({
             title: _('Details'),
-            description: _('Choose which rows appear in the current-conditions and forecast views'),
+            description: _('Choose which rows appear in the current-conditions view'),
         });
         page.add(group);
 
@@ -252,21 +257,30 @@ export default class WeatherPreferences extends ExtensionPreferences {
         group.add(this._switchRow(_('Humidity'), settings, 'show-humidity'));
         group.add(this._switchRow(_('Pressure'), settings, 'show-pressure'));
         group.add(this._switchRow(_('Wind'), settings, 'show-wind'));
+    }
 
-        const forecastRow = new Adw.SpinRow({
-            title: _('Forecast Days'),
-            adjustment: new Gtk.Adjustment({lower: 1, upper: 10, step_increment: 1}),
-        });
-        forecastRow.value = settings.get_int('forecast-days');
-        forecastRow.connect('notify::value', () => settings.set_int('forecast-days', forecastRow.value));
-        settings.connect('changed::forecast-days', () => (forecastRow.value = settings.get_int('forecast-days')));
-        group.add(forecastRow);
+    _buildForecastGroup(page, settings) {
+        const group = new Adw.PreferencesGroup({title: _('Forecast')});
+        page.add(group);
+
+        group.add(this._switchRow(_('Daily Forecast'), settings, 'show-daily-forecast'));
+        group.add(this._spinRow(_('Forecast Days'), settings, 'forecast-days', 1, 10));
+        group.add(this._switchRow(_('Hour-by-Hour Forecast'), settings, 'show-hourly-forecast'));
+        group.add(this._spinRow(_('Forecast Hours'), settings, 'hourly-forecast-count', 1, 48));
     }
 
     _switchRow(title, settings, key) {
         const row = new Adw.SwitchRow({title, active: settings.get_boolean(key)});
         row.connect('notify::active', () => settings.set_boolean(key, row.active));
         settings.connect(`changed::${key}`, () => (row.active = settings.get_boolean(key)));
+        return row;
+    }
+
+    _spinRow(title, settings, key, lower, upper) {
+        const row = new Adw.SpinRow({title, adjustment: new Gtk.Adjustment({lower, upper, step_increment: 1})});
+        row.value = settings.get_int(key);
+        row.connect('notify::value', () => settings.set_int(key, row.value));
+        settings.connect(`changed::${key}`, () => (row.value = settings.get_int(key)));
         return row;
     }
 

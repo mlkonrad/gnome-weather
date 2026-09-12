@@ -81,6 +81,47 @@
   text-align: center;
 }
 
+.hourly {
+  width: 0;
+}
+
+.weather-hourlys {
+  -st-hfade-offset: 60px;
+}
+
+.weather-hourly-box {
+  padding: 0 15px;
+  min-width: 70px;
+}
+
+.weather-hourly-box:first-child {
+  padding-left: 50px;
+}
+
+.weather-hourly-box:last-child {
+  padding-right: 50px;
+}
+
+.weather-hourly-icon {
+  padding: 4px 0;
+}
+
+.weather-hourly-temp {
+  text-align: center;
+}
+
+.weather-hourly-humidity {
+  color: #999999;
+  font-size: 90%;
+  text-align: center;
+}
+
+.weather-hourly-time {
+  color: #999999;
+  font-size: 90%;
+  text-align: center;
+}
+
 .attribution {
   padding: 0 25px;
   font-size: 85%;

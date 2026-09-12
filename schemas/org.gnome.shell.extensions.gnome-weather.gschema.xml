@@ -8,6 +8,11 @@
     <value nick="arrows" value="0" />
     <value nick="letters" value="1" />
   </enum>
+  <enum id="org.gnome.shell.extensions.gnome-weather.time-format">
+    <value nick="auto" value="0" />
+    <value nick="12h" value="1" />
+    <value nick="24h" value="2" />
+  </enum>
   <schema id="org.gnome.shell.extensions.gnome-weather" path="/org/gnome/shell/extensions/gnome-weather/">
     <key name="city" type="av">
       <default>[]</default>
@@ -66,10 +71,28 @@
       <default>true</default>
       <summary>Show wind in details</summary>
     </key>
+    <key name="show-daily-forecast" type="b">
+      <default>true</default>
+      <summary>Show daily forecast</summary>
+    </key>
     <key name="forecast-days" type="i">
       <range min="1" max="10"/>
       <default>5</default>
       <summary>Number of forecast days to show</summary>
+    </key>
+    <key name="show-hourly-forecast" type="b">
+      <default>true</default>
+      <summary>Show hour-by-hour forecast</summary>
+    </key>
+    <key name="hourly-forecast-count" type="i">
+      <range min="1" max="48"/>
+      <default>24</default>
+      <summary>Number of hours to show in the hour-by-hour forecast</summary>
+    </key>
+    <key name="time-format" enum="org.gnome.shell.extensions.gnome-weather.time-format">
+      <default>'auto'</default>
+      <summary>Time format</summary>
+      <description>Choose 12-hour, 24-hour, or automatic (follow the system clock format) time display.</description>
     </key>
   </schema>
 </schemalist>

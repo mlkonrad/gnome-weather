@@ -95,6 +95,33 @@ export function buildForecast(info, temperatureUnit) {
     return days;
 }
 
+/**
+ * Returns a GWeather.Info's flat forecast list filtered down to entries
+ * strictly after now, in chronological order, for the hour-by-hour strip.
+ * Skips the same invalid placeholder entry buildForecast() does.
+ */
+export function buildHourlyForecast(info) {
+    const list = info.get_forecast_list();
+    if (!list.length)
+        return [];
+
+    const tz = info.get_location().get_timezone();
+    const nowUnix = GLib.DateTime.new_now_utc().to_unix();
+
+    const hours = [];
+    for (const entry of list) {
+        if (!entry)
+            continue;
+
+        const [updateValid, updateTime] = entry.get_value_update();
+        if (!updateValid || updateTime <= nowUnix)
+            continue;
+
+        hours.push({date: GLib.DateTime.new_from_unix_local(updateTime).to_timezone(tz), entry});
+    }
+    return hours;
+}
+
 function representativeEntry(hours) {
     const buckets = [[], [], [], []]; // night, morning, afternoon, evening
     for (const [hour, entry] of Object.entries(hours)) {

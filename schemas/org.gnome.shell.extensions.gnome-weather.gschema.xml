@@ -29,6 +29,14 @@
       <default>false</default>
       <summary>Show conditions in panel</summary>
     </key>
+    <key name="show-humidity-in-panel" type="b">
+      <default>false</default>
+      <summary>Show humidity in panel</summary>
+    </key>
+    <key name="show-wind-in-panel" type="b">
+      <default>false</default>
+      <summary>Show wind speed in panel</summary>
+    </key>
     <key name="position-in-panel" enum="org.gnome.shell.extensions.gnome-weather.position">
       <default>'center'</default>
       <summary>Position in panel</summary>
@@ -37,6 +45,31 @@
       <default>true</default>
       <summary>Wind direction by arrows</summary>
       <description>Choose whether to display wind direction through arrows or letters.</description>
+    </key>
+    <key name="show-feels-like" type="b">
+      <default>true</default>
+      <summary>Show "Feels like" in details</summary>
+    </key>
+    <key name="show-visibility" type="b">
+      <default>true</default>
+      <summary>Show visibility in details</summary>
+    </key>
+    <key name="show-humidity" type="b">
+      <default>true</default>
+      <summary>Show humidity in details</summary>
+    </key>
+    <key name="show-pressure" type="b">
+      <default>true</default>
+      <summary>Show pressure in details</summary>
+    </key>
+    <key name="show-wind" type="b">
+      <default>true</default>
+      <summary>Show wind in details</summary>
+    </key>
+    <key name="forecast-days" type="i">
+      <range min="1" max="10"/>
+      <default>5</default>
+      <summary>Number of forecast days to show</summary>
     </key>
   </schema>
 </schemalist>

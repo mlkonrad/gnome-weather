@@ -63,6 +63,7 @@ export default class WeatherPreferences extends ExtensionPreferences {
         this._buildLocationsGroup(page, window, settings);
         this._buildUnitsGroup(page, gweatherSettings);
         this._buildPanelGroup(page, settings);
+        this._buildDetailsGroup(page, settings);
     }
 
     _buildLocationsGroup(page, window, settings) {
@@ -235,6 +236,31 @@ export default class WeatherPreferences extends ExtensionPreferences {
         group.add(this._switchRow(_('Symbolic Icons'), settings, 'use-symbolic-icons'));
         group.add(this._switchRow(_('Temperature in Panel'), settings, 'show-text-in-panel'));
         group.add(this._switchRow(_('Conditions in Panel'), settings, 'show-comment-in-panel'));
+        group.add(this._switchRow(_('Humidity in Panel'), settings, 'show-humidity-in-panel'));
+        group.add(this._switchRow(_('Wind Speed in Panel'), settings, 'show-wind-in-panel'));
+    }
+
+    _buildDetailsGroup(page, settings) {
+        const group = new Adw.PreferencesGroup({
+            title: _('Details'),
+            description: _('Choose which rows appear in the current-conditions and forecast views'),
+        });
+        page.add(group);
+
+        group.add(this._switchRow(_('Feels Like'), settings, 'show-feels-like'));
+        group.add(this._switchRow(_('Visibility'), settings, 'show-visibility'));
+        group.add(this._switchRow(_('Humidity'), settings, 'show-humidity'));
+        group.add(this._switchRow(_('Pressure'), settings, 'show-pressure'));
+        group.add(this._switchRow(_('Wind'), settings, 'show-wind'));
+
+        const forecastRow = new Adw.SpinRow({
+            title: _('Forecast Days'),
+            adjustment: new Gtk.Adjustment({lower: 1, upper: 10, step_increment: 1}),
+        });
+        forecastRow.value = settings.get_int('forecast-days');
+        forecastRow.connect('notify::value', () => settings.set_int('forecast-days', forecastRow.value));
+        settings.connect('changed::forecast-days', () => (forecastRow.value = settings.get_int('forecast-days')));
+        group.add(forecastRow);
     }
 
     _switchRow(title, settings, key) {

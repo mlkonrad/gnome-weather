@@ -106,8 +106,13 @@ class WeatherIndicator extends PanelMenu.Button {
             break;
         case 'show-text-in-panel':
         case 'show-comment-in-panel':
+        case 'show-humidity-in-panel':
+        case 'show-wind-in-panel':
             this._updatePanelLabelVisibility();
             this._renderCurrent();
+            break;
+        case 'forecast-days':
+            this._renderForecast();
             break;
         case 'position-in-panel':
             // handled by the owning extension, which recreates the indicator
@@ -117,12 +122,14 @@ class WeatherIndicator extends PanelMenu.Button {
         }
     }
 
-    // The panel label only ever shows text the user asked for (temperature
-    // and/or conditions) - with both off, it's icon-only in every state,
-    // not just once weather data is ready.
+    // The panel label only ever shows text the user asked for (temperature,
+    // conditions, humidity, and/or wind) - with all off, it's icon-only in
+    // every state, not just once weather data is ready.
     _updatePanelLabelVisibility() {
         this._panelLabel.visible = this._settings.get_boolean('show-text-in-panel') ||
-            this._settings.get_boolean('show-comment-in-panel');
+            this._settings.get_boolean('show-comment-in-panel') ||
+            this._settings.get_boolean('show-humidity-in-panel') ||
+            this._settings.get_boolean('show-wind-in-panel');
     }
 
     _refreshReadyDisplay() {
@@ -224,14 +231,17 @@ class WeatherIndicator extends PanelMenu.Button {
 
         this._setPanelIcon(info.get_icon_name());
 
-        let panelText = '';
+        const wind = info.get_value_wind(speedUnit);
+        const panelParts = [];
         if (this._settings.get_boolean('show-comment-in-panel'))
-            panelText += conditions;
-        if (this._settings.get_boolean('show-comment-in-panel') && this._settings.get_boolean('show-text-in-panel'))
-            panelText += _(', ');
+            panelParts.push(conditions);
         if (this._settings.get_boolean('show-text-in-panel'))
-            panelText += temperatureString(temperatureUnit, info.get_value_temp(temperatureUnit)[1], _);
-        this._panelLabel.text = panelText;
+            panelParts.push(temperatureString(temperatureUnit, info.get_value_temp(temperatureUnit)[1], _));
+        if (this._settings.get_boolean('show-humidity-in-panel'))
+            panelParts.push(info.get_humidity());
+        if (this._settings.get_boolean('show-wind-in-panel'))
+            panelParts.push(windString(speedUnit, wind[1], wind[2], this._settings.get_boolean('wind-direction'), _));
+        this._panelLabel.text = panelParts.join(_(', '));
 
         const icon = new St.Icon({
             icon_size: 72,
@@ -269,15 +279,14 @@ class WeatherIndicator extends PanelMenu.Button {
         dataBox.add_child(captions);
         dataBox.add_child(values);
 
-        const wind = info.get_value_wind(speedUnit);
         const rows = [
-            [_('Feels like'), temperatureString(temperatureUnit, info.get_value_apparent(temperatureUnit)[1], _)],
-            [_('Visibility'), `${info.get_visibility()}`],
-            [_('Humidity'), `${info.get_humidity()}`],
-            [_('Pressure'), `${info.get_pressure()}`],
-            [_('Wind'), windString(speedUnit, wind[1], wind[2], this._settings.get_boolean('wind-direction'), _)],
-        ];
-        for (const [caption, value] of rows) {
+            [_('Feels like'), 'show-feels-like', temperatureString(temperatureUnit, info.get_value_apparent(temperatureUnit)[1], _)],
+            [_('Visibility'), 'show-visibility', `${info.get_visibility()}`],
+            [_('Humidity'), 'show-humidity', info.get_humidity()],
+            [_('Pressure'), 'show-pressure', `${info.get_pressure()}`],
+            [_('Wind'), 'show-wind', windString(speedUnit, wind[1], wind[2], this._settings.get_boolean('wind-direction'), _)],
+        ].filter(([, key]) => this._settings.get_boolean(key));
+        for (const [caption, , value] of rows) {
             captions.add_child(new St.Label({text: caption}));
             values.add_child(new St.Label({text: value}));
         }
@@ -299,7 +308,7 @@ class WeatherIndicator extends PanelMenu.Button {
         const info = this._client.info;
         const symbolic = this._settings.get_boolean('use-symbolic-icons');
         const temperatureUnit = this._gweatherSettings.get_enum('temperature-unit');
-        const days = buildForecast(info, temperatureUnit);
+        const days = buildForecast(info, temperatureUnit).slice(0, this._settings.get_int('forecast-days'));
         const today = GLib.DateTime.new_now_local();
 
         if (!days.length) {

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-shell-extension-weather 0.13\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-12 13:22+0300\n"
+"POT-Creation-Date: 2026-09-12 13:50+0300\n"
 "PO-Revision-Date: 2014-04-04 20:26+0330\n"
 "Last-Translator: Nasrollah Noori <nanopqr@gmail.com>\n"
 "Language-Team: فارسی <> <nanopqr@gmail.com>\n"
@@ -139,235 +139,265 @@ msgstr "ش‌ب"
 msgid "NNW"
 msgstr "ش ش‌ب"
 
-#: ../indicator.js:63 ../indicator.js:167 ../indicator.js:172
-#: ../indicator.js:177 ../indicator.js:220 ../prefs.js:54
+#: ../indicator.js:63 ../indicator.js:188 ../indicator.js:193
+#: ../indicator.js:198 ../prefs.js:60
 msgid "Weather"
 msgstr "هواشناسی"
 
-#: ../indicator.js:82 ../prefs.js:63
+#: ../indicator.js:83 ../prefs.js:70
 msgid "Locations"
 msgstr "مکان‌ها"
 
-#: ../indicator.js:85
+#: ../indicator.js:86
 msgid "Reload Weather Information"
 msgstr "بارگیری دوباره داده‌های هواشناسی"
 
-#: ../indicator.js:90
+#: ../indicator.js:91
 msgid "Weather Settings"
 msgstr "تنظیمات هواشناسی"
 
-#: ../indicator.js:168
+#: ../indicator.js:189
 msgid "No location configured"
 msgstr "مکانی تنظیم نشده است"
 
-#: ../indicator.js:173
+#: ../indicator.js:194
 msgid "Loading weather"
 msgstr "بارگیری هواشناسی"
 
-#: ../indicator.js:178
+#: ../indicator.js:199
 msgid "No weather information"
 msgstr "داده‌های هواشناسی نیست"
 
-#: ../indicator.js:217 ../indicator.js:228
+#: ../indicator.js:244 ../indicator.js:252
 msgid ", "
 msgstr "،"
 
-#: ../indicator.js:260
+#: ../indicator.js:283
 msgid "Feels like"
 msgstr "همانند"
 
-#: ../indicator.js:261
+#: ../indicator.js:284 ../prefs.js:251
 msgid "Visibility"
 msgstr "دید"
 
-#: ../indicator.js:262
+#: ../indicator.js:285 ../prefs.js:252
 msgid "Humidity"
 msgstr "نمناکی"
 
-#: ../indicator.js:263 ../prefs.js:203
+#: ../indicator.js:286 ../prefs.js:210 ../prefs.js:253
 msgid "Pressure"
 msgstr "فشار"
 
-#: ../indicator.js:264
+#: ../indicator.js:287 ../prefs.js:254
 msgid "Wind"
 msgstr "باد"
 
-#: ../prefs.js:102
+#: ../prefs.js:109
 #, fuzzy
 #| msgid "Locations"
 msgid "Add Location"
 msgstr "مکان‌ها"
 
-#: ../prefs.js:103 ../prefs.js:168
+#: ../prefs.js:110 ../prefs.js:175
 msgid "Cancel"
 msgstr ""
 
-#: ../prefs.js:104
+#: ../prefs.js:111
 msgid "Add"
 msgstr ""
 
-#: ../prefs.js:108
+#: ../prefs.js:115
 msgid "Name of the city"
 msgstr "نام شهر"
 
-#: ../prefs.js:165
+#: ../prefs.js:172
 #, fuzzy
 #| msgid "Locations"
 msgid "Remove Location?"
 msgstr "مکان‌ها"
 
-#: ../prefs.js:166
+#: ../prefs.js:173
 #, fuzzy, javascript-format
 #| msgid "Remove %s ?"
 msgid "Remove %s?"
 msgstr "حذف کردن %s ؟"
 
-#: ../prefs.js:169
+#: ../prefs.js:176
 msgid "Remove"
 msgstr ""
 
-#: ../prefs.js:183
+#: ../prefs.js:190
 msgid "Units"
 msgstr ""
 
 #. GWeather's unit enums start at 1 (0 is INVALID), so options are
 #. given as explicit [value, label] pairs rather than assuming the
 #. combo row's positional index lines up with the enum's integer value.
-#: ../prefs.js:189
+#: ../prefs.js:196
 #, fuzzy
 #| msgid "Temperature Unit"
 msgid "Temperature"
 msgstr "واحد دما"
 
-#: ../prefs.js:190 ../prefs.js:196 ../prefs.js:204 ../prefs.js:213
+#: ../prefs.js:197 ../prefs.js:203 ../prefs.js:211 ../prefs.js:220
 msgid "Default"
 msgstr ""
 
-#: ../prefs.js:191
+#: ../prefs.js:198
 msgid "Kelvin"
 msgstr ""
 
-#: ../prefs.js:192
+#: ../prefs.js:199
 msgid "Celsius"
 msgstr ""
 
-#: ../prefs.js:193
+#: ../prefs.js:200
 msgid "Fahrenheit"
 msgstr ""
 
-#: ../prefs.js:195
+#: ../prefs.js:202
 #, fuzzy
 #| msgid "Wind Speed Unit"
 msgid "Wind Speed"
 msgstr "واحد سرعت باد"
 
-#: ../prefs.js:197
+#: ../prefs.js:204
 msgid "m/s"
 msgstr ""
 
-#: ../prefs.js:198
+#: ../prefs.js:205
 msgid "km/h"
 msgstr ""
 
-#: ../prefs.js:199
+#: ../prefs.js:206
 msgid "mph"
 msgstr ""
 
-#: ../prefs.js:200
+#: ../prefs.js:207
 msgid "knots"
 msgstr ""
 
-#: ../prefs.js:201
+#: ../prefs.js:208
 msgid "Beaufort"
 msgstr ""
 
-#: ../prefs.js:205
+#: ../prefs.js:212
 msgid "kPa"
 msgstr ""
 
-#: ../prefs.js:206
+#: ../prefs.js:213
 msgid "hPa"
 msgstr ""
 
-#: ../prefs.js:207
+#: ../prefs.js:214
 msgid "mb"
 msgstr ""
 
-#: ../prefs.js:208
+#: ../prefs.js:215
 msgid "mmHg"
 msgstr ""
 
-#: ../prefs.js:209
+#: ../prefs.js:216
 msgid "inHg"
 msgstr ""
 
-#: ../prefs.js:210
+#: ../prefs.js:217
 msgid "atm"
 msgstr ""
 
-#: ../prefs.js:212
+#: ../prefs.js:219
 #, fuzzy
 #| msgid "Distance Unit"
 msgid "Distance"
 msgstr "واحد مسافت"
 
-#: ../prefs.js:214
+#: ../prefs.js:221
 msgid "m"
 msgstr ""
 
-#: ../prefs.js:215
+#: ../prefs.js:222
 msgid "km"
 msgstr ""
 
-#: ../prefs.js:216
+#: ../prefs.js:223
 msgid "miles"
 msgstr ""
 
-#: ../prefs.js:221
+#: ../prefs.js:228
 msgid "Panel"
 msgstr ""
 
-#: ../prefs.js:224
+#: ../prefs.js:231
 msgid "Position in Panel"
 msgstr "جای‌گاه در پنل"
 
-#: ../prefs.js:225
+#: ../prefs.js:232
 msgid "Center"
 msgstr "میانه"
 
-#: ../prefs.js:225
+#: ../prefs.js:232
 msgid "Right"
 msgstr "راست"
 
-#: ../prefs.js:225
+#: ../prefs.js:232
 msgid "Left"
 msgstr "چپ"
 
-#: ../prefs.js:227
+#: ../prefs.js:234
 #, fuzzy
 #| msgid "Wind Direction by Arrows"
 msgid "Wind Direction"
 msgstr "راستای باد با پیکان"
 
-#: ../prefs.js:228
+#: ../prefs.js:235
 msgid "Letters"
 msgstr ""
 
-#: ../prefs.js:228
+#: ../prefs.js:235
 msgid "Arrows"
 msgstr ""
 
-#: ../prefs.js:229
+#: ../prefs.js:236
 msgid "Symbolic Icons"
 msgstr "نشانه‌های نمادین"
 
-#: ../prefs.js:230
+#: ../prefs.js:237
 msgid "Temperature in Panel"
 msgstr "دما در پنل"
 
-#: ../prefs.js:231
+#: ../prefs.js:238
 msgid "Conditions in Panel"
 msgstr "چگونگی در پنل"
+
+#: ../prefs.js:239
+#, fuzzy
+#| msgid "Conditions in Panel"
+msgid "Humidity in Panel"
+msgstr "چگونگی در پنل"
+
+#: ../prefs.js:240
+#, fuzzy
+#| msgid "Wind Speed Unit"
+msgid "Wind Speed in Panel"
+msgstr "واحد سرعت باد"
+
+#: ../prefs.js:245
+msgid "Details"
+msgstr ""
+
+#: ../prefs.js:246
+msgid "Choose which rows appear in the current-conditions and forecast views"
+msgstr ""
+
+#: ../prefs.js:250
+#, fuzzy
+#| msgid "Feels like"
+msgid "Feels Like"
+msgstr "همانند"
+
+#: ../prefs.js:257
+msgid "Forecast Days"
+msgstr ""
 
 #~ msgid "Weather extension ready"
 #~ msgstr "افزونه هواشناسی آماده است"

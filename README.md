@@ -46,8 +46,8 @@ change how the panel indicator looks.
 
 ## Debug
 
-Toggle **Debug Logging** in settings, then watch `journalctl --user` for
-`[gnome-weather]`-prefixed messages.
+Watch `journalctl --user` for Shell errors (search for `gnome-weather` in the
+stack traces).
 
 ## License
 

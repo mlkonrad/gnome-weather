@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-12 13:10+0300\n"
+"POT-Creation-Date: 2026-09-12 13:22+0300\n"
 "PO-Revision-Date: 2015-04-01 13:25+0200\n"
 "Last-Translator: [SN] Snoop! <srt_snoop@mail.ru>\n"
 "Language-Team: \n"
@@ -136,59 +136,59 @@ msgstr "Пн-Зх"
 msgid "NNW"
 msgstr "Пн Пн-Зх"
 
-#: ../indicator.js:68 ../indicator.js:175 ../indicator.js:180
-#: ../indicator.js:185 ../indicator.js:228 ../prefs.js:54
+#: ../indicator.js:63 ../indicator.js:167 ../indicator.js:172
+#: ../indicator.js:177 ../indicator.js:220 ../prefs.js:54
 msgid "Weather"
 msgstr "Погода"
 
-#: ../indicator.js:87 ../prefs.js:63
+#: ../indicator.js:82 ../prefs.js:63
 msgid "Locations"
 msgstr "Місцезнаходження"
 
-#: ../indicator.js:90
+#: ../indicator.js:85
 msgid "Reload Weather Information"
 msgstr "Перезавантажити інформацію про погоду"
 
-#: ../indicator.js:95
+#: ../indicator.js:90
 msgid "Weather Settings"
 msgstr "Налаштування погоди"
 
-#: ../indicator.js:176
+#: ../indicator.js:168
 msgid "No location configured"
 msgstr "Місцезнаходження не налаштоване"
 
-#: ../indicator.js:181
+#: ../indicator.js:173
 #, fuzzy
 msgid "Loading weather"
 msgstr "Завантаження прогнозу погоди ..."
 
-#: ../indicator.js:186
+#: ../indicator.js:178
 msgid "No weather information"
 msgstr "Немає інформації про погоду"
 
-#: ../indicator.js:225 ../indicator.js:236
+#: ../indicator.js:217 ../indicator.js:228
 msgid ", "
 msgstr ""
 
-#: ../indicator.js:268
+#: ../indicator.js:260
 msgid "Feels like"
 msgstr "За відчуттям"
 
-#: ../indicator.js:269
+#: ../indicator.js:261
 msgid "Visibility"
 msgstr "Видимість:"
 
-#: ../indicator.js:270
+#: ../indicator.js:262
 #, fuzzy
 msgid "Humidity"
 msgstr "Вологість:"
 
-#: ../indicator.js:271 ../prefs.js:203
+#: ../indicator.js:263 ../prefs.js:203
 #, fuzzy
 msgid "Pressure"
 msgstr "Тиск:"
 
-#: ../indicator.js:272
+#: ../indicator.js:264
 #, fuzzy
 msgid "Wind"
 msgstr "Вітер:"
@@ -369,10 +369,6 @@ msgstr "Температура на панелі"
 #: ../prefs.js:231
 msgid "Conditions in Panel"
 msgstr "Текст на панелі"
-
-#: ../prefs.js:232
-msgid "Debug Logging"
-msgstr ""
 
 #~ msgid "Weather extension ready"
 #~ msgstr "Додаток погоди готовий"

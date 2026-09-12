@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-12 13:10+0300\n"
+"POT-Creation-Date: 2026-09-12 13:22+0300\n"
 "PO-Revision-Date: 2014-03-28 21:04+0200\n"
 "Last-Translator: Svetlin Zarev <svetlin.zarev@mail.ru>\n"
 "Language-Team: Български <>\n"
@@ -138,56 +138,56 @@ msgstr "СЗ"
 msgid "NNW"
 msgstr "ССЗ"
 
-#: ../indicator.js:68 ../indicator.js:175 ../indicator.js:180
-#: ../indicator.js:185 ../indicator.js:228 ../prefs.js:54
+#: ../indicator.js:63 ../indicator.js:167 ../indicator.js:172
+#: ../indicator.js:177 ../indicator.js:220 ../prefs.js:54
 msgid "Weather"
 msgstr "Време"
 
-#: ../indicator.js:87 ../prefs.js:63
+#: ../indicator.js:82 ../prefs.js:63
 msgid "Locations"
 msgstr "Местоположения"
 
-#: ../indicator.js:90
+#: ../indicator.js:85
 msgid "Reload Weather Information"
 msgstr "Презареди информацията за времето"
 
-#: ../indicator.js:95
+#: ../indicator.js:90
 msgid "Weather Settings"
 msgstr "Настройки"
 
-#: ../indicator.js:176
+#: ../indicator.js:168
 msgid "No location configured"
 msgstr "Няма настроено местоположение"
 
-#: ../indicator.js:181
+#: ../indicator.js:173
 msgid "Loading weather"
 msgstr "Зареждане на данните за времерто"
 
-#: ../indicator.js:186
+#: ../indicator.js:178
 msgid "No weather information"
 msgstr "Няма информация"
 
-#: ../indicator.js:225 ../indicator.js:236
+#: ../indicator.js:217 ../indicator.js:228
 msgid ", "
 msgstr ","
 
-#: ../indicator.js:268
+#: ../indicator.js:260
 msgid "Feels like"
 msgstr "Усеща се като"
 
-#: ../indicator.js:269
+#: ../indicator.js:261
 msgid "Visibility"
 msgstr "Видимост"
 
-#: ../indicator.js:270
+#: ../indicator.js:262
 msgid "Humidity"
 msgstr "Влажност"
 
-#: ../indicator.js:271 ../prefs.js:203
+#: ../indicator.js:263 ../prefs.js:203
 msgid "Pressure"
 msgstr "Налягане"
 
-#: ../indicator.js:272
+#: ../indicator.js:264
 msgid "Wind"
 msgstr "Вятър"
 
@@ -367,10 +367,6 @@ msgstr "Показвай температурата в панела"
 #: ../prefs.js:231
 msgid "Conditions in Panel"
 msgstr "Информация за времето в панела"
-
-#: ../prefs.js:232
-msgid "Debug Logging"
-msgstr ""
 
 #~ msgid "Weather extension ready"
 #~ msgstr "Разширението е готово"

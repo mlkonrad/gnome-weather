@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-12 13:10+0300\n"
+"POT-Creation-Date: 2026-09-12 13:22+0300\n"
 "PO-Revision-Date: 2013-11-19 12:03+0200\n"
 "Last-Translator: Khaled Hosny <khaledhosny@eglug.org>\n"
 "Language-Team: Arabic <doc@arabeyes.org>\n"
@@ -138,56 +138,56 @@ msgstr "شمال غربي"
 msgid "NNW"
 msgstr "شمال شمال غربي"
 
-#: ../indicator.js:68 ../indicator.js:175 ../indicator.js:180
-#: ../indicator.js:185 ../indicator.js:228 ../prefs.js:54
+#: ../indicator.js:63 ../indicator.js:167 ../indicator.js:172
+#: ../indicator.js:177 ../indicator.js:220 ../prefs.js:54
 msgid "Weather"
 msgstr "الطقس"
 
-#: ../indicator.js:87 ../prefs.js:63
+#: ../indicator.js:82 ../prefs.js:63
 msgid "Locations"
 msgstr "الأماكن"
 
-#: ../indicator.js:90
+#: ../indicator.js:85
 msgid "Reload Weather Information"
 msgstr "أعِد تحميل معلومات الطقس"
 
-#: ../indicator.js:95
+#: ../indicator.js:90
 msgid "Weather Settings"
 msgstr "إعدادات الطقس"
 
-#: ../indicator.js:176
+#: ../indicator.js:168
 msgid "No location configured"
 msgstr "لم تحدد أي مكان"
 
-#: ../indicator.js:181
+#: ../indicator.js:173
 msgid "Loading weather"
 msgstr "جاري تحميل معلومات الطقس"
 
-#: ../indicator.js:186
+#: ../indicator.js:178
 msgid "No weather information"
 msgstr "لا معلومات عن الطقس"
 
-#: ../indicator.js:225 ../indicator.js:236
+#: ../indicator.js:217 ../indicator.js:228
 msgid ", "
 msgstr "، "
 
-#: ../indicator.js:268
+#: ../indicator.js:260
 msgid "Feels like"
 msgstr "تبدو مثل"
 
-#: ../indicator.js:269
+#: ../indicator.js:261
 msgid "Visibility"
 msgstr "الرؤية"
 
-#: ../indicator.js:270
+#: ../indicator.js:262
 msgid "Humidity"
 msgstr "الرطوبة"
 
-#: ../indicator.js:271 ../prefs.js:203
+#: ../indicator.js:263 ../prefs.js:203
 msgid "Pressure"
 msgstr "الضغط"
 
-#: ../indicator.js:272
+#: ../indicator.js:264
 msgid "Wind"
 msgstr "الرياح"
 
@@ -367,10 +367,6 @@ msgstr "درجة الحرارة في اللوحة"
 #: ../prefs.js:231
 msgid "Conditions in Panel"
 msgstr "الأحوال في اللوحة"
-
-#: ../prefs.js:232
-msgid "Debug Logging"
-msgstr ""
 
 #~ msgid "Weather extension ready"
 #~ msgstr "امتداد الطقس جاهز"

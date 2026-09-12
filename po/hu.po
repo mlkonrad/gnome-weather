@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Neroth-gnome-shell-extension-weather 3696468\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-12 13:10+0300\n"
+"POT-Creation-Date: 2026-09-12 13:22+0300\n"
 "PO-Revision-Date: 2013-07-25 15:05+0200\n"
 "Last-Translator: Peter Bojtos <ptr@ulx.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -137,56 +137,56 @@ msgstr "ÉNY"
 msgid "NNW"
 msgstr "ÉÉNY"
 
-#: ../indicator.js:68 ../indicator.js:175 ../indicator.js:180
-#: ../indicator.js:185 ../indicator.js:228 ../prefs.js:54
+#: ../indicator.js:63 ../indicator.js:167 ../indicator.js:172
+#: ../indicator.js:177 ../indicator.js:220 ../prefs.js:54
 msgid "Weather"
 msgstr "Időjárás-előrejelzés"
 
-#: ../indicator.js:87 ../prefs.js:63
+#: ../indicator.js:82 ../prefs.js:63
 msgid "Locations"
 msgstr "Helyszínek"
 
-#: ../indicator.js:90
+#: ../indicator.js:85
 msgid "Reload Weather Information"
 msgstr "Meteorológiai információk újratöltése"
 
-#: ../indicator.js:95
+#: ../indicator.js:90
 msgid "Weather Settings"
 msgstr "Meteorológiai beállítások"
 
-#: ../indicator.js:176
+#: ../indicator.js:168
 msgid "No location configured"
 msgstr "Nincsen helyszín beállítva"
 
-#: ../indicator.js:181
+#: ../indicator.js:173
 msgid "Loading weather"
 msgstr "Időjárás-előrejelzés betöltése"
 
-#: ../indicator.js:186
+#: ../indicator.js:178
 msgid "No weather information"
 msgstr "Nem áll rendelkezésre időjárás-információ"
 
-#: ../indicator.js:225 ../indicator.js:236
+#: ../indicator.js:217 ../indicator.js:228
 msgid ", "
 msgstr ""
 
-#: ../indicator.js:268
+#: ../indicator.js:260
 msgid "Feels like"
 msgstr "Hőérzet"
 
-#: ../indicator.js:269
+#: ../indicator.js:261
 msgid "Visibility"
 msgstr "Láthatóság"
 
-#: ../indicator.js:270
+#: ../indicator.js:262
 msgid "Humidity"
 msgstr "Páratartalom"
 
-#: ../indicator.js:271 ../prefs.js:203
+#: ../indicator.js:263 ../prefs.js:203
 msgid "Pressure"
 msgstr "Légnyomás"
 
-#: ../indicator.js:272
+#: ../indicator.js:264
 msgid "Wind"
 msgstr "Szél"
 
@@ -366,10 +366,6 @@ msgstr "Hőmérséklet a panelen"
 #: ../prefs.js:231
 msgid "Conditions in Panel"
 msgstr "Körülmények a panelen"
-
-#: ../prefs.js:232
-msgid "Debug Logging"
-msgstr ""
 
 #~ msgid "Weather extension ready"
 #~ msgstr "Időjárás-előrejelzés kész"

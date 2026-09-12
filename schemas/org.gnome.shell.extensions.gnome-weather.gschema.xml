@@ -38,9 +38,5 @@
       <summary>Wind direction by arrows</summary>
       <description>Choose whether to display wind direction through arrows or letters.</description>
     </key>
-    <key name="debug-extension" type="b">
-      <default>false</default>
-      <summary>Enable verbose debug logging</summary>
-    </key>
   </schema>
 </schemalist>

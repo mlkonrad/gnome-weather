@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-12 13:10+0300\n"
+"POT-Creation-Date: 2026-09-12 13:22+0300\n"
 "PO-Revision-Date: 2012-06-17 17:04+0700\n"
 "Last-Translator: Ngô Trung <ndtrung4419@gmail.com>\n"
 "Language-Team: \n"
@@ -144,63 +144,63 @@ msgstr "TB"
 msgid "NNW"
 msgstr "TB"
 
-#: ../indicator.js:68 ../indicator.js:175 ../indicator.js:180
-#: ../indicator.js:185 ../indicator.js:228 ../prefs.js:54
+#: ../indicator.js:63 ../indicator.js:167 ../indicator.js:172
+#: ../indicator.js:177 ../indicator.js:220 ../prefs.js:54
 #, fuzzy
 msgid "Weather"
 msgstr "Thiết lập thời tiết"
 
-#: ../indicator.js:87 ../prefs.js:63
+#: ../indicator.js:82 ../prefs.js:63
 msgid "Locations"
 msgstr ""
 
-#: ../indicator.js:90
+#: ../indicator.js:85
 #, fuzzy
 msgid "Reload Weather Information"
 msgstr "Tải lại dữ liệu thời tiết"
 
-#: ../indicator.js:95
+#: ../indicator.js:90
 msgid "Weather Settings"
 msgstr "Thiết lập thời tiết"
 
-#: ../indicator.js:176
+#: ../indicator.js:168
 msgid "No location configured"
 msgstr ""
 
-#: ../indicator.js:181
+#: ../indicator.js:173
 #, fuzzy
 msgid "Loading weather"
 msgstr "Đang tải dữ liệu dự báo thời tiết..."
 
-#: ../indicator.js:186
+#: ../indicator.js:178
 #, fuzzy
 msgid "No weather information"
 msgstr "Tải lại dữ liệu thời tiết"
 
-#: ../indicator.js:225 ../indicator.js:236
+#: ../indicator.js:217 ../indicator.js:228
 msgid ", "
 msgstr ""
 
-#: ../indicator.js:268
+#: ../indicator.js:260
 #, fuzzy
 msgid "Feels like"
 msgstr "Cảm giác ngoài trời:"
 
-#: ../indicator.js:269
+#: ../indicator.js:261
 msgid "Visibility"
 msgstr ""
 
-#: ../indicator.js:270
+#: ../indicator.js:262
 #, fuzzy
 msgid "Humidity"
 msgstr "Độ ẩm:"
 
-#: ../indicator.js:271 ../prefs.js:203
+#: ../indicator.js:263 ../prefs.js:203
 #, fuzzy
 msgid "Pressure"
 msgstr "Áp suất:"
 
-#: ../indicator.js:272
+#: ../indicator.js:264
 #, fuzzy
 msgid "Wind"
 msgstr "Gió:"
@@ -373,10 +373,6 @@ msgstr "Hiện nhiệt độ trên pa-nen"
 #: ../prefs.js:231
 msgid "Conditions in Panel"
 msgstr "Hiện thời tiết trên pa-nen"
-
-#: ../prefs.js:232
-msgid "Debug Logging"
-msgstr ""
 
 #, fuzzy
 #~ msgid "Weather extension ready"

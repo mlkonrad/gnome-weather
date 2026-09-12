@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-shell-extension-weather 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-12 13:10+0300\n"
+"POT-Creation-Date: 2026-09-12 13:22+0300\n"
 "PO-Revision-Date: 2012-06-11 12:26+0900\n"
 "Last-Translator: Takeshi AIHANA <takeshi.aihana@gmail.com>\n"
 "Language-Team: Japanese <takeshi.aihana@gmail.com>\n"
@@ -135,60 +135,60 @@ msgstr ""
 msgid "NNW"
 msgstr ""
 
-#: ../indicator.js:68 ../indicator.js:175 ../indicator.js:180
-#: ../indicator.js:185 ../indicator.js:228 ../prefs.js:54
+#: ../indicator.js:63 ../indicator.js:167 ../indicator.js:172
+#: ../indicator.js:177 ../indicator.js:220 ../prefs.js:54
 #, fuzzy
 msgid "Weather"
 msgstr "設定"
 
-#: ../indicator.js:87 ../prefs.js:63
+#: ../indicator.js:82 ../prefs.js:63
 msgid "Locations"
 msgstr ""
 
-#: ../indicator.js:90
+#: ../indicator.js:85
 #, fuzzy
 msgid "Reload Weather Information"
 msgstr "天気予報を更新する"
 
-#: ../indicator.js:95
+#: ../indicator.js:90
 msgid "Weather Settings"
 msgstr "設定"
 
-#: ../indicator.js:176
+#: ../indicator.js:168
 msgid "No location configured"
 msgstr ""
 
-#: ../indicator.js:181
+#: ../indicator.js:173
 msgid "Loading weather"
 msgstr ""
 
-#: ../indicator.js:186
+#: ../indicator.js:178
 #, fuzzy
 msgid "No weather information"
 msgstr "天気予報を更新する"
 
-#: ../indicator.js:225 ../indicator.js:236
+#: ../indicator.js:217 ../indicator.js:228
 msgid ", "
 msgstr ""
 
-#: ../indicator.js:268
+#: ../indicator.js:260
 msgid "Feels like"
 msgstr ""
 
-#: ../indicator.js:269
+#: ../indicator.js:261
 msgid "Visibility"
 msgstr ""
 
-#: ../indicator.js:270
+#: ../indicator.js:262
 msgid "Humidity"
 msgstr ""
 
-#: ../indicator.js:271 ../prefs.js:203
+#: ../indicator.js:263 ../prefs.js:203
 #, fuzzy
 msgid "Pressure"
 msgstr "気温の単位"
 
-#: ../indicator.js:272
+#: ../indicator.js:264
 msgid "Wind"
 msgstr ""
 
@@ -360,10 +360,6 @@ msgstr "パネルに気温を表示する"
 #: ../prefs.js:231
 msgid "Conditions in Panel"
 msgstr "パネルに状態を表示する"
-
-#: ../prefs.js:232
-msgid "Debug Logging"
-msgstr ""
 
 #, fuzzy
 #~ msgid "Weather extension ready"

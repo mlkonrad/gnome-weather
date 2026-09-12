@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 3.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-12 13:10+0300\n"
+"POT-Creation-Date: 2026-09-12 13:22+0300\n"
 "PO-Revision-Date: 2013-08-25 01:16+0200\n"
 "Last-Translator: alexxtasi <alextasikas@gmail.com>\n"
 "Language-Team: \n"
@@ -136,56 +136,56 @@ msgstr "ΒΔ"
 msgid "NNW"
 msgstr "ΒΒΔ"
 
-#: ../indicator.js:68 ../indicator.js:175 ../indicator.js:180
-#: ../indicator.js:185 ../indicator.js:228 ../prefs.js:54
+#: ../indicator.js:63 ../indicator.js:167 ../indicator.js:172
+#: ../indicator.js:177 ../indicator.js:220 ../prefs.js:54
 msgid "Weather"
 msgstr "Weather"
 
-#: ../indicator.js:87 ../prefs.js:63
+#: ../indicator.js:82 ../prefs.js:63
 msgid "Locations"
 msgstr "Τοποθεσίες"
 
-#: ../indicator.js:90
+#: ../indicator.js:85
 msgid "Reload Weather Information"
 msgstr "Ανανέωση Πληροφοριών Καιρού"
 
-#: ../indicator.js:95
+#: ../indicator.js:90
 msgid "Weather Settings"
 msgstr "Ρυθμίσεις Weather"
 
-#: ../indicator.js:176
+#: ../indicator.js:168
 msgid "No location configured"
 msgstr "Δεν έχει καθοριστεί τοποθεσία"
 
-#: ../indicator.js:181
+#: ../indicator.js:173
 msgid "Loading weather"
 msgstr "Φόρτωση Weather"
 
-#: ../indicator.js:186
+#: ../indicator.js:178
 msgid "No weather information"
 msgstr "Δεν υπάρχουν πληροφορίες καιρού"
 
-#: ../indicator.js:225 ../indicator.js:236
+#: ../indicator.js:217 ../indicator.js:228
 msgid ", "
 msgstr ""
 
-#: ../indicator.js:268
+#: ../indicator.js:260
 msgid "Feels like"
 msgstr "Αίσθηση σαν"
 
-#: ../indicator.js:269
+#: ../indicator.js:261
 msgid "Visibility"
 msgstr "Ορατότητα"
 
-#: ../indicator.js:270
+#: ../indicator.js:262
 msgid "Humidity"
 msgstr "Υγρασία"
 
-#: ../indicator.js:271 ../prefs.js:203
+#: ../indicator.js:263 ../prefs.js:203
 msgid "Pressure"
 msgstr "Πίεση"
 
-#: ../indicator.js:272
+#: ../indicator.js:264
 msgid "Wind"
 msgstr "Άνεμος"
 
@@ -365,10 +365,6 @@ msgstr "Θερμοκρασία στο panel"
 #: ../prefs.js:231
 msgid "Conditions in Panel"
 msgstr "Συνθήκες στο panel"
-
-#: ../prefs.js:232
-msgid "Debug Logging"
-msgstr ""
 
 #~ msgid "Weather extension ready"
 #~ msgstr "Επέκταση Weather σε ετοιμότητα"

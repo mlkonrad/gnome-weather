@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-12 13:10+0300\n"
+"POT-Creation-Date: 2026-09-12 13:22+0300\n"
 "PO-Revision-Date: 2012-05-13 22:40+0100\n"
 "Last-Translator: Christian METZLER <neroth@xeked.com>\n"
 "Language-Team: \n"
@@ -135,59 +135,59 @@ msgstr "NV"
 msgid "NNW"
 msgstr "NNV"
 
-#: ../indicator.js:68 ../indicator.js:175 ../indicator.js:180
-#: ../indicator.js:185 ../indicator.js:228 ../prefs.js:54
+#: ../indicator.js:63 ../indicator.js:167 ../indicator.js:172
+#: ../indicator.js:177 ../indicator.js:220 ../prefs.js:54
 msgid "Weather"
 msgstr "Väder"
 
-#: ../indicator.js:87 ../prefs.js:63
+#: ../indicator.js:82 ../prefs.js:63
 msgid "Locations"
 msgstr "Platser"
 
-#: ../indicator.js:90
+#: ../indicator.js:85
 msgid "Reload Weather Information"
 msgstr "Ladda om väderinformation"
 
-#: ../indicator.js:95
+#: ../indicator.js:90
 msgid "Weather Settings"
 msgstr "Inställningar väder"
 
-#: ../indicator.js:176
+#: ../indicator.js:168
 msgid "No location configured"
 msgstr "Ingen plats konfigurerad"
 
-#: ../indicator.js:181
+#: ../indicator.js:173
 #, fuzzy
 msgid "Loading weather"
 msgstr "Laddar kommande väder..."
 
-#: ../indicator.js:186
+#: ../indicator.js:178
 msgid "No weather information"
 msgstr "Ingen väderinformation"
 
-#: ../indicator.js:225 ../indicator.js:236
+#: ../indicator.js:217 ../indicator.js:228
 msgid ", "
 msgstr ", "
 
-#: ../indicator.js:268
+#: ../indicator.js:260
 msgid "Feels like"
 msgstr "Känns som"
 
-#: ../indicator.js:269
+#: ../indicator.js:261
 msgid "Visibility"
 msgstr "Sikt"
 
-#: ../indicator.js:270
+#: ../indicator.js:262
 #, fuzzy
 msgid "Humidity"
 msgstr "Fuktighet:"
 
-#: ../indicator.js:271 ../prefs.js:203
+#: ../indicator.js:263 ../prefs.js:203
 #, fuzzy
 msgid "Pressure"
 msgstr "Lufttryck:"
 
-#: ../indicator.js:272
+#: ../indicator.js:264
 #, fuzzy
 msgid "Wind"
 msgstr "Vind:"
@@ -368,10 +368,6 @@ msgstr "Temperatur:"
 #: ../prefs.js:231
 msgid "Conditions in Panel"
 msgstr "Väderförhållande i panel"
-
-#: ../prefs.js:232
-msgid "Debug Logging"
-msgstr ""
 
 #~ msgid "Weather extension ready"
 #~ msgstr "Väder extension klar"

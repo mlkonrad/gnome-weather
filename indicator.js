@@ -51,11 +51,6 @@ class WeatherIndicator extends PanelMenu.Button {
         this._reload();
     }
 
-    _debug(message) {
-        if (this._settings.get_boolean('debug-extension'))
-            console.debug(`[gnome-weather] ${message}`);
-    }
-
     // ── UI construction ────────────────────────────────────────────────────
 
     _buildUI() {
@@ -150,10 +145,7 @@ class WeatherIndicator extends PanelMenu.Button {
         const location = cities[this._actualCityIndex(cities)];
         this._setState('loading');
 
-        this._client = new WeatherClient(location, () => {
-            this._debug(`updated: ${location.get_city_name()}`);
-            this._renderReady();
-        });
+        this._client = new WeatherClient(location, () => this._renderReady());
         this._reloadItem.show();
         this._client.update();
 

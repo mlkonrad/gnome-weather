@@ -1,117 +1,79 @@
 # Weather Extension
 
-![Screenshot](https://f.cloud.github.com/assets/1255506/833069/0f754966-f28b-11e2-9fb3-3ea413919c69.png)
+![Screenshot](Screenshot.jpg)
 
-[![Gitter chat](https://badges.gitter.im/Neroth/gnome-shell-extension-weather.png)](https://gitter.im/Neroth/gnome-shell-extension-weather)
+A simple GNOME Shell extension for displaying weather conditions and
+forecasts, with support for multiple locations, a symmetrical layout, and a
+settings window built on libadwaita.
 
-*gnome-shell-extension-weather* is a simple extension for displaying weather conditions and forecasts in GNOME Shell, featuring support for multiple locations, no need for WOEID, a symmetrical layout and a settings panel through *gnome-shell-extension-prefs*.
+The weather report includes forecasts for ~10 days.
 
-The weather report include forecasts for ~ 10 days.
+**Supported GNOME Shell versions:** 49, 50
 
-Support GNOME Shell >= 3.8
+This is a fork of [Neroth/gnome-shell-extension-weather](https://github.com/Neroth/gnome-shell-extension-weather),
+ported to the module system and APIs GNOME Shell has used since version 45,
+and to `libgweather-4` (which dropped the `GWeather.LocationEntry` widget the
+original relied on for its "add city" dialog — replaced here with a
+from-scratch location search).
 
-Contact the author : [Neroth (Christian METZLER)](https://plus.google.com/u/0/106579473281691119257).
+## Installation
 
-We need translator ! [Translate the extension](https://github.com/Neroth/gnome-shell-extension-weather/wiki/Translate).
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/mlkonrad/gnome-weather.git
+   ```
 
-----
+2. Copy to your GNOME extensions directory:
+   ```bash
+   cp -r gnome-weather ~/.local/share/gnome-shell/extensions/gnome-weather@mlkonrad.github.com
+   ```
 
-# Installation
+3. Compile the settings schema:
+   ```bash
+   glib-compile-schemas ~/.local/share/gnome-shell/extensions/gnome-weather@mlkonrad.github.com/schemas/
+   ```
 
-## Through extensions.gnome.org (Local installation)
+4. Restart GNOME Shell and enable the extension:
+   ```bash
+   gnome-extensions enable gnome-weather@mlkonrad.github.com
+   ```
 
-Go on the [Weather extension page](https://extensions.gnome.org/extension/613/weather/) on extensions.gnome.org, click on the switch ("OFF" => "ON"), click on the install button.
-That's it !
+## Configuration
 
-## Through a package manager
+Open **Weather Settings** from the panel dropdown (or `gnome-extensions prefs
+gnome-weather@mlkonrad.github.com`) to add/remove locations, switch units, and
+change how the panel indicator looks.
 
-After the installation, restart GNOME Shell (`Alt`+`F2`, `r`, `Enter`) and enable the extension through *gnome-tweak-tool*.
+## Debug
 
-### [Ubuntu, Mint, and derivatives](https://launchpad.net/~gnome-shell-extensions/+archive/ppa/+packages)
+Toggle **Debug Logging** in settings, then watch `journalctl --user` for
+`[gnome-weather]`-prefixed messages.
 
-Add the PPA *ppa:gnome-shell-extensions* to your source list, update the package list and install *gnome-shell-extension-weather*:
+## License
 
-	sudo add-apt-repository ppa:gnome-shell-extensions
-	sudo apt-get update
-	sudo apt-get install gnome-shell-extension-weather
+Copyright (C) 2011 - 2026
 
-### [Fedora](http://rpmfusion.org/)
+* Christian METZLER \<neroth@xeked.com\>,
+* Elad Alfassa \<elad@fedoraproject.org\>,
+* Mark Benjamin \<weather.gnome.Markie1@dfgh.net\>,
+* Simon Claessens \<gagalago@gmail.com\>,
+* Ecyrbe \<ecyrbe+spam@gmail.com\>,
+* Timur Kristóf \<venemo@msn.com\>,
+* Simon Legner \<Simon.Legner@gmail.com\>,
+* Mattia Meneguzzo \<odysseus@fedoraproject.org\>,
+* Marlon Konrad (GNOME 45+/libgweather-4 port).
 
-Packages for Fedora are available in the [RPM Fusion](http://rpmfusion.org/) repositories. If these are not enabled on your system, please install them through the following command:
+This file is part of *gnome-weather*.
 
-	sudo dnf install http://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm http://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
-Then, install *gnome-shell-extension-weather*:
+*gnome-weather* is free software: you can redistribute it and/or modify it
+under the terms of the GNU General Public License as published by the Free
+Software Foundation, either version 3 of the License, or (at your option) any
+later version.
 
-	sudo dnf install gnome-shell-extension-weather
+*gnome-weather* is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+details.
 
-### [Arch Linux](https://aur.archlinux.org/packages/gnome-shell-extension-weather-git/)
-
-Download the package from AUR, make and install it:
-
-	wget https://aur.archlinux.org/packages/gn/gnome-shell-extension-weather-git/gnome-shell-extension-weather-git.tar.gz
-	tar xvzf gnome-shell-extension-weather-git.tar.gz
-	cd gnome-shell-extension-weather-git && makepkg -si
-	
-## Generic (Local installation)
-
-Make sure you have the following dependencies installed:
-* *gettext*,
-* *pkg-config*,
-* *git*,
-* *glib2*,
-* *glib2-devel* or *libglib2.0-dev*,
-* *zip*,
-* *gnome-common*,
-* *autoconf*,
-* *automake*,
-* *intltool*,
-* *gir1.2-gweather-3.0*.
-
-Run the following commands:
-
-	cd ~ && git clone git://github.com/Neroth/gnome-shell-extension-weather.git
-	cd ~/gnome-shell-extension-weather
-	./autogen.sh && make local-install
-	
-Restart GNOME Shell (`Alt`+`F2`, `r`, `Enter`) and enable the extension through *gnome-tweak-tool*.
-
-----
-
-# Configuration
-
-Launch *gnome-shell-extension-prefs* (reachable also through the *Weather Settings* button on the extension popup) and select *Weather* from the drop-down menu to edit the configuration.
-
-![Screenshot](https://github.com/neroth/gnome-shell-extension-weather/raw/master/data/weather-settings.gif)
-
-You can also use *dconf-editor* or *gsettings* to configure the extension through the command line.
-
-----
-
-# Debug
-
-To debug the extension, active the switch `Debug extension` in the settings:
-
-You have now two new file ("weather-extension.log" and "weather-extension-prefs.log") in your user cache dir (~/.cache/).
-
-----
-
-# Licence
-
-Copyright (C) 2011 - 2014
-
-* Christian Metzler <neroth@xeked.com>,
-* Elad Alfassa <elad@fedoraproject.org>,
-* Mark Benjamin <weather.gnome.Markie1@dfgh.net>,
-* Simon Claessens <gagalago@gmail.com>,
-* Ecyrbe <ecyrbe+spam@gmail.com>,
-* Timur Kristóf <venemo@msn.com>,
-* Simon Legner <Simon.Legner@gmail.com>,
-* Mattia Meneguzzo <odysseus@fedoraproject.org>.
-
-This file is part of *gnome-shell-extension-weather*.
-
-*gnome-shell-extension-weather* is free software: you can redistribute it and/or modify it under the terms of the **GNU General Public License as published by the Free Software Foundation, either version 3** of the License, or (at your option) any later version.
-
-*gnome-shell-extension-weather* is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License along with *gnome-shell-extension-weather*.  If not, see <http://www.gnu.org/licenses/>.
+You should have received a copy of the GNU General Public License along with
+*gnome-weather*. If not, see <http://www.gnu.org/licenses/>.

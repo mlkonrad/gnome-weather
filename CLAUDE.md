@@ -40,6 +40,34 @@ CSS-only changes to `stylesheet.css` are also picked up by the same
 `gnome-extensions disable`/`enable` cycle, or a full logout if that proves
 unreliable.
 
+## Fast iteration: nested devkit session (no logout needed)
+
+`mutter-devkit` (installed on this machine, package `mutter-devkit`,
+matches this machine's Shell 50) lets you spin up a throwaway nested Shell
+that reads the same `~/.local/share/gnome-shell/extensions/` symlink and
+the same dconf `enabled-extensions` list as the real session, without
+touching it:
+
+```bash
+./scripts/dev-session.sh
+```
+
+This is a one-shot process — after editing JS, kill it (`Ctrl+C` or close
+its window) and re-run the script to get a fresh interpreter with the new
+code loaded. That's the same "JS can't be unloaded" constraint as the
+caveat above; the nested session just makes paying that cost cheap (a few
+seconds, not a full logout) instead of expensive. The script also disables
+xdg-desktop-portal/Secret Service probing, which otherwise adds ~30s to
+every launch. Verified 2026-09-12: the nested shell brings
+`gnome-weather@mlkonrad.github.com` straight to `ACTIVE` with no manual
+enabling step needed.
+
+Use this for iterating on JS logic and layout. Still fall back to a full
+log out/in for anything that depends on the real session specifically
+(actual notification daemon, real background apps/indicators, hardware,
+lock screen) or if something looks stale in the nested session and you
+need to rule out a devkit-specific quirk.
+
 ## libgweather-4 migration notes
 
 This extension moved from `libgweather-3` to `libgweather-4` as part of the

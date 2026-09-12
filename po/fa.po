@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-shell-extension-weather 0.13\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-12 14:15+0300\n"
+"POT-Creation-Date: 2026-09-12 23:38+0300\n"
 "PO-Revision-Date: 2014-04-04 20:26+0330\n"
 "Last-Translator: Nasrollah Noori <nanopqr@gmail.com>\n"
 "Language-Team: فارسی <> <nanopqr@gmail.com>\n"
@@ -140,11 +140,11 @@ msgid "NNW"
 msgstr "ش ش‌ب"
 
 #: ../indicator.js:67 ../indicator.js:216 ../indicator.js:221
-#: ../indicator.js:226 ../prefs.js:60
+#: ../indicator.js:226 ../prefs.js:60 ../prefs.js:294
 msgid "Weather"
 msgstr "هواشناسی"
 
-#: ../indicator.js:90 ../prefs.js:71
+#: ../indicator.js:90 ../prefs.js:72
 msgid "Locations"
 msgstr "مکان‌ها"
 
@@ -153,6 +153,8 @@ msgid "Reload Weather Information"
 msgstr "بارگیری دوباره داده‌های هواشناسی"
 
 #: ../indicator.js:98
+#, fuzzy
+#| msgid "Weather Settings"
 msgid "Weather Settings"
 msgstr "تنظیمات هواشناسی"
 
@@ -168,271 +170,321 @@ msgstr "بارگیری هواشناسی"
 msgid "No weather information"
 msgstr "داده‌های هواشناسی نیست"
 
-#: ../indicator.js:273 ../indicator.js:281
+#: ../indicator.js:284 ../indicator.js:292
 msgid ", "
 msgstr "،"
 
-#: ../indicator.js:312
+#: ../indicator.js:326
 msgid "Feels like"
 msgstr "همانند"
 
-#: ../indicator.js:313 ../prefs.js:256
+#: ../indicator.js:327 ../prefs.js:264
 msgid "Visibility"
 msgstr "دید"
 
-#: ../indicator.js:314 ../prefs.js:257
+#: ../indicator.js:328 ../prefs.js:265
 msgid "Humidity"
 msgstr "نمناکی"
 
-#: ../indicator.js:315 ../prefs.js:215 ../prefs.js:258
+#: ../indicator.js:329 ../prefs.js:223 ../prefs.js:266
 msgid "Pressure"
 msgstr "فشار"
 
-#: ../indicator.js:316 ../prefs.js:259
+#: ../indicator.js:330 ../prefs.js:267
 msgid "Wind"
 msgstr "باد"
 
-#: ../indicator.js:356
+#: ../indicator.js:370
 msgid "Now"
 msgstr ""
 
-#: ../prefs.js:110
+#: ../prefs.js:111
 #, fuzzy
 #| msgid "Locations"
 msgid "Add Location"
 msgstr "مکان‌ها"
 
-#: ../prefs.js:111 ../prefs.js:176
+#: ../prefs.js:112 ../prefs.js:177
 msgid "Cancel"
 msgstr ""
 
-#: ../prefs.js:112
+#: ../prefs.js:113
 msgid "Add"
 msgstr ""
 
-#: ../prefs.js:116
+#: ../prefs.js:117
 msgid "Name of the city"
 msgstr "نام شهر"
 
-#: ../prefs.js:173
+#: ../prefs.js:174
 #, fuzzy
 #| msgid "Locations"
 msgid "Remove Location?"
 msgstr "مکان‌ها"
 
-#: ../prefs.js:174
+#: ../prefs.js:175
 #, fuzzy, javascript-format
 #| msgid "Remove %s ?"
 msgid "Remove %s?"
 msgstr "حذف کردن %s ؟"
 
-#: ../prefs.js:177
+#: ../prefs.js:178
 msgid "Remove"
 msgstr ""
 
-#: ../prefs.js:191
+#: ../prefs.js:199
 msgid "Units"
 msgstr ""
 
-#: ../prefs.js:194
+#: ../prefs.js:202
 msgid "Time Format"
 msgstr ""
 
-#: ../prefs.js:195
+#: ../prefs.js:203
 msgid "Automatic"
 msgstr ""
 
-#: ../prefs.js:195
+#: ../prefs.js:203
 msgid "12-hour"
 msgstr ""
 
-#: ../prefs.js:195
+#: ../prefs.js:203
 msgid "24-hour"
 msgstr ""
 
 #. GWeather's unit enums start at 1 (0 is INVALID), so options are
 #. given as explicit [value, label] pairs rather than assuming the
 #. combo row's positional index lines up with the enum's integer value.
-#: ../prefs.js:201
+#: ../prefs.js:209
 #, fuzzy
 #| msgid "Temperature Unit"
 msgid "Temperature"
 msgstr "واحد دما"
 
-#: ../prefs.js:202 ../prefs.js:208 ../prefs.js:216 ../prefs.js:225
+#: ../prefs.js:210 ../prefs.js:216 ../prefs.js:224 ../prefs.js:233
 msgid "Default"
 msgstr ""
 
-#: ../prefs.js:203
+#: ../prefs.js:211
 msgid "Kelvin"
 msgstr ""
 
-#: ../prefs.js:204
+#: ../prefs.js:212
 msgid "Celsius"
 msgstr ""
 
-#: ../prefs.js:205
+#: ../prefs.js:213
 msgid "Fahrenheit"
 msgstr ""
 
-#: ../prefs.js:207
+#: ../prefs.js:215
 #, fuzzy
 #| msgid "Wind Speed Unit"
 msgid "Wind Speed"
 msgstr "واحد سرعت باد"
 
-#: ../prefs.js:209
+#: ../prefs.js:217
 msgid "m/s"
 msgstr ""
 
-#: ../prefs.js:210
+#: ../prefs.js:218
 msgid "km/h"
 msgstr ""
 
-#: ../prefs.js:211
+#: ../prefs.js:219
 msgid "mph"
 msgstr ""
 
-#: ../prefs.js:212
+#: ../prefs.js:220
 msgid "knots"
 msgstr ""
 
-#: ../prefs.js:213
+#: ../prefs.js:221
 msgid "Beaufort"
 msgstr ""
 
-#: ../prefs.js:217
+#: ../prefs.js:225
 msgid "kPa"
 msgstr ""
 
-#: ../prefs.js:218
+#: ../prefs.js:226
 msgid "hPa"
 msgstr ""
 
-#: ../prefs.js:219
+#: ../prefs.js:227
 msgid "mb"
 msgstr ""
 
-#: ../prefs.js:220
+#: ../prefs.js:228
 msgid "mmHg"
 msgstr ""
 
-#: ../prefs.js:221
+#: ../prefs.js:229
 msgid "inHg"
 msgstr ""
 
-#: ../prefs.js:222
+#: ../prefs.js:230
 msgid "atm"
 msgstr ""
 
-#: ../prefs.js:224
+#: ../prefs.js:232
 #, fuzzy
 #| msgid "Distance Unit"
 msgid "Distance"
 msgstr "واحد مسافت"
 
-#: ../prefs.js:226
+#: ../prefs.js:234
 msgid "m"
 msgstr ""
 
-#: ../prefs.js:227
+#: ../prefs.js:235
 msgid "km"
 msgstr ""
 
-#: ../prefs.js:228
+#: ../prefs.js:236
 msgid "miles"
 msgstr ""
 
-#: ../prefs.js:233
+#: ../prefs.js:241
 msgid "Panel"
 msgstr ""
 
-#: ../prefs.js:236
+#: ../prefs.js:244
 msgid "Position in Panel"
 msgstr "جای‌گاه در پنل"
 
-#: ../prefs.js:237
+#: ../prefs.js:245
 msgid "Center"
 msgstr "میانه"
 
-#: ../prefs.js:237
+#: ../prefs.js:245
 msgid "Right"
 msgstr "راست"
 
-#: ../prefs.js:237
+#: ../prefs.js:245
 msgid "Left"
 msgstr "چپ"
 
-#: ../prefs.js:239
+#: ../prefs.js:247
 #, fuzzy
 #| msgid "Wind Direction by Arrows"
 msgid "Wind Direction"
 msgstr "راستای باد با پیکان"
 
-#: ../prefs.js:240
+#: ../prefs.js:248
 msgid "Letters"
 msgstr ""
 
-#: ../prefs.js:240
+#: ../prefs.js:248
 msgid "Arrows"
 msgstr ""
 
-#: ../prefs.js:241
+#: ../prefs.js:249
 msgid "Symbolic Icons"
 msgstr "نشانه‌های نمادین"
 
-#: ../prefs.js:242
+#: ../prefs.js:250
 msgid "Temperature in Panel"
 msgstr "دما در پنل"
 
-#: ../prefs.js:243
+#: ../prefs.js:251
 msgid "Conditions in Panel"
 msgstr "چگونگی در پنل"
 
-#: ../prefs.js:244
+#: ../prefs.js:252
 #, fuzzy
 #| msgid "Conditions in Panel"
 msgid "Humidity in Panel"
 msgstr "چگونگی در پنل"
 
-#: ../prefs.js:245
+#: ../prefs.js:253
 #, fuzzy
 #| msgid "Wind Speed Unit"
 msgid "Wind Speed in Panel"
 msgstr "واحد سرعت باد"
 
-#: ../prefs.js:250
+#: ../prefs.js:258
 msgid "Details"
 msgstr ""
 
-#: ../prefs.js:251
+#: ../prefs.js:259
 msgid "Choose which rows appear in the current-conditions view"
 msgstr ""
 
-#: ../prefs.js:255
+#: ../prefs.js:263
 #, fuzzy
 #| msgid "Feels like"
 msgid "Feels Like"
 msgstr "همانند"
 
-#: ../prefs.js:263
+#: ../prefs.js:271
 msgid "Forecast"
 msgstr ""
 
-#: ../prefs.js:266
+#: ../prefs.js:274
 msgid "Daily Forecast"
 msgstr ""
 
-#: ../prefs.js:267
+#: ../prefs.js:275
 msgid "Forecast Days"
 msgstr ""
 
-#: ../prefs.js:268
+#: ../prefs.js:276
 msgid "Hour-by-Hour Forecast"
 msgstr ""
 
-#: ../prefs.js:269
+#: ../prefs.js:277
 msgid "Forecast Hours"
+msgstr ""
+
+#: ../prefs.js:281
+msgid "About"
+msgstr ""
+
+#: ../prefs.js:296
+msgid "Weather conditions and forecasts for multiple locations"
+msgstr ""
+
+#: ../prefs.js:301
+msgid "Links"
+msgstr ""
+
+#: ../prefs.js:303
+msgid "Source Code"
+msgstr ""
+
+#: ../prefs.js:305
+msgid "Report an Issue"
+msgstr ""
+
+#: ../prefs.js:308
+msgid "Legal"
+msgstr ""
+
+#: ../prefs.js:310
+msgid "License"
+msgstr ""
+
+#. MET Norway's data is CC BY 4.0, which requires credit "in any reasonable
+#. manner" - it's already shown as a footnote in the panel dropdown when the
+#. active provider requires it (indicator.js's _renderAttribution()); this is
+#. an additional, always-visible credit rather than a replacement for that.
+#: ../prefs.js:316
+#, fuzzy
+#| msgid "Weather"
+msgid "Weather Data"
+msgstr "هواشناسی"
+
+#: ../prefs.js:317
+msgid "MET Norway (CC BY 4.0)"
+msgstr ""
+
+#: ../prefs.js:319
+msgid "Credits"
+msgstr ""
+
+#: ../prefs.js:322
+msgid "Contributors"
 msgstr ""
 
 #~ msgid "Weather extension ready"

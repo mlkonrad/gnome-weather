@@ -65,6 +65,7 @@ export default class WeatherPreferences extends ExtensionPreferences {
         this._buildPanelGroup(page, settings);
         this._buildDetailsGroup(page, settings);
         this._buildForecastGroup(page, settings);
+        this._buildAboutPage(window);
     }
 
     _buildLocationsGroup(page, window, settings) {
@@ -274,6 +275,65 @@ export default class WeatherPreferences extends ExtensionPreferences {
         group.add(this._spinRow(_('Forecast Days'), settings, 'forecast-days', 1, 10));
         group.add(this._switchRow(_('Hour-by-Hour Forecast'), settings, 'show-hourly-forecast'));
         group.add(this._spinRow(_('Forecast Hours'), settings, 'hourly-forecast-count', 1, 48));
+    }
+
+    _buildAboutPage(window) {
+        const page = new Adw.PreferencesPage({title: _('About'), icon_name: 'help-about-symbolic'});
+        window.add(page);
+
+        const headerGroup = new Adw.PreferencesGroup();
+        page.add(headerGroup);
+
+        const header = new Gtk.Box({
+            orientation: Gtk.Orientation.VERTICAL, spacing: 12,
+            halign: Gtk.Align.CENTER, margin_top: 12, margin_bottom: 24,
+        });
+        header.append(new Gtk.Image({
+            file: this.dir.get_child('gnome-weather-logo.svg').get_path(), pixel_size: 96,
+        }));
+        header.append(new Gtk.Label({label: _('Weather'), css_classes: ['title-1']}));
+        header.append(new Gtk.Label({
+            label: _('Weather conditions and forecasts for multiple locations'),
+            css_classes: ['dim-label'], justify: Gtk.Justification.CENTER, wrap: true,
+        }));
+        headerGroup.add(header);
+
+        const linksGroup = new Adw.PreferencesGroup({title: _('Links')});
+        page.add(linksGroup);
+        linksGroup.add(this._linkRow(window, _('Source Code'),
+            'github.com/mlkonrad/gnome-weather', 'https://github.com/mlkonrad/gnome-weather'));
+        linksGroup.add(this._linkRow(window, _('Report an Issue'),
+            'github.com/mlkonrad/gnome-weather/issues', 'https://github.com/mlkonrad/gnome-weather/issues'));
+
+        const legalGroup = new Adw.PreferencesGroup({title: _('Legal')});
+        page.add(legalGroup);
+        legalGroup.add(this._linkRow(window, _('License'),
+            'GPL-3.0-or-later', 'https://www.gnu.org/licenses/gpl-3.0.html'));
+        // MET Norway's data is CC BY 4.0, which requires credit "in any reasonable
+        // manner" - it's already shown as a footnote in the panel dropdown when the
+        // active provider requires it (indicator.js's _renderAttribution()); this is
+        // an additional, always-visible credit rather than a replacement for that.
+        legalGroup.add(this._linkRow(window, _('Weather Data'),
+            _('MET Norway (CC BY 4.0)'), 'https://www.met.no'));
+
+        const creditsGroup = new Adw.PreferencesGroup({title: _('Credits')});
+        page.add(creditsGroup);
+        creditsGroup.add(new Adw.ActionRow({
+            title: _('Contributors'),
+            subtitle: [
+                'Christian Metzler', 'Elad Alfassa', 'Mark Benjamin', 'Simon Claessens',
+                'Ecyrbe', 'Timur Kristóf', 'Simon Legner', 'Mattia Meneguzzo', 'Marlon Konrad',
+            ].join(', '),
+            subtitle_lines: 0,
+            subtitle_selectable: true,
+        }));
+    }
+
+    _linkRow(window, title, subtitle, uri) {
+        const row = new Adw.ActionRow({title, subtitle, activatable: true});
+        row.add_suffix(new Gtk.Image({icon_name: 'adw-external-link-symbolic'}));
+        row.connect('activated', () => new Gtk.UriLauncher({uri}).launch(window, null, null));
+        return row;
     }
 
     _switchRow(title, settings, key) {

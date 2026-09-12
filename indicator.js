@@ -61,6 +61,7 @@ class WeatherIndicator extends PanelMenu.Button {
             style_class: `system-status-icon weather-icon${rtl ? '-rtl' : ''}`,
         });
         this._panelLabel = new St.Label({y_align: Clutter.ActorAlign.CENTER, text: _('Weather')});
+        this._updatePanelLabelVisibility();
 
         const topBox = new St.BoxLayout();
         topBox.add_child(this._panelIcon);
@@ -103,12 +104,25 @@ class WeatherIndicator extends PanelMenu.Button {
         case 'use-symbolic-icons':
             this._refreshReadyDisplay();
             break;
+        case 'show-text-in-panel':
+        case 'show-comment-in-panel':
+            this._updatePanelLabelVisibility();
+            this._renderCurrent();
+            break;
         case 'position-in-panel':
             // handled by the owning extension, which recreates the indicator
             break;
         default:
             this._renderCurrent();
         }
+    }
+
+    // The panel label only ever shows text the user asked for (temperature
+    // and/or conditions) - with both off, it's icon-only in every state,
+    // not just once weather data is ready.
+    _updatePanelLabelVisibility() {
+        this._panelLabel.visible = this._settings.get_boolean('show-text-in-panel') ||
+            this._settings.get_boolean('show-comment-in-panel');
     }
 
     _refreshReadyDisplay() {
@@ -217,7 +231,7 @@ class WeatherIndicator extends PanelMenu.Button {
             panelText += _(', ');
         if (this._settings.get_boolean('show-text-in-panel'))
             panelText += temperatureString(temperatureUnit, info.get_value_temp(temperatureUnit)[1], _);
-        this._panelLabel.text = panelText || _('Weather');
+        this._panelLabel.text = panelText;
 
         const icon = new St.Icon({
             icon_size: 72,

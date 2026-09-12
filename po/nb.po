@@ -230,6 +230,7 @@ msgstr ""
 #. combo row's positional index lines up with the enum's integer value.
 #: ../prefs.js:189
 #, fuzzy
+#| msgid "Temperature Unit"
 msgid "Temperature"
 msgstr "Temperatur:"
 

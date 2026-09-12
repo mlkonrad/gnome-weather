@@ -208,6 +208,7 @@ msgstr "Vėjas:"
 
 #: ../prefs.js:102
 #, fuzzy
+#| msgid "Locations"
 msgid "Add Location"
 msgstr "Vietovės"
 
@@ -225,18 +226,19 @@ msgstr "Vietovės pavadinimas"
 
 #: ../prefs.js:165
 #, fuzzy
+#| msgid "Locations"
 msgid "Remove Location?"
 msgstr "Vietovės"
 
 #: ../prefs.js:166
 #, fuzzy, javascript-format
+#| msgid "Remove %s ?"
 msgid "Remove %s?"
 msgstr "Pašalinti %s ?"
 
 #: ../prefs.js:169
-#, fuzzy
 msgid "Remove"
-msgstr "Pašalinti %s ?"
+msgstr ""
 
 #: ../prefs.js:183
 msgid "Units"
@@ -247,6 +249,7 @@ msgstr ""
 #. combo row's positional index lines up with the enum's integer value.
 #: ../prefs.js:189
 #, fuzzy
+#| msgid "Temperature Unit"
 msgid "Temperature"
 msgstr "Temperatūros vienetai"
 
@@ -268,6 +271,7 @@ msgstr ""
 
 #: ../prefs.js:195
 #, fuzzy
+#| msgid "Wind Speed Unit"
 msgid "Wind Speed"
 msgstr "Vėjo greičio vienetai"
 
@@ -353,6 +357,7 @@ msgstr "Kairėje"
 
 #: ../prefs.js:227
 #, fuzzy
+#| msgid "Wind Direction by Arrows"
 msgid "Wind Direction"
 msgstr "Vėjo krypčiai naudoti rodykles"
 

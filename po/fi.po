@@ -221,13 +221,13 @@ msgstr ""
 
 #: ../prefs.js:166
 #, fuzzy, javascript-format
+#| msgid "Remove %s ?"
 msgid "Remove %s?"
 msgstr "Poistetaanko %s?"
 
 #: ../prefs.js:169
-#, fuzzy
 msgid "Remove"
-msgstr "Poistetaanko %s?"
+msgstr ""
 
 #: ../prefs.js:183
 msgid "Units"
@@ -238,6 +238,7 @@ msgstr ""
 #. combo row's positional index lines up with the enum's integer value.
 #: ../prefs.js:189
 #, fuzzy
+#| msgid "Temperature Unit"
 msgid "Temperature"
 msgstr "Lämpötila"
 
@@ -259,6 +260,7 @@ msgstr ""
 
 #: ../prefs.js:195
 #, fuzzy
+#| msgid "Wind Speed Unit"
 msgid "Wind Speed"
 msgstr "Tuulen nopeuden yksikkö"
 

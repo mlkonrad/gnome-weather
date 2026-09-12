@@ -192,6 +192,7 @@ msgstr "Wind"
 
 #: ../prefs.js:102
 #, fuzzy
+#| msgid "Locations"
 msgid "Add Location"
 msgstr "Standorte"
 
@@ -209,18 +210,19 @@ msgstr "Name der Ortschaft"
 
 #: ../prefs.js:165
 #, fuzzy
+#| msgid "Locations"
 msgid "Remove Location?"
 msgstr "Standorte"
 
 #: ../prefs.js:166
 #, fuzzy, javascript-format
+#| msgid "Remove %s ?"
 msgid "Remove %s?"
 msgstr "Enferne %s?"
 
 #: ../prefs.js:169
-#, fuzzy
 msgid "Remove"
-msgstr "Enferne %s?"
+msgstr ""
 
 #: ../prefs.js:183
 msgid "Units"
@@ -231,6 +233,7 @@ msgstr ""
 #. combo row's positional index lines up with the enum's integer value.
 #: ../prefs.js:189
 #, fuzzy
+#| msgid "Temperature Unit"
 msgid "Temperature"
 msgstr "Temperatureinheit"
 
@@ -252,6 +255,7 @@ msgstr ""
 
 #: ../prefs.js:195
 #, fuzzy
+#| msgid "Wind Speed Unit"
 msgid "Wind Speed"
 msgstr "Windgeschwindigkeit"
 
@@ -260,23 +264,20 @@ msgid "m/s"
 msgstr ""
 
 #: ../prefs.js:198
-#, fuzzy
 msgid "km/h"
-msgstr "$d$s km/h"
+msgstr ""
 
 #: ../prefs.js:199
 msgid "mph"
 msgstr ""
 
 #: ../prefs.js:200
-#, fuzzy
 msgid "knots"
-msgstr "$d$s Knoten"
+msgstr ""
 
 #: ../prefs.js:201
-#, fuzzy
 msgid "Beaufort"
-msgstr "$dBeaufort $s"
+msgstr ""
 
 #: ../prefs.js:205
 msgid "kPa"
@@ -304,6 +305,7 @@ msgstr ""
 
 #: ../prefs.js:212
 #, fuzzy
+#| msgid "Distance Unit"
 msgid "Distance"
 msgstr "Entfernungseinheit"
 
@@ -341,6 +343,7 @@ msgstr "Links"
 
 #: ../prefs.js:227
 #, fuzzy
+#| msgid "Wind Direction by Arrows"
 msgid "Wind Direction"
 msgstr "Windrichtung durch Pfeile angeben"
 

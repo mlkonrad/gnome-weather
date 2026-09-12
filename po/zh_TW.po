@@ -191,6 +191,7 @@ msgstr "風力"
 
 #: ../prefs.js:102
 #, fuzzy
+#| msgid "Locations"
 msgid "Add Location"
 msgstr "地點"
 
@@ -208,18 +209,19 @@ msgstr "城市名"
 
 #: ../prefs.js:165
 #, fuzzy
+#| msgid "Locations"
 msgid "Remove Location?"
 msgstr "地點"
 
 #: ../prefs.js:166
 #, fuzzy, javascript-format
+#| msgid "Remove %s ?"
 msgid "Remove %s?"
 msgstr "移除 %s"
 
 #: ../prefs.js:169
-#, fuzzy
 msgid "Remove"
-msgstr "移除 %s"
+msgstr ""
 
 #: ../prefs.js:183
 msgid "Units"
@@ -230,6 +232,7 @@ msgstr ""
 #. combo row's positional index lines up with the enum's integer value.
 #: ../prefs.js:189
 #, fuzzy
+#| msgid "Temperature Unit"
 msgid "Temperature"
 msgstr "溫度單位"
 
@@ -251,6 +254,7 @@ msgstr ""
 
 #: ../prefs.js:195
 #, fuzzy
+#| msgid "Wind Speed Unit"
 msgid "Wind Speed"
 msgstr "風速單位"
 
@@ -300,6 +304,7 @@ msgstr ""
 
 #: ../prefs.js:212
 #, fuzzy
+#| msgid "Distance Unit"
 msgid "Distance"
 msgstr "距離單位"
 
@@ -337,6 +342,7 @@ msgstr "左"
 
 #: ../prefs.js:227
 #, fuzzy
+#| msgid "Wind Direction by Arrows"
 msgid "Wind Direction"
 msgstr "風向箭頭"
 

@@ -190,6 +190,7 @@ msgstr "Haizea"
 
 #: ../prefs.js:102
 #, fuzzy
+#| msgid "Locations"
 msgid "Add Location"
 msgstr "Kokapenak"
 
@@ -207,18 +208,19 @@ msgstr "Hiriaren izena"
 
 #: ../prefs.js:165
 #, fuzzy
+#| msgid "Locations"
 msgid "Remove Location?"
 msgstr "Kokapenak"
 
 #: ../prefs.js:166
 #, fuzzy, javascript-format
+#| msgid "Remove %s ?"
 msgid "Remove %s?"
 msgstr "Kendu %s ?"
 
 #: ../prefs.js:169
-#, fuzzy
 msgid "Remove"
-msgstr "Kendu %s ?"
+msgstr ""
 
 #: ../prefs.js:183
 msgid "Units"
@@ -229,6 +231,7 @@ msgstr ""
 #. combo row's positional index lines up with the enum's integer value.
 #: ../prefs.js:189
 #, fuzzy
+#| msgid "Temperature Unit"
 msgid "Temperature"
 msgstr "Tenperatura-unitatea"
 
@@ -250,6 +253,7 @@ msgstr ""
 
 #: ../prefs.js:195
 #, fuzzy
+#| msgid "Wind Speed Unit"
 msgid "Wind Speed"
 msgstr "Haize-abiaduraren unitatea"
 
@@ -258,23 +262,20 @@ msgid "m/s"
 msgstr ""
 
 #: ../prefs.js:198
-#, fuzzy
 msgid "km/h"
-msgstr "$d$s km/h"
+msgstr ""
 
 #: ../prefs.js:199
 msgid "mph"
 msgstr ""
 
 #: ../prefs.js:200
-#, fuzzy
 msgid "knots"
-msgstr "$d$s korapilo"
+msgstr ""
 
 #: ../prefs.js:201
-#, fuzzy
 msgid "Beaufort"
-msgstr "$dBeaufort $s"
+msgstr ""
 
 #: ../prefs.js:205
 msgid "kPa"
@@ -302,6 +303,7 @@ msgstr ""
 
 #: ../prefs.js:212
 #, fuzzy
+#| msgid "Distance Unit"
 msgid "Distance"
 msgstr "Distantzia-unitatea"
 
@@ -339,6 +341,7 @@ msgstr "Ezkerra"
 
 #: ../prefs.js:227
 #, fuzzy
+#| msgid "Wind Direction by Arrows"
 msgid "Wind Direction"
 msgstr "Haizearen norabidea gezien bidez"
 

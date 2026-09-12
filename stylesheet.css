@@ -77,6 +77,8 @@
 
 .attribution {
   padding: 0 25px;
+  font-size: 85%;
+  color: #999999;
 }
 
 .weather-sunrise-icon {

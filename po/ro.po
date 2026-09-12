@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: simon04-gnome-shell-extension-weather\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-29 18:16+0100\n"
+"POT-Creation-Date: 2026-09-12 13:10+0300\n"
 "PO-Revision-Date: 2012-05-13 22:40+0100\n"
 "Last-Translator: Christian METZLER <neroth@xeked.com>\n"
 "Language-Team: \n"
@@ -21,256 +21,354 @@ msgstr ""
 "X-Poedit-Country: ROMANIA\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
-#: ../src/extension.js:235 ../src/extension.js:243 ../src/extension.js:251
-#: ../src/extension.js:259 ../src/extension.js:575
+#: ../helpers.js:9 ../helpers.js:85
+msgid "VAR"
+msgstr ""
+
+#: ../helpers.js:31
+msgid "Yesterday"
+msgstr ""
+
+#: ../helpers.js:33
+msgid "Today"
+msgstr "Azi"
+
+#: ../helpers.js:35
+msgid "Tomorrow"
+msgstr "Mâine"
+
+#: ../helpers.js:50
+#, javascript-format
+msgid "%s °F"
+msgstr ""
+
+#: ../helpers.js:52
+#, javascript-format
+msgid "%s °C"
+msgstr ""
+
+#: ../helpers.js:54
+#, javascript-format
+msgid "%s K"
+msgstr ""
+
+#: ../helpers.js:56 ../helpers.js:79
+msgid "Unknown"
+msgstr ""
+
+#: ../helpers.js:69
+msgid "$d$s knots"
+msgstr ""
+
+#: ../helpers.js:71
+msgid "$d$s mph"
+msgstr ""
+
+#: ../helpers.js:73
+msgid "$d$s km/h"
+msgstr ""
+
+#: ../helpers.js:75
+msgid "$d$s m/s"
+msgstr ""
+
+#: ../helpers.js:77
+msgid "$dBeaufort $s"
+msgstr ""
+
+#: ../helpers.js:85
+msgid "N"
+msgstr ""
+
+#: ../helpers.js:85
+msgid "NNE"
+msgstr ""
+
+#: ../helpers.js:85
+msgid "NE"
+msgstr ""
+
+#: ../helpers.js:85
+msgid "ENE"
+msgstr ""
+
+#: ../helpers.js:86
+msgid "E"
+msgstr ""
+
+#: ../helpers.js:86
+msgid "ESE"
+msgstr ""
+
+#: ../helpers.js:86
+msgid "SE"
+msgstr ""
+
+#: ../helpers.js:86
+msgid "SSE"
+msgstr ""
+
+#: ../helpers.js:86
+msgid "S"
+msgstr ""
+
+#: ../helpers.js:87
+msgid "SSW"
+msgstr ""
+
+#: ../helpers.js:87
+msgid "SW"
+msgstr ""
+
+#: ../helpers.js:87
+msgid "WSW"
+msgstr ""
+
+#: ../helpers.js:87
+msgid "W"
+msgstr ""
+
+#: ../helpers.js:87
+msgid "WNW"
+msgstr ""
+
+#: ../helpers.js:88
+msgid "NW"
+msgstr ""
+
+#: ../helpers.js:88
+msgid "NNW"
+msgstr ""
+
+#: ../indicator.js:68 ../indicator.js:175 ../indicator.js:180
+#: ../indicator.js:185 ../indicator.js:228 ../prefs.js:54
 msgid "Weather"
 msgstr ""
 
-#: ../src/extension.js:237
+#: ../indicator.js:87 ../prefs.js:63
+msgid "Locations"
+msgstr ""
+
+#: ../indicator.js:90
+msgid "Reload Weather Information"
+msgstr ""
+
+#: ../indicator.js:95
+msgid "Weather Settings"
+msgstr ""
+
+#: ../indicator.js:176
 msgid "No location configured"
 msgstr ""
 
-#: ../src/extension.js:245
+#: ../indicator.js:181
 #, fuzzy
 msgid "Loading weather"
 msgstr "Se încarcă prognoza..."
 
-#: ../src/extension.js:261
-msgid "Weather extension ready"
-msgstr ""
-
-#: ../src/extension.js:293 ../src/extension.js:366 ../src/extension.js:373
-msgid ", "
-msgstr ""
-
-#: ../src/extension.js:451
-msgid "Today"
-msgstr "Azi"
-
-#: ../src/extension.js:454
-msgid "Tomorrow"
-msgstr "Mâine"
-
-#: ../src/extension.js:457
-msgid "Yesterday"
-msgstr ""
-
-#: ../src/extension.js:639
-msgid "Locations"
-msgstr ""
-
-#: ../src/extension.js:643
-msgid "Reload Weather Information"
-msgstr ""
-
-#: ../src/extension.js:648
-msgid "Weather Settings"
-msgstr ""
-
-#: ../src/extension.js:812
+#: ../indicator.js:186
 msgid "No weather information"
 msgstr ""
 
-#: ../src/extension.js:814
-#, python-format
-msgid "No weather information for %s"
+#: ../indicator.js:225 ../indicator.js:236
+msgid ", "
 msgstr ""
 
-#: ../src/extension.js:899
+#: ../indicator.js:268
 msgid "Feels like"
 msgstr ""
 
-#: ../src/extension.js:901
+#: ../indicator.js:269
 msgid "Visibility"
 msgstr ""
 
-#: ../src/extension.js:903
+#: ../indicator.js:270
 #, fuzzy
 msgid "Humidity"
 msgstr "Umiditate:"
 
-#: ../src/extension.js:905
+#: ../indicator.js:271 ../prefs.js:203
 #, fuzzy
 msgid "Pressure"
 msgstr "Presiune:"
 
-#: ../src/extension.js:907
+#: ../indicator.js:272
 #, fuzzy
 msgid "Wind"
 msgstr "Vânt:"
 
-#: ../src/extension.js:929
-msgid "No forecast information"
+#: ../prefs.js:102
+msgid "Add Location"
 msgstr ""
 
-#: ../src/extension.js:1114
-#, python-format
-msgid "%s °F"
+#: ../prefs.js:103 ../prefs.js:168
+msgid "Cancel"
 msgstr ""
 
-#: ../src/extension.js:1118
-#, python-format
-msgid "%s °C"
+#: ../prefs.js:104
+msgid "Add"
 msgstr ""
 
-#: ../src/extension.js:1122
-#, python-format
-msgid "%s K"
-msgstr ""
-
-#: ../src/extension.js:1128 ../src/extension.js:1186
-msgid "Unknown"
-msgstr ""
-
-#: ../src/extension.js:1150 ../src/extension.js:1153
-msgid "VAR"
-msgstr ""
-
-#: ../src/extension.js:1153
-msgid "N"
-msgstr ""
-
-#: ../src/extension.js:1153
-msgid "NNE"
-msgstr ""
-
-#: ../src/extension.js:1153
-msgid "NE"
-msgstr ""
-
-#: ../src/extension.js:1153
-msgid "ENE"
-msgstr ""
-
-#: ../src/extension.js:1153
-msgid "E"
-msgstr ""
-
-#: ../src/extension.js:1153
-msgid "ESE"
-msgstr ""
-
-#: ../src/extension.js:1153
-msgid "SE"
-msgstr ""
-
-#: ../src/extension.js:1153
-msgid "SSE"
-msgstr ""
-
-#: ../src/extension.js:1154
-msgid "S"
-msgstr ""
-
-#: ../src/extension.js:1154
-msgid "SSW"
-msgstr ""
-
-#: ../src/extension.js:1154
-msgid "SW"
-msgstr ""
-
-#: ../src/extension.js:1154
-msgid "WSW"
-msgstr ""
-
-#: ../src/extension.js:1154
-msgid "W"
-msgstr ""
-
-#: ../src/extension.js:1154
-msgid "WNW"
-msgstr ""
-
-#: ../src/extension.js:1154
-msgid "NW"
-msgstr ""
-
-#: ../src/extension.js:1154
-msgid "NNW"
-msgstr ""
-
-#: ../src/extension.js:1164
-msgid "$d$s knots"
-msgstr ""
-
-#: ../src/extension.js:1168
-msgid "$d$s mph"
-msgstr ""
-
-#: ../src/extension.js:1172
-msgid "$d$s km/h"
-msgstr ""
-
-#: ../src/extension.js:1176
-msgid "$d$s m/s"
-msgstr ""
-
-#: ../src/extension.js:1180
-msgid "$dBeaufort $s"
-msgstr ""
-
-#: ../src/prefs.js:143
-msgid "Temperature Unit"
-msgstr "Temperatură:"
-
-#: ../src/prefs.js:145
-msgid "Wind Speed Unit"
-msgstr ""
-
-#: ../src/prefs.js:147
-#, fuzzy
-msgid "Pressure Unit"
-msgstr "Presiune:"
-
-#: ../src/prefs.js:149
-msgid "Distance Unit"
-msgstr ""
-
-#: ../src/prefs.js:151
-msgid "Position in Panel"
-msgstr ""
-
-#: ../src/prefs.js:152
-msgid "Center"
-msgstr ""
-
-#: ../src/prefs.js:152
-msgid "Right"
-msgstr ""
-
-#: ../src/prefs.js:152
-msgid "Left"
-msgstr ""
-
-#: ../src/prefs.js:153
-msgid "Wind Direction by Arrows"
-msgstr ""
-
-#: ../src/prefs.js:155
-msgid "Symbolic Icons"
-msgstr ""
-
-#: ../src/prefs.js:157
-msgid "Temperature in Panel"
-msgstr "Temperatură:"
-
-#: ../src/prefs.js:159
-msgid "Conditions in Panel"
-msgstr ""
-
-#: ../src/prefs.js:161
-msgid "Debug the extension"
-msgstr ""
-
-#: ../src/prefs.js:320
+#: ../prefs.js:108
 msgid "Name of the city"
 msgstr ""
 
-#: ../src/prefs.js:378
-#, python-format
-msgid "Remove %s ?"
+#: ../prefs.js:165
+msgid "Remove Location?"
 msgstr ""
+
+#: ../prefs.js:166
+#, javascript-format
+msgid "Remove %s?"
+msgstr ""
+
+#: ../prefs.js:169
+msgid "Remove"
+msgstr ""
+
+#: ../prefs.js:183
+msgid "Units"
+msgstr ""
+
+#. GWeather's unit enums start at 1 (0 is INVALID), so options are
+#. given as explicit [value, label] pairs rather than assuming the
+#. combo row's positional index lines up with the enum's integer value.
+#: ../prefs.js:189
+#, fuzzy
+msgid "Temperature"
+msgstr "Temperatură:"
+
+#: ../prefs.js:190 ../prefs.js:196 ../prefs.js:204 ../prefs.js:213
+msgid "Default"
+msgstr ""
+
+#: ../prefs.js:191
+msgid "Kelvin"
+msgstr ""
+
+#: ../prefs.js:192
+msgid "Celsius"
+msgstr ""
+
+#: ../prefs.js:193
+msgid "Fahrenheit"
+msgstr ""
+
+#: ../prefs.js:195
+msgid "Wind Speed"
+msgstr ""
+
+#: ../prefs.js:197
+msgid "m/s"
+msgstr ""
+
+#: ../prefs.js:198
+msgid "km/h"
+msgstr ""
+
+#: ../prefs.js:199
+msgid "mph"
+msgstr ""
+
+#: ../prefs.js:200
+msgid "knots"
+msgstr ""
+
+#: ../prefs.js:201
+msgid "Beaufort"
+msgstr ""
+
+#: ../prefs.js:205
+msgid "kPa"
+msgstr ""
+
+#: ../prefs.js:206
+msgid "hPa"
+msgstr ""
+
+#: ../prefs.js:207
+msgid "mb"
+msgstr ""
+
+#: ../prefs.js:208
+msgid "mmHg"
+msgstr ""
+
+#: ../prefs.js:209
+msgid "inHg"
+msgstr ""
+
+#: ../prefs.js:210
+msgid "atm"
+msgstr ""
+
+#: ../prefs.js:212
+msgid "Distance"
+msgstr ""
+
+#: ../prefs.js:214
+msgid "m"
+msgstr ""
+
+#: ../prefs.js:215
+msgid "km"
+msgstr ""
+
+#: ../prefs.js:216
+msgid "miles"
+msgstr ""
+
+#: ../prefs.js:221
+msgid "Panel"
+msgstr ""
+
+#: ../prefs.js:224
+msgid "Position in Panel"
+msgstr ""
+
+#: ../prefs.js:225
+msgid "Center"
+msgstr ""
+
+#: ../prefs.js:225
+msgid "Right"
+msgstr ""
+
+#: ../prefs.js:225
+msgid "Left"
+msgstr ""
+
+#: ../prefs.js:227
+msgid "Wind Direction"
+msgstr ""
+
+#: ../prefs.js:228
+msgid "Letters"
+msgstr ""
+
+#: ../prefs.js:228
+msgid "Arrows"
+msgstr ""
+
+#: ../prefs.js:229
+msgid "Symbolic Icons"
+msgstr ""
+
+#: ../prefs.js:230
+msgid "Temperature in Panel"
+msgstr "Temperatură:"
+
+#: ../prefs.js:231
+msgid "Conditions in Panel"
+msgstr ""
+
+#: ../prefs.js:232
+msgid "Debug Logging"
+msgstr ""
+
+#, fuzzy
+#~ msgid "Pressure Unit"
+#~ msgstr "Presiune:"
 
 #~ msgid "Please wait"
 #~ msgstr "Așteptați"

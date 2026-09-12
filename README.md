@@ -1,6 +1,6 @@
 # Weather Extension
 
-![Screenshot](Screenshot.jpg)
+![Screenshot](Screenshot.png)
 
 A simple GNOME Shell extension for displaying weather conditions and
 forecasts, with support for multiple locations, a symmetrical layout, and a

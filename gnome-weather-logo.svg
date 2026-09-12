@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+    <!-- Drop Shadow for a bit of desktop depth -->
+    <filter id="shadow" x="-10%" y="-10%" width="130%" height="130%">
+        <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000000" flood-opacity="0.15"/>
+    </filter>
+
+    <g filter="url(#shadow)">
+        <!-- Card Body -->
+        <rect x="80" y="104" width="352" height="352" rx="48" fill="#FFFFFF" stroke="#333333" stroke-width="24"/>
+
+        <!-- Sun -->
+        <g>
+            <circle cx="322" cy="158" r="34" fill="#FFA000" stroke="#333333" stroke-width="16"/>
+            <g stroke="#333333" stroke-width="13" stroke-linecap="round">
+                <line x1="322" y1="118" x2="322" y2="102"/>
+                <line x1="357" y1="138" x2="371" y2="130"/>
+                <line x1="357" y1="178" x2="371" y2="186"/>
+            </g>
+        </g>
+
+        <!-- Cloud, drifting past the sun -->
+        <g transform="translate(38 83) scale(0.5)">
+            <path d="M 156 196
+                     C 132 196, 114 178, 114 156
+                     C 114 132, 136 116, 158 122
+                     C 164 100, 190 88, 212 98
+                     C 232 106, 240 126, 232 146
+                     C 250 148, 262 162, 260 178
+                     C 258 194, 242 204, 226 202
+                     Z"
+                  fill="#FFFFFF" stroke="#333333" stroke-width="16" stroke-linejoin="round"/>
+        </g>
+
+        <!-- Tux the Penguin -->
+        <g transform="translate(256 439) scale(1.15) translate(-256 -439)">
+            <!-- Orange Feet -->
+            <ellipse cx="206" cy="425" rx="32" ry="14" fill="#FFA000" stroke="#222222" stroke-width="6"/>
+            <ellipse cx="306" cy="425" rx="32" ry="14" fill="#FFA000" stroke="#222222" stroke-width="6"/>
+
+            <!-- Arms / Flippers -->
+            <path d="M 186 330 C 130 350, 130 420, 186 430 Z" fill="#222222"/>
+            <path d="M 326 330 C 382 350, 382 420, 326 430 Z" fill="#222222"/>
+
+            <!-- Black Body & Head -->
+            <path d="M 166 360 C 166 230, 346 230, 346 360 C 346 430, 316 440, 256 440 C 196 440, 166 430, 166 360 Z" fill="#222222"/>
+
+            <!-- White Belly & Face (Heart shape) -->
+            <path d="M 186 350 C 186 280, 256 290, 256 315 C 256 290, 326 280, 326 350 C 326 420, 296 430, 256 430 C 216 430, 186 420, 186 350 Z" fill="#FFFFFF"/>
+
+            <!-- Eyes -->
+            <ellipse cx="232" cy="300" rx="16" ry="24" fill="#FFFFFF"/>
+            <ellipse cx="280" cy="300" rx="16" ry="24" fill="#FFFFFF"/>
+
+            <!-- Pupils (Looking slightly cross-eyed/cute) -->
+            <ellipse cx="238" cy="305" rx="7" ry="11" fill="#222222"/>
+            <ellipse cx="274" cy="305" rx="7" ry="11" fill="#222222"/>
+
+            <!-- Orange Beak -->
+            <path d="M 222 325 Q 256 315 290 325 Q 256 365 222 325 Z" fill="#FFA000" stroke="#222222" stroke-width="4" stroke-linejoin="round"/>
+
+            <!-- Beak inner smile line -->
+            <path d="M 232 335 Q 256 345 280 335" fill="none" stroke="#222222" stroke-width="3" stroke-linecap="round"/>
+
+            <!-- Scarf, to tie the weather theme together -->
+            <path d="M 190 355 C 214 372, 298 372, 322 355 L 322 372 C 298 390, 214 390, 190 372 Z"
+                  fill="#3E8FB0" stroke="#222222" stroke-width="4" stroke-linejoin="round"/>
+            <path d="M 244 372 L 276 372 L 270 420 L 250 420 Z"
+                  fill="#3E8FB0" stroke="#222222" stroke-width="4" stroke-linejoin="round"/>
+        </g>
+    </g>
+</svg>

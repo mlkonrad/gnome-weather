@@ -1,4 +1,4 @@
-# Weather Extension
+# Weather Extension &nbsp;<img src="gnome-weather-logo.svg" height="40" valign="middle">
 
 ![Screenshot](Screenshot.png)
 

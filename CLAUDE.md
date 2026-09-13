@@ -96,6 +96,31 @@ log out/in for anything that depends on the real session specifically
 lock screen) or if something looks stale in the nested session and you
 need to rule out a devkit-specific quirk.
 
+**dconf is shared with the real session, not sandboxed.** `dbus-run-session`
+gives the nested Shell its own private message bus, but GSettings still
+reads/writes the one real per-user dconf database
+(`~/.config/dconf/user`) - there's no `DCONF_PROFILE` override in
+`dev-session.sh`. Verified 2026-09-13: toggling a setting in the nested
+session's prefs window (`use-current-location`, `actual-city`) showed up
+immediately via `dconf read` run *outside* the nested session, against the
+real database. Harmless for this extension today (the real session's
+already-loaded, stale JS module just clamps an out-of-range `actual-city`
+back to a safe index), but don't assume nested-session settings changes are
+disposable - they persist into the real session's settings too.
+
+To confirm the nested Shell itself (not just "the script ran"), attach to
+its private bus rather than eyeballing the window: the script's
+`dbus-run-session` wrapper doesn't print its bus address, so capture
+`$DBUS_SESSION_BUS_ADDRESS` from inside it (e.g. tee it to a file before
+`exec`ing `gnome-shell`) and then `DBUS_SESSION_BUS_ADDRESS=... gnome-extensions
+info gnome-weather@mlkonrad.github.com` reports that nested instance's real
+`State: ACTIVE`/`INACTIVE`, independent of the real session's. The
+in-Shell `org.gnome.Shell.Screenshot.Screenshot` D-Bus method is not
+usable this way, though - it came back `AccessDenied` against the nested
+bus (no portal/permission-store wired up, matching the script's own
+portal-skipping setup), so a real screenshot still needs eyes on the
+actual nested window, not a headless D-Bus call.
+
 ## libgweather-4 migration notes
 
 This extension moved from `libgweather-3` to `libgweather-4` as part of the
@@ -143,6 +168,54 @@ genuinely non-obvious and easy to get wrong silently:
   `GSettings` enum key backs a picker widget, check the real enum values
   first (`python3 -c "import gi; ..."` or similar) instead of assuming a
   0-based contiguous range.
+
+## Current location (GeoClue), alongside manually-added cities
+
+2026-09-13: added a "Current Location" entry (`currentLocationClient.js`,
+new `use-current-location`/`current-location-city` schema keys) that
+auto-refreshes via GeoClue2 and sits alongside the manually-added `city`
+list rather than replacing it. Verified live in a devkit session: GeoClue
+resolved a real fix, `find_nearest_city()` snapped it to a city, and it
+round-tripped through GSettings with no `JS ERROR` in the log.
+
+- **`actual-city === -1` is the sentinel** for "use current location" -
+  chosen over splicing a synthetic entry into the `city` array because the
+  key already had no `<range>` restriction (so `-1` was schema-legal for
+  free) and `_confirmRemoveCity`'s index-shift logic
+  (`if (index < actual) ...`) only ever compares against `[0, length)`, so
+  it's structurally immune to the sentinel without any special-casing.
+- **`gi://Geoclue` is imported dynamically, only inside
+  `CurrentLocationClient.start()`, and nowhere else.** A static top-level
+  import (like the other `gi://...` imports in this codebase) would fail
+  the *entire* extension's load for anyone without `geoclue-2.0` installed,
+  even if they never touch this feature - the dynamic import confines that
+  risk to the moment someone actually flips the toggle on.
+- **Dedupe by resolved-city identity** (`city.serialize().print(true)`),
+  not raw lat/lon, before treating a GeoClue update as a real change - a
+  GeoClue fix that jitters a bit but still resolves to the same nearest
+  city must not trigger a redundant weather re-fetch. No time-based
+  debounce on top of this; `Geoclue.AccuracyLevel.CITY` isn't granular
+  enough to flip-flop between nearest cities on sub-city jitter the way
+  STREET/EXACT would.
+- **`Geoclue.AccuracyLevel.CITY`** was picked deliberately over
+  STREET/EXACT - it matches the granularity `find_nearest_city()` resolves
+  to anyway, and is less sensitive. Worth knowing: since this GeoClue
+  client is created by code running *inside* gnome-shell itself (not a
+  separate confined app), consent/attribution shows up as "GNOME Shell"
+  rather than this extension by name, and may not prompt at all if
+  location access is already granted system-wide (e.g. automatic
+  timezone). That's expected GeoClue behavior for in-process Shell
+  extensions, not a bug to chase.
+- `prefs.js` never talks to GeoClue itself - same boundary as it never
+  doing live weather fetches - it only reads the `current-location-city`
+  cache the Shell process wrote, so the preferences window can show a name
+  without running its own GeoClue client from the wrong process.
+- One benign warning worth knowing if you see it again: `Gjs-WARNING
+  Type GITypeInfo of property Geoclue.Simple::location does not match
+  return type GITypeInfo of getter get_location. Falling back to slow
+  path.` - a GI binding quirk in the `Geoclue.Simple` introspection data,
+  not a bug in this codebase; GJS's fallback path works correctly (the
+  location still resolves).
 
 ## Translation workflow
 
@@ -204,9 +277,11 @@ current. Checked clean as of 2026-09-12:
 - **No deprecated imports**: no `ByteArray`, `Lang`, or `Mainloop`. ESM
   `import`, `GLib.timeout_add_seconds`/`GLib.SOURCE_CONTINUE` natively.
 - **Don't mix process libraries**: no `Gtk`/`Gdk`/`Adw` in
-  `extension.js`/`indicator.js`/`weatherClient.js`/`helpers.js` (Shell
-  process), no `St`/`Clutter`/`Meta` in `prefs.js` (separate GTK-only
-  process). `prefs.js` deliberately does **not** import `helpers.js` or
+  `extension.js`/`indicator.js`/`weatherClient.js`/`currentLocationClient.js`/
+  `helpers.js` (Shell process), no `St`/`Clutter`/`Meta` in `prefs.js`
+  (separate GTK-only process). `Geoclue` is a plain D-Bus client library
+  (no Gtk/Adw/St/Clutter of its own), so `currentLocationClient.js`
+  importing it doesn't violate this rule. `prefs.js` deliberately does **not** import `helpers.js` or
   `weatherClient.js`, even though neither actually touches St/Clutter —
   keeping prefs fully self-contained avoids ever having to reason about
   which of its dependencies might one day gain a Shell-process-only import
@@ -236,6 +311,7 @@ current. Checked clean as of 2026-09-12:
 - **Structural**: `enable()`/`disable()` stay adjacent in `extension.js`;
   logic is split by responsibility (`indicator.js` = panel UI/menu,
   `weatherClient.js` = GWeather.Info lifecycle + forecast bucketing,
+  `currentLocationClient.js` = GeoClue lifecycle + nearest-city resolution,
   `helpers.js` = pure formatting, `prefs.js` = settings UI) rather than one
   monolithic file.
 - **No `eval`, no minified/obfuscated code, no bundled binaries.**

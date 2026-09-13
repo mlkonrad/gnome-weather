@@ -6,7 +6,7 @@ import GWeather from 'gi://GWeather';
 // which then makes set_enabled_providers()/update() no-ops too, so weather
 // data never loads (confirmed via journalctl: "assertion
 // 'g_application_id_is_valid (application_id)' failed").
-const APPLICATION_ID = 'io.github.mlkonrad.gnome-weather';
+export const APPLICATION_ID = 'io.github.mlkonrad.gnome-weather';
 const CONTACT_INFO = 'https://github.com/mlkonrad/gnome-weather';
 
 /**

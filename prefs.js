@@ -10,6 +10,9 @@ const GWEATHER_SCHEMA = 'org.gnome.GWeather4';
 const WORLD = GWeather.Location.get_world();
 const SEARCH_RESULT_LIMIT = 30;
 
+// Matches the "-1" sentinel documented on the actual-city schema key.
+const CURRENT_LOCATION_INDEX = -1;
+
 // Strips accents/diacritics so e.g. "Sao" matches "São" - typing an accented
 // letter is often impractical on a plain keyboard layout.
 function foldAccents(s) {
@@ -44,6 +47,11 @@ function searchCities(query) {
 
 function getCities(settings) {
     return settings.get_value('city').deep_unpack().map(v => WORLD.deserialize(v));
+}
+
+function getCurrentLocationCity(settings) {
+    const [entry] = settings.get_value('current-location-city').deep_unpack().map(v => WORLD.deserialize(v));
+    return entry ?? null;
 }
 
 function setCities(settings, cities) {
@@ -83,8 +91,30 @@ export default class WeatherPreferences extends ExtensionPreferences {
             while ((row = list.get_row_at_index(0)))
                 list.remove(row);
 
-            const cities = getCities(settings);
             const actual = settings.get_int('actual-city');
+
+            const currentLocationRow = new Adw.ActionRow({
+                title: _('Current Location'),
+                activatable: settings.get_boolean('use-current-location'),
+            });
+            const cachedCity = getCurrentLocationCity(settings);
+            currentLocationRow.subtitle = cachedCity ? cachedCity.get_city_name() : _('Detecting…');
+            if (actual === CURRENT_LOCATION_INDEX)
+                currentLocationRow.add_prefix(new Gtk.Image({icon_name: 'object-select-symbolic'}));
+
+            const enableSwitch = new Gtk.Switch({
+                valign: Gtk.Align.CENTER, active: settings.get_boolean('use-current-location'),
+            });
+            enableSwitch.connect('notify::active', () => {
+                settings.set_boolean('use-current-location', enableSwitch.active);
+                if (enableSwitch.active)
+                    settings.set_int('actual-city', CURRENT_LOCATION_INDEX);
+            });
+            currentLocationRow.add_suffix(enableSwitch);
+            currentLocationRow.connect('activated', () => settings.set_int('actual-city', CURRENT_LOCATION_INDEX));
+            list.append(currentLocationRow);
+
+            const cities = getCities(settings);
             cities.forEach((city, index) => {
                 const actionRow = new Adw.ActionRow({title: city.get_city_name(), activatable: true});
                 if (index === actual)
@@ -104,6 +134,8 @@ export default class WeatherPreferences extends ExtensionPreferences {
         addButton.connect('clicked', () => this._showAddCityDialog(window, settings, refresh));
         settings.connect('changed::city', refresh);
         settings.connect('changed::actual-city', refresh);
+        settings.connect('changed::use-current-location', refresh);
+        settings.connect('changed::current-location-city', refresh);
         refresh();
     }
 

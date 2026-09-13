@@ -21,6 +21,17 @@
     <key name="actual-city" type="i">
       <default>0</default>
       <summary>Currently selected city</summary>
+      <description>Index into the "city" list, or -1 to select the current-location entry (see "use-current-location").</description>
+    </key>
+    <key name="use-current-location" type="b">
+      <default>false</default>
+      <summary>Use current location</summary>
+      <description>Detect the current location via GeoClue and offer it as a selectable, auto-refreshing entry alongside manually-added cities.</description>
+    </key>
+    <key name="current-location-city" type="av">
+      <default>[]</default>
+      <summary>Cached current-location city</summary>
+      <description>Serialized GWeather.Location for the most recently resolved current-location city (holds zero or one entries).</description>
     </key>
     <key name="use-symbolic-icons" type="b">
       <default>true</default>

@@ -11,6 +11,7 @@ import * as PanelMenu from 'resource:///org/gnome/shell/ui/panelMenu.js';
 import {gettext as _} from 'resource:///org/gnome/shell/extensions/extension.js';
 
 import {WeatherClient, buildForecast, buildHourlyForecast} from './weatherClient.js';
+import {CurrentLocationClient} from './currentLocationClient.js';
 import {iconType, dayName, localeTime, temperatureString, windString} from './helpers.js';
 
 const GWEATHER_SCHEMA = 'org.gnome.GWeather4';
@@ -21,10 +22,22 @@ const REFRESH_INTERVAL_SECONDS = 30 * 60;
 const TIME_FORMAT_AUTO = 0;
 const TIME_FORMAT_12H = 1;
 
+// Matches the "-1" sentinel documented on the actual-city schema key.
+const CURRENT_LOCATION_INDEX = -1;
+
 const WORLD = GWeather.Location.get_world();
 
 function unpackCities(settings) {
     return settings.get_value('city').deep_unpack().map(v => WORLD.deserialize(v));
+}
+
+function getCurrentLocationCity(settings) {
+    const [entry] = settings.get_value('current-location-city').deep_unpack().map(v => WORLD.deserialize(v));
+    return entry ?? null;
+}
+
+function setCurrentLocationCity(settings, city) {
+    settings.set_value('current-location-city', new GLib.Variant('av', [city.serialize()]));
 }
 
 function clamp(index, length) {
@@ -45,6 +58,7 @@ class WeatherIndicator extends PanelMenu.Button {
 
         this._client = null;
         this._timerId = 0;
+        this._locationTracker = null;
 
         this._buildUI();
 
@@ -52,6 +66,7 @@ class WeatherIndicator extends PanelMenu.Button {
         this._gweatherChangedId = this._gweatherSettings.connect('changed', () => this._refreshReadyDisplay());
         this._interfaceChangedId = this._interfaceSettings.connect('changed::clock-format', () => this._refreshReadyDisplay());
 
+        this._syncCurrentLocationTracking();
         this._reload();
     }
 
@@ -107,6 +122,16 @@ class WeatherIndicator extends PanelMenu.Button {
         case 'city':
         case 'actual-city':
             this._reload();
+            break;
+        case 'use-current-location':
+            this._syncCurrentLocationTracking();
+            this._reload();
+            break;
+        case 'current-location-city':
+            // Written by our own tracker callback (_onCurrentLocationResolved),
+            // which already calls _reload() itself when this entry is the
+            // active selection - ignore the generic 'changed' echo here to
+            // avoid a redundant second reload.
             break;
         case 'use-symbolic-icons':
             this._refreshReadyDisplay();
@@ -172,6 +197,37 @@ class WeatherIndicator extends PanelMenu.Button {
         return clamp(this._settings.get_int('actual-city'), cities.length);
     }
 
+    // ── Current-location tracking ──────────────────────────────────────────
+
+    // The GeoClue-backed tracker is only (re)created when the setting
+    // itself flips, not on every _reload() - restarting it is a fresh D-Bus
+    // round trip and it must survive switching selection back and forth
+    // between current-location and a manual city.
+    _syncCurrentLocationTracking() {
+        if (this._settings.get_boolean('use-current-location')) {
+            if (!this._locationTracker) {
+                this._locationTracker = new CurrentLocationClient(
+                    city => this._onCurrentLocationResolved(city),
+                    error => this._onCurrentLocationError(error));
+                this._locationTracker.start();
+            }
+        } else {
+            this._locationTracker?.destroy();
+            this._locationTracker = null;
+        }
+    }
+
+    _onCurrentLocationResolved(city) {
+        setCurrentLocationCity(this._settings, city);
+        if (this._settings.get_int('actual-city') === CURRENT_LOCATION_INDEX)
+            this._reload();
+    }
+
+    _onCurrentLocationError(error) {
+        console.error(`Wetter: current-location lookup failed: ${error.message}`);
+        this._settings.set_boolean('use-current-location', false);
+    }
+
     // ── Weather fetching ────────────────────────────────────────────────────
 
     _reload() {
@@ -183,14 +239,24 @@ class WeatherIndicator extends PanelMenu.Button {
         }
 
         const cities = this._cities();
-        this._renderLocations(cities);
+        const useCurrentLocation = this._settings.get_boolean('use-current-location');
+        this._renderLocations(cities, useCurrentLocation);
 
-        if (!cities.length) {
-            this._setState('no-location');
-            return;
+        let location;
+        if (useCurrentLocation && this._settings.get_int('actual-city') === CURRENT_LOCATION_INDEX) {
+            location = getCurrentLocationCity(this._settings);
+            if (!location) {
+                this._setState('detecting');
+                return;
+            }
+        } else {
+            if (!cities.length) {
+                this._setState('no-location');
+                return;
+            }
+            location = cities[this._actualCityIndex(cities)];
         }
 
-        const location = cities[this._actualCityIndex(cities)];
         this._setState('loading');
 
         this._client = new WeatherClient(location, () => this._renderReady());
@@ -215,6 +281,11 @@ class WeatherIndicator extends PanelMenu.Button {
             this._setPanelIcon('weather-clear');
             this._panelLabel.text = _('Weather');
             this._currentBin.set_child(new St.Label({text: _('No location configured')}));
+            break;
+        case 'detecting':
+            this._setPanelIcon('view-refresh');
+            this._panelLabel.text = _('Weather');
+            this._currentBin.set_child(new St.Label({text: _('Detecting your location…')}));
             break;
         case 'loading':
             this._setPanelIcon('view-refresh');
@@ -491,14 +562,23 @@ class WeatherIndicator extends PanelMenu.Button {
         this._attributionBin.show();
     }
 
-    _renderLocations(cities) {
+    _renderLocations(cities, useCurrentLocation) {
         this._locationsItem.menu.removeAll();
-        this._locationsItem.visible = cities.length > 1;
+        this._locationsItem.visible = cities.length + (useCurrentLocation ? 1 : 0) > 1;
 
-        const actual = this._actualCityIndex(cities);
+        const actualRaw = this._settings.get_int('actual-city');
+        if (useCurrentLocation) {
+            const item = new PopupMenu.PopupMenuItem(_('Current Location'));
+            if (actualRaw === CURRENT_LOCATION_INDEX)
+                item.setOrnament(PopupMenu.Ornament.DOT);
+            item.connect('activate', () => this._settings.set_int('actual-city', CURRENT_LOCATION_INDEX));
+            this._locationsItem.menu.addMenuItem(item);
+        }
+
+        const actual = clamp(actualRaw, cities.length);
         cities.forEach((city, index) => {
             const item = new PopupMenu.PopupMenuItem(city.get_city_name());
-            if (index === actual)
+            if (actualRaw !== CURRENT_LOCATION_INDEX && index === actual)
                 item.setOrnament(PopupMenu.Ornament.DOT);
             item.connect('activate', () => this._settings.set_int('actual-city', index));
             this._locationsItem.menu.addMenuItem(item);
@@ -512,6 +592,8 @@ class WeatherIndicator extends PanelMenu.Button {
             GLib.source_remove(this._timerId);
             this._timerId = 0;
         }
+        this._locationTracker?.destroy();
+        this._locationTracker = null;
         this._client?.destroy();
         this._client = null;
 

@@ -3,8 +3,9 @@
 ![Screenshot](Screenshot.png)
 
 A simple GNOME Shell extension for displaying weather conditions and
-forecasts, with support for multiple locations, a symmetrical layout, and a
-settings window built on libadwaita.
+forecasts, with support for multiple locations — including your current
+location, detected automatically and kept up to date — a symmetrical
+layout, and a settings window built on libadwaita.
 
 The weather report includes forecasts for ~10 days.
 
@@ -43,6 +44,13 @@ from-scratch location search).
 Open **Wetter Settings** from the panel dropdown (or `gnome-extensions prefs
 gnome-weather@mlkonrad.github.com`) to add/remove locations, switch units, and
 change how the panel indicator looks.
+
+### Current location
+
+Turn on **Current Location** in the Locations section of settings to add a
+selectable entry that tracks where you are, via [GeoClue](https://gitlab.freedesktop.org/geoclue/geoclue),
+alongside any cities you've added by hand. It refreshes itself automatically
+as your location changes — no manual re-adding a city after a trip.
 
 ## Debug
 

@@ -178,15 +178,26 @@ list rather than replacing it. Verified live in a devkit session: GeoClue
 resolved a real fix, `find_nearest_city()` snapped it to a city, and it
 round-tripped through GSettings with no `JS ERROR` in the log.
 
-- **Default on fresh install is current-location, not "no location".**
-  `use-current-location` defaults to `true` and `actual-city` defaults to
-  `-1` (see sentinel bullet below) in the gschema, so a brand-new install
-  with an empty `city` list goes straight to `detecting`/GeoClue instead of
-  the `no-location` placeholder. If GeoClue fails or is denied,
-  `_onCurrentLocationError` flips `use-current-location` back to `false`
-  and, since `city` is still empty, the extension falls back to
-  `no-location` exactly as it did before this default changed - no new
-  failure mode, just a better first-run default for the common case.
+- **First run with nothing to show defaults to current-location, not "no
+  location"** - but this is deliberately **not** a gschema default. An
+  earlier version of this tried flipping the `use-current-location`/
+  `actual-city` defaults to `true`/`-1` directly in the gschema; testing
+  that in a devkit session (see below) exposed the flaw: `use-current-location`
+  was a brand-new key with no explicit dconf override on this very machine's
+  already-installed extension, so the schema default silently turned on
+  background GeoClue tracking for an *existing* install too, not just new
+  ones - GSettings has no way to distinguish "freshly installed" from
+  "installed but never touched this particular key."
+  `WeatherExtension.enable()` in `extension.js` now does this as a one-time
+  runtime check instead: if `city` is empty **and**
+  `settings.get_user_value('use-current-location') === null` (i.e. this
+  install has never explicitly set it - true on real first run, false for
+  any install that has, even implicitly via this very code path), it calls
+  `set_boolean('use-current-location', true)` /`set_int('actual-city', -1)`.
+  That `get_user_value()` check is the guard, not a lifecycle flag (the
+  review guidelines ban those) - it's structurally one-shot because the
+  `set_boolean()` call itself gives the key a permanent explicit value, so
+  it reads non-null on every subsequent `enable()` forever after.
 - **`actual-city === -1` is the sentinel** for "use current location" -
   chosen over splicing a synthetic entry into the `city` array because the
   key already had no `<range>` restriction (so `-1` was schema-legal for

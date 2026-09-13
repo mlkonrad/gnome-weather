@@ -19,12 +19,12 @@
       <summary>Cities to be displayed</summary>
     </key>
     <key name="actual-city" type="i">
-      <default>-1</default>
+      <default>0</default>
       <summary>Currently selected city</summary>
       <description>Index into the "city" list, or -1 to select the current-location entry (see "use-current-location").</description>
     </key>
     <key name="use-current-location" type="b">
-      <default>true</default>
+      <default>false</default>
       <summary>Use current location</summary>
       <description>Detect the current location via GeoClue and offer it as a selectable, auto-refreshing entry alongside manually-added cities.</description>
     </key>

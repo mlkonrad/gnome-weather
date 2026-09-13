@@ -4,10 +4,6 @@
     <value nick="right" value="1" />
     <value nick="left" value="2" />
   </enum>
-  <enum id="org.gnome.shell.extensions.gnome-weather.wind-dir-indicators">
-    <value nick="arrows" value="0" />
-    <value nick="letters" value="1" />
-  </enum>
   <enum id="org.gnome.shell.extensions.gnome-weather.time-format">
     <value nick="auto" value="0" />
     <value nick="12h" value="1" />

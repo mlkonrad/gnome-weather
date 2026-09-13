@@ -11,6 +11,13 @@ function windArrows(_) {
     ];
 }
 
+/**
+ * Resolves an icon name to its symbolic or full-color variant.
+ *
+ * @param {string} iconName - a GWeather/freedesktop icon name, symbolic or not
+ * @param {boolean} symbolic - whether the symbolic variant should be returned
+ * @returns {string} the resolved icon name
+ */
 export function iconType(iconName, symbolic) {
     if (!iconName)
         return symbolic ? '-symbolic' : '';
@@ -21,6 +28,15 @@ export function iconType(iconName, symbolic) {
     return symbolic ? `${iconName}-symbolic` : iconName;
 }
 
+/**
+ * Formats a forecast date relative to today ("Today", "Tomorrow", a weekday,
+ * or a full date), capitalized.
+ *
+ * @param {GLib.DateTime} today - the current local date
+ * @param {GLib.DateTime} date - the forecast date to label
+ * @param {Function} _ - gettext translation function
+ * @returns {string} the relative day label
+ */
 export function dayName(today, date, _) {
     const oneDay = 86400;
     const startOfToday = GLib.DateTime.new_local(
@@ -39,10 +55,25 @@ export function dayName(today, date, _) {
     return name.charAt(0).toUpperCase() + name.slice(1);
 }
 
+/**
+ * Formats a time in either 12-hour or 24-hour style.
+ *
+ * @param {GLib.DateTime} date - the time to format
+ * @param {string} clockFormat - '12h' or '24h'
+ * @returns {string} the formatted time
+ */
 export function localeTime(date, clockFormat) {
     return clockFormat === '12h' ? date.format('%l:%M %p') : date.format('%R');
 }
 
+/**
+ * Formats a temperature value with its unit suffix.
+ *
+ * @param {GWeather.TemperatureUnit} unit - the unit `temp` is expressed in
+ * @param {number} temp - the temperature value
+ * @param {Function} _ - gettext translation function
+ * @returns {string} the formatted temperature
+ */
 export function temperatureString(unit, temp, _) {
     const value = Math.round(temp).toLocaleString();
     switch (unit) {
@@ -57,6 +88,17 @@ export function temperatureString(unit, temp, _) {
     }
 }
 
+/**
+ * Formats a wind speed and direction, or '-' if no valid reading exists.
+ *
+ * @param {GWeather.SpeedUnit} unit - the unit `speed` is expressed in
+ * @param {boolean} valid - whether GWeather reported a usable wind reading
+ * @param {number} speed - the wind speed value
+ * @param {number} directionIndex - GWeather's wind-direction index (-1 for none)
+ * @param {boolean} useArrows - show direction as arrows instead of letters
+ * @param {Function} _ - gettext translation function
+ * @returns {string} the formatted wind string
+ */
 export function windString(unit, valid, speed, directionIndex, useArrows, _) {
     if (!valid)
         return '-';

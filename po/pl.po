@@ -55,7 +55,7 @@ msgstr "Nieznane"
 
 #: ../helpers.js:69
 msgid "$d$s knots"
-msgstr "węzły"
+msgstr "$d$s węzły"
 
 #: ../helpers.js:71
 msgid "$d$s mph"

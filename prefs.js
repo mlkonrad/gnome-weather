@@ -175,12 +175,14 @@ export default class WeatherPreferences extends ExtensionPreferences {
             dialog.set_response_enabled('add', false);
 
             for (const location of searchCities(search.get_text())) {
-                const row = new Gtk.ListBoxRow({child: new Gtk.Label({
-                    label: `${location.get_city_name()}, ${location.get_country_name() ?? ''}`,
-                    xalign: 0, margin_top: 6, margin_bottom: 6, margin_start: 6, margin_end: 6,
-                })});
-                row.location = location;
-                resultsList.append(row);
+                const resultRow = new Gtk.ListBoxRow({
+                    child: new Gtk.Label({
+                        label: `${location.get_city_name()}, ${location.get_country_name() ?? ''}`,
+                        xalign: 0, margin_top: 6, margin_bottom: 6, margin_start: 6, margin_end: 6,
+                    }),
+                });
+                resultRow.location = location;
+                resultsList.append(resultRow);
             }
         });
         resultsList.connect('row-selected', (_l, row) => {

@@ -214,6 +214,15 @@ class WeatherIndicator extends PanelMenu.Button {
         } else {
             this._locationTracker?.destroy();
             this._locationTracker = null;
+
+            // 'use-current-location' just turned off (user toggle, or
+            // _onCurrentLocationError below) while it was the active
+            // selection - fall back to the first city rather than leaving
+            // 'actual-city' stuck on the sentinel, which would make both
+            // this dropdown and the prefs window show no (or a stale)
+            // selection indicator until something else changes it.
+            if (this._settings.get_int('actual-city') === CURRENT_LOCATION_INDEX)
+                this._settings.set_int('actual-city', 0);
         }
     }
 

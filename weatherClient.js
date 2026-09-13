@@ -44,6 +44,10 @@ export class WeatherClient {
  * strip. Behaviorally identical to the original extension's day-bucketing:
  * pick the representative entry from whichever of afternoon/morning/evening/
  * night has data for that day, preferring afternoon.
+ *
+ * @param {GWeather.Info} info - the weather info to bucket into days
+ * @param {GWeather.TemperatureUnit} temperatureUnit - unit for min/max temps
+ * @returns {object[]} per-day buckets with icon/humidity/minTemp/maxTemp/date
  */
 export function buildForecast(info, temperatureUnit) {
     const list = info.get_forecast_list();
@@ -99,6 +103,9 @@ export function buildForecast(info, temperatureUnit) {
  * Returns a GWeather.Info's flat forecast list filtered down to entries
  * strictly after now, in chronological order, for the hour-by-hour strip.
  * Skips the same invalid placeholder entry buildForecast() does.
+ *
+ * @param {GWeather.Info} info - the weather info to read the forecast from
+ * @returns {object[]} `{date, entry}` pairs in chronological order
  */
 export function buildHourlyForecast(info) {
     const list = info.get_forecast_list();

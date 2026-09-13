@@ -178,6 +178,15 @@ list rather than replacing it. Verified live in a devkit session: GeoClue
 resolved a real fix, `find_nearest_city()` snapped it to a city, and it
 round-tripped through GSettings with no `JS ERROR` in the log.
 
+- **Default on fresh install is current-location, not "no location".**
+  `use-current-location` defaults to `true` and `actual-city` defaults to
+  `-1` (see sentinel bullet below) in the gschema, so a brand-new install
+  with an empty `city` list goes straight to `detecting`/GeoClue instead of
+  the `no-location` placeholder. If GeoClue fails or is denied,
+  `_onCurrentLocationError` flips `use-current-location` back to `false`
+  and, since `city` is still empty, the extension falls back to
+  `no-location` exactly as it did before this default changed - no new
+  failure mode, just a better first-run default for the common case.
 - **`actual-city === -1` is the sentinel** for "use current location" -
   chosen over splicing a synthetic entry into the `city` array because the
   key already had no `<range>` restriction (so `-1` was schema-legal for

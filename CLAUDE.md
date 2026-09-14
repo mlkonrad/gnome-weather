@@ -3,9 +3,10 @@
 Fork of [Neroth/gnome-shell-extension-weather](https://github.com/Neroth/gnome-shell-extension-weather),
 ported 2026-09-12 from its original ~2013-era `imports.lang`/`Mainloop`/
 autotools shape to current GNOME Shell (ESM, `GObject.registerClass`) and
-`libgweather-4`, under a new fork identity (`gnome-weather@mlkonrad.github.com`).
+`libgweather-4`, under a new fork identity (`wetter@mlkonrad.github.com`,
+originally `gnome-weather@mlkonrad.github.com`).
 
-## Display name is "Wetter" - the uuid/schema are not
+## Display name and uuid are "Wetter" - the settings schema is not
 
 2026-09-12: the user-visible name was rebranded to "Wetter - GNOME Weather
 Extension" (`metadata.json`'s `name`, the README title, the "Wetter"/"About"
@@ -14,14 +15,21 @@ tab titles in `prefs.js`, and the "Wetter Settings" menu item in
 plain **"Wetter"**: EGO requires a fork to have a unique name, and "GNOME
 Weather" invites confusion with GNOME's own Weather app. An EGO search that
 day found no "Wetter" but eight extensions named "Weather", including the
-upstream `weather-extension@xeked.com`. This was a **deliberate display-only rename** - the `uuid`
-(`gnome-weather@mlkonrad.github.com`), the GSettings schema id/path
-(`org.gnome.shell.extensions.gnome-weather`), and the gettext domain were all
-left unchanged on purpose, because changing any of those would make GNOME
-Shell treat it as a brand-new extension and orphan the user's already-saved
-settings (cities, units, panel prefs) at the old dconf path. If a "real"
-identity change (new uuid/schema) is ever wanted, it needs an explicit
-migration step for existing users' settings, not just a search-and-replace.
+upstream `weather-extension@xeked.com`.
+
+2026-09-14, still before the first EGO upload, the `uuid` and gettext domain
+were renamed too, from `gnome-weather@mlkonrad.github.com` to
+`wetter@mlkonrad.github.com` (the `.pot` and every
+`locale/*/LC_MESSAGES/*.mo` are named after the domain). EGO ties a listing to
+its uuid, so after the first upload the uuid is effectively frozen: a new one
+is a separate extension, and existing users stop getting updates.
+
+The GSettings schema id/path (`org.gnome.shell.extensions.gnome-weather`,
+`/org/gnome/shell/extensions/gnome-weather/`) was **deliberately kept**. Saved
+settings (cities, units, panel prefs) live at the schema path, not under the
+uuid, so the uuid rename kept them. Renaming the schema would orphan them at
+the old dconf path - that needs an explicit migration step for existing users'
+settings, not just a search-and-replace.
 
 Generic uses of the word "weather" describing content/state - the panel's
 placeholder label text (`_panelLabel.text = _('Weather')` in `indicator.js`'s
@@ -39,7 +47,7 @@ effect on the uuid/schema decision above.
 
 ## Local install is a symlink
 
-`~/.local/share/gnome-shell/extensions/gnome-weather@mlkonrad.github.com` is
+`~/.local/share/gnome-shell/extensions/wetter@mlkonrad.github.com` is
 a **symlink** to this repo (not a copy) — editing files here is editing what
 GNOME Shell loads, no separate deploy step.
 
@@ -47,8 +55,8 @@ To reload after a code change (schema changes need the compile step too):
 
 ```bash
 glib-compile-schemas schemas/ --strict   # only needed after editing schemas/*.xml
-gnome-extensions disable gnome-weather@mlkonrad.github.com
-gnome-extensions enable gnome-weather@mlkonrad.github.com
+gnome-extensions disable wetter@mlkonrad.github.com
+gnome-extensions enable wetter@mlkonrad.github.com
 ```
 
 `schemas/gschemas.compiled` is generated and gitignored — always regenerate
@@ -91,7 +99,7 @@ caveat above; the nested session just makes paying that cost cheap (a few
 seconds, not a full logout) instead of expensive. The script also disables
 xdg-desktop-portal/Secret Service probing, which otherwise adds ~30s to
 every launch. Verified 2026-09-12: the nested shell brings
-`gnome-weather@mlkonrad.github.com` straight to `ACTIVE` with no manual
+`wetter@mlkonrad.github.com` straight to `ACTIVE` with no manual
 enabling step needed.
 
 Use this for iterating on JS logic and layout. Still fall back to a full
@@ -117,7 +125,7 @@ its private bus rather than eyeballing the window: the script's
 `dbus-run-session` wrapper doesn't print its bus address, so capture
 `$DBUS_SESSION_BUS_ADDRESS` from inside it (e.g. tee it to a file before
 `exec`ing `gnome-shell`) and then `DBUS_SESSION_BUS_ADDRESS=... gnome-extensions
-info gnome-weather@mlkonrad.github.com` reports that nested instance's real
+info wetter@mlkonrad.github.com` reports that nested instance's real
 `State: ACTIVE`/`INACTIVE`, independent of the real session's.
 
 Headless screenshots do work, with one trick (verified 2026-09-13, Shell
@@ -271,16 +279,16 @@ strings). After changing any translatable string:
 cd po
 xgettext --from-code=UTF-8 --language=JavaScript --keyword=_ \
   --package-name=gnome-weather --copyright-holder="gnome-weather contributors" \
-  --output=gnome-weather@mlkonrad.github.com.pot --files-from=POTFILES.in \
+  --output=wetter@mlkonrad.github.com.pot --files-from=POTFILES.in \
   --add-comments --no-wrap
 for f in *.po; do
-  msgmerge --quiet --previous --backup=none --update "$f" gnome-weather@mlkonrad.github.com.pot
+  msgmerge --quiet --previous --backup=none --update "$f" wetter@mlkonrad.github.com.pot
 done
 cd ..
 for f in po/*.po; do
   lang=$(basename "$f" .po)
   mkdir -p "locale/$lang/LC_MESSAGES"
-  msgfmt "$f" -o "locale/$lang/LC_MESSAGES/gnome-weather@mlkonrad.github.com.mo"
+  msgfmt "$f" -o "locale/$lang/LC_MESSAGES/wetter@mlkonrad.github.com.mo"
 done
 ```
 
@@ -370,7 +378,7 @@ current. Checked clean as of 2026-09-12:
   errors without it. Don't reintroduce a bespoke log file like the original
   2013 extension had (`~/.cache/weather-extension.log`, written on ~80 call
   sites) — that's exactly the kind of noisy logging this guideline flags.
-- **metadata.json**: uuid `gnome-weather@mlkonrad.github.com` (own fork
+- **metadata.json**: uuid `wetter@mlkonrad.github.com` (own fork
   identity, not the upstream `weather-extension@xeked.com`); `shell-version`
   currently `["49", "50"]` — trim/extend as new Shell versions ship; no
   hand-set `version` key (EGO assigns that on upload).
@@ -386,7 +394,7 @@ current. Checked clean as of 2026-09-12:
   `get_attribution()` is provider-aware and automatically returns nothing
   for providers (like METAR) that don't require it.
 - **Upload zip: always build it with `./scripts/pack.sh`** (→
-  `dist/gnome-weather@mlkonrad.github.com.shell-extension.zip`), never by
+  `dist/wetter@mlkonrad.github.com.shell-extension.zip`), never by
   zipping the repo. It ships only runtime files plus `AUTHORS`/`COPYING`
   (as a fork, the original authors' attribution must be distributed);
   `.po`/`.pot`, `package.json`, `eslint.config.js`, `tests/`, `scripts/` and
@@ -437,6 +445,6 @@ current. Checked clean as of 2026-09-12:
 `./scripts/pack.sh && shexli dist/*.zip`. For a runtime smoke test without
 touching the real session, run `dbus-run-session -- gnome-shell --headless
 --wayland --virtual-monitor 1280x800`; `gnome-extensions info
-gnome-weather@mlkonrad.github.com` on that private bus should report
+wetter@mlkonrad.github.com` on that private bus should report
 `State: ACTIVE`, and its log should have no `JS ERROR`. That doesn't
 exercise `prefs.js` - open the real preferences window for that.

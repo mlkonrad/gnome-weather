@@ -1,4 +1,4 @@
-<schemalist gettext-domain="gnome-weather@mlkonrad.github.com">
+<schemalist gettext-domain="wetter@mlkonrad.github.com">
   <enum id="org.gnome.shell.extensions.gnome-weather.position">
     <value nick="center" value="0" />
     <value nick="right" value="1" />

@@ -30,23 +30,23 @@ from-scratch location search).
 
 2. Copy to your GNOME extensions directory:
    ```bash
-   cp -r wetter ~/.local/share/gnome-shell/extensions/gnome-weather@mlkonrad.github.com
+   cp -r wetter ~/.local/share/gnome-shell/extensions/wetter@mlkonrad.github.com
    ```
 
 3. Compile the settings schema:
    ```bash
-   glib-compile-schemas ~/.local/share/gnome-shell/extensions/gnome-weather@mlkonrad.github.com/schemas/
+   glib-compile-schemas ~/.local/share/gnome-shell/extensions/wetter@mlkonrad.github.com/schemas/
    ```
 
 4. Restart GNOME Shell and enable the extension:
    ```bash
-   gnome-extensions enable gnome-weather@mlkonrad.github.com
+   gnome-extensions enable wetter@mlkonrad.github.com
    ```
 
 ## Configuration
 
 Open **Wetter Settings** from the panel dropdown (or `gnome-extensions prefs
-gnome-weather@mlkonrad.github.com`) to add/remove locations, switch units, and
+wetter@mlkonrad.github.com`) to add/remove locations, switch units, and
 change how the panel indicator looks.
 
 ### Current location

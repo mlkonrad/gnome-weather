@@ -1,13 +1,17 @@
-# Wetter &nbsp;<img src="gnome-weather-logo.svg" height="40" valign="middle">
+# Wetter &nbsp;<img src="gnome-weather-logo.svg" height="64" valign="middle">
 
 ![Screenshot](Screenshot.png)
 
-A simple GNOME Shell extension for displaying weather conditions and
-forecasts, with support for multiple locations — including your current
-location, detected automatically and kept up to date — a symmetrical
-layout, and a settings window built on libadwaita.
+Current weather and forecasts in the GNOME Shell top bar, for as many
+locations as you like.
 
-The weather report includes forecasts for ~10 days.
+- Current conditions: temperature, feels like, humidity, pressure, visibility,
+  wind, sunrise and sunset
+- Hour-by-hour forecast for up to 48 hours and a daily forecast for up to 10 days
+- Search and add cities by name, and switch between them from the menu
+- Optional current location, detected with GeoClue and updated as you move
+- Choose what the panel shows and where, units, 12/24-hour time, and symbolic
+  or full-color icons
 
 **Supported GNOME Shell versions:** 49, 50
 

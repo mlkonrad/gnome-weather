@@ -5,6 +5,7 @@ import Clutter from 'gi://Clutter';
 import Gio from 'gi://Gio';
 import GWeather from 'gi://GWeather';
 
+import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 import * as PopupMenu from 'resource:///org/gnome/shell/ui/popupMenu.js';
 import * as PanelMenu from 'resource:///org/gnome/shell/ui/panelMenu.js';
 
@@ -12,7 +13,7 @@ import {gettext as _} from 'resource:///org/gnome/shell/extensions/extension.js'
 
 import {WeatherClient, buildForecast, buildHourlyForecast} from './weatherClient.js';
 import {CurrentLocationClient} from './currentLocationClient.js';
-import {iconType, dayName, localeTime, temperatureString, windString} from './helpers.js';
+import {iconType, dayName, localeTime, realSpeedUnit, realTemperatureUnit, temperatureString, windString} from './helpers.js';
 
 const GWEATHER_SCHEMA = 'org.gnome.GWeather4';
 const INTERFACE_SCHEMA = 'org.gnome.desktop.interface';
@@ -25,14 +26,14 @@ const TIME_FORMAT_12H = 1;
 // Matches the "-1" sentinel documented on the actual-city schema key.
 const CURRENT_LOCATION_INDEX = -1;
 
-const WORLD = GWeather.Location.get_world();
-
 function unpackCities(settings) {
-    return settings.get_value('city').deep_unpack().map(v => WORLD.deserialize(v));
+    const world = GWeather.Location.get_world();
+    return settings.get_value('city').deep_unpack().map(v => world.deserialize(v));
 }
 
 function getCurrentLocationCity(settings) {
-    const [entry] = settings.get_value('current-location-city').deep_unpack().map(v => WORLD.deserialize(v));
+    const world = GWeather.Location.get_world();
+    const [entry] = settings.get_value('current-location-city').deep_unpack().map(v => world.deserialize(v));
     return entry ?? null;
 }
 
@@ -189,6 +190,14 @@ class WeatherIndicator extends PanelMenu.Button {
         return pref === TIME_FORMAT_12H ? '12h' : '24h';
     }
 
+    _temperatureUnit() {
+        return realTemperatureUnit(this._gweatherSettings.get_enum('temperature-unit'));
+    }
+
+    _speedUnit() {
+        return realSpeedUnit(this._gweatherSettings.get_enum('speed-unit'));
+    }
+
     _cities() {
         return unpackCities(this._settings);
     }
@@ -232,8 +241,11 @@ class WeatherIndicator extends PanelMenu.Button {
             this._reload();
     }
 
+    // Turning the setting off is what keeps this a one-time notification.
     _onCurrentLocationError(error) {
         console.error(`Wetter: current-location lookup failed: ${error.message}`);
+        Main.notify(_('Current location unavailable'),
+            _('Turn on Location Services in Settings, then turn Current Location back on in Wetter Settings.'));
         this._settings.set_boolean('use-current-location', false);
     }
 
@@ -333,8 +345,8 @@ class WeatherIndicator extends PanelMenu.Button {
 
         const info = this._client.info;
         const symbolic = this._settings.get_boolean('use-symbolic-icons');
-        const temperatureUnit = this._gweatherSettings.get_enum('temperature-unit');
-        const speedUnit = this._gweatherSettings.get_enum('speed-unit');
+        const temperatureUnit = this._temperatureUnit();
+        const speedUnit = this._speedUnit();
         const clockFormat = this._resolveClockFormat();
         const conditions = info.get_conditions() === '-' ? info.get_sky() : info.get_conditions();
 
@@ -391,13 +403,13 @@ class WeatherIndicator extends PanelMenu.Button {
         infoBox.add_child(new St.Icon({icon_size: 15, icon_name: iconType('view-refresh', symbolic), style_class: 'weather-build-icon'}));
         infoBox.add_child(new St.Label({text: updated}));
 
-        const summaryBox = new St.BoxLayout({vertical: true, style_class: 'weather-current-summarybox'});
+        const summaryBox = new St.BoxLayout({orientation: Clutter.Orientation.VERTICAL, style_class: 'weather-current-summarybox'});
         summaryBox.add_child(location);
         summaryBox.add_child(summary);
         summaryBox.add_child(infoBox);
 
-        const captions = new St.BoxLayout({vertical: true, style_class: 'weather-current-databox-captions'});
-        const values = new St.BoxLayout({vertical: true, style_class: 'weather-current-databox-values'});
+        const captions = new St.BoxLayout({orientation: Clutter.Orientation.VERTICAL, style_class: 'weather-current-databox-captions'});
+        const values = new St.BoxLayout({orientation: Clutter.Orientation.VERTICAL, style_class: 'weather-current-databox-values'});
         const dataBox = new St.BoxLayout({style_class: 'weather-current-databox'});
         dataBox.add_child(captions);
         dataBox.add_child(values);
@@ -435,11 +447,10 @@ class WeatherIndicator extends PanelMenu.Button {
 
         const info = this._client.info;
         const symbolic = this._settings.get_boolean('use-symbolic-icons');
-        const temperatureUnit = this._gweatherSettings.get_enum('temperature-unit');
+        const temperatureUnit = this._temperatureUnit();
         const clockFormat = this._resolveClockFormat();
 
-        // "Now" counts as the first of the total, so only count-1 future hours follow it.
-        const hours = buildHourlyForecast(info).slice(0, this._settings.get_int('hourly-forecast-count') - 1);
+        const hours = buildHourlyForecast(info);
         if (!hours.length) {
             this._hourlyBin.hide();
             return;
@@ -452,7 +463,8 @@ class WeatherIndicator extends PanelMenu.Button {
                 temp: info.get_value_temp(temperatureUnit),
                 humidity: info.get_humidity(),
             },
-            ...hours.map(({date, entry}) => ({
+            // "Now" counts as the first of the total, so only count-1 future hours follow it.
+            ...hours.slice(0, this._settings.get_int('hourly-forecast-count') - 1).map(({date, entry}) => ({
                 label: localeTime(date, clockFormat),
                 icon: entry.get_icon_name(),
                 temp: entry.get_value_temp(temperatureUnit),
@@ -463,7 +475,7 @@ class WeatherIndicator extends PanelMenu.Button {
         const row = new St.BoxLayout();
         for (const item of entries) {
             const [itemTempValid, itemTempValue] = item.temp;
-            const column = new St.BoxLayout({vertical: true, style_class: 'weather-hourly-box'});
+            const column = new St.BoxLayout({orientation: Clutter.Orientation.VERTICAL, style_class: 'weather-hourly-box'});
             column.add_child(new St.Label({
                 text: itemTempValid ? temperatureString(temperatureUnit, itemTempValue, _) : '-',
                 style_class: 'weather-hourly-temp',
@@ -501,7 +513,7 @@ class WeatherIndicator extends PanelMenu.Button {
 
         const info = this._client.info;
         const symbolic = this._settings.get_boolean('use-symbolic-icons');
-        const temperatureUnit = this._gweatherSettings.get_enum('temperature-unit');
+        const temperatureUnit = this._temperatureUnit();
         const days = buildForecast(info, temperatureUnit).slice(0, this._settings.get_int('forecast-days'));
         const today = GLib.DateTime.new_now_local();
 
@@ -517,13 +529,13 @@ class WeatherIndicator extends PanelMenu.Button {
                 icon_name: iconType(day.icon, symbolic),
                 style_class: 'weather-forecast-icon',
             });
-            const minmax = new St.BoxLayout({vertical: true, style_class: 'weather-forecast-minmax'});
+            const minmax = new St.BoxLayout({orientation: Clutter.Orientation.VERTICAL, style_class: 'weather-forecast-minmax'});
             minmax.add_child(new St.Label({
-                text: `↑ ${temperatureString(temperatureUnit, day.maxTemp, _)}`,
+                text: `↑ ${day.maxTemp === null ? '-' : temperatureString(temperatureUnit, day.maxTemp, _)}`,
                 style_class: 'weather-forecast-temp-max',
             }));
             minmax.add_child(new St.Label({
-                text: `↓ ${temperatureString(temperatureUnit, day.minTemp, _)}`,
+                text: `↓ ${day.minTemp === null ? '-' : temperatureString(temperatureUnit, day.minTemp, _)}`,
                 style_class: 'weather-forecast-temp-min',
             }));
 
@@ -534,10 +546,10 @@ class WeatherIndicator extends PanelMenu.Button {
             const iconMinMaxBin = new St.Bin({style_class: 'weather-forecast-minmax-box'});
             iconMinMaxBin.set_child(iconMinMax);
 
-            const dayBox = new St.BoxLayout({vertical: true, style_class: 'weather-forecast-daybox'});
+            const dayBox = new St.BoxLayout({orientation: Clutter.Orientation.VERTICAL, style_class: 'weather-forecast-daybox'});
             dayBox.add_child(new St.Label({text: dayName(today, day.date, _), style_class: 'weather-forecast-day'}));
 
-            const column = new St.BoxLayout({vertical: true, style_class: 'weather-forecast-box'});
+            const column = new St.BoxLayout({orientation: Clutter.Orientation.VERTICAL, style_class: 'weather-forecast-box'});
             column.add_child(iconMinMaxBin);
             column.add_child(dayBox);
             column.add_child(new St.Label({text: day.humidity, style_class: 'weather-forecast-humidity'}));

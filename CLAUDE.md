@@ -10,7 +10,11 @@ autotools shape to current GNOME Shell (ESM, `GObject.registerClass`) and
 2026-09-12: the user-visible name was rebranded to "Wetter - GNOME Weather
 Extension" (`metadata.json`'s `name`, the README title, the "Wetter"/"About"
 tab titles in `prefs.js`, and the "Wetter Settings" menu item in
-`indicator.js`). This was a **deliberate display-only rename** - the `uuid`
+`indicator.js`). 2026-09-13, before the EGO submission, it was shortened to
+plain **"Wetter"**: EGO requires a fork to have a unique name, and "GNOME
+Weather" invites confusion with GNOME's own Weather app. An EGO search that
+day found no "Wetter" but eight extensions named "Weather", including the
+upstream `weather-extension@xeked.com`. This was a **deliberate display-only rename** - the `uuid`
 (`gnome-weather@mlkonrad.github.com`), the GSettings schema id/path
 (`org.gnome.shell.extensions.gnome-weather`), and the gettext domain were all
 left unchanged on purpose, because changing any of those would make GNOME
@@ -114,12 +118,22 @@ its private bus rather than eyeballing the window: the script's
 `$DBUS_SESSION_BUS_ADDRESS` from inside it (e.g. tee it to a file before
 `exec`ing `gnome-shell`) and then `DBUS_SESSION_BUS_ADDRESS=... gnome-extensions
 info gnome-weather@mlkonrad.github.com` reports that nested instance's real
-`State: ACTIVE`/`INACTIVE`, independent of the real session's. The
-in-Shell `org.gnome.Shell.Screenshot.Screenshot` D-Bus method is not
-usable this way, though - it came back `AccessDenied` against the nested
-bus (no portal/permission-store wired up, matching the script's own
-portal-skipping setup), so a real screenshot still needs eyes on the
-actual nested window, not a headless D-Bus call.
+`State: ACTIVE`/`INACTIVE`, independent of the real session's.
+
+Headless screenshots do work, with one trick (verified 2026-09-13, Shell
+50.4). A plain `org.gnome.Shell.Screenshot.Screenshot` call comes back
+`AccessDenied`, because `screenshot.js` only serves callers that own an
+allowlisted bus name (`org.gnome.SettingsDaemon.MediaKeys` or
+`org.freedesktop.impl.portal.desktop.gnome`). On the nested session's
+*private* bus nothing owns `MediaKeys`, so a small gjs script can
+`Gio.bus_own_name()` it, wait ~1.5s for the Shell's name watch to catch up,
+and then call `Screenshot(false, false, '/abs/path.png')` on that same
+connection. Combined with `gnome-shell --headless --wayland
+--virtual-monitor 1280x800`, setting the `org.gnome.Shell` `OverviewActive`
+D-Bus property to `false` to leave the startup overview, and `gnome-extensions
+prefs <uuid>` (the prefs window opens on the nested display), this gives
+real screenshots of the panel and the preferences window without a visible
+window. Only do this on the nested bus, never the real session's.
 
 ## libgweather-4 migration notes
 
@@ -168,6 +182,16 @@ genuinely non-obvious and easy to get wrong silently:
   `GSettings` enum key backs a picker widget, check the real enum values
   first (`python3 -c "import gi; ..."` or similar) instead of assuming a
   0-based contiguous range.
+- The `org.gnome.GWeather4` unit keys all **default to `DEFAULT`** (enum 1),
+  a locale-dependent pseudo-unit. `get_value_temp()`/`get_value_wind()`
+  accept it and resolve it internally, but a `switch` over concrete units
+  doesn't - so until 2026-09-13 `temperatureString()`/`windString()` showed
+  "Unknown" for every user who never changed their units. This machine has
+  explicit `centigrade`/`kph` set, which hid it. `indicator.js` now resolves
+  units via `realTemperatureUnit()`/`realSpeedUnit()` (`helpers.js`) before
+  both fetching and formatting. To test the out-of-the-box path, run gjs with
+  `GSETTINGS_BACKEND=memory` (every key at its default) under a few `LC_ALL`
+  values - en_US resolves to °F/mph, de_DE and en_GB to °C/km/h.
 
 ## Current location (GeoClue), alongside manually-added cities
 
@@ -288,7 +312,10 @@ Both are live URLs — fetch fresh rather than trusting this summary to stay
 current. Checked clean as of 2026-09-12:
 
 - **Lifecycle discipline**: nothing gets created, connected, or scheduled at
-  module scope — only in `enable()`/`_init()`. Everything created there gets
+  module scope — only in `enable()`/`_init()`. That includes
+  `GWeather.Location.get_world()`: it returns a GObject, so call it inside
+  the functions that need it rather than caching it in a module-level
+  `const` (it's a cheap cached singleton inside libgweather anyway). Everything created there gets
   torn down in `disable()`/`destroy()` (the timer `GLib.source_remove()`d,
   every settings `connect()` id explicitly disconnected, the `WeatherClient`
   destroyed, instance vars set back to `null`). `WeatherExtension.enable/
@@ -358,11 +385,22 @@ current. Checked clean as of 2026-09-12:
   (`.attribution` in `stylesheet.css`) rather than deleted, since
   `get_attribution()` is provider-aware and automatically returns nothing
   for providers (like METAR) that don't require it.
-- **Unnecessary files for an EGO upload** (not yet pruned/verified for an
-  actual submission — revisit if this is ever actually submitted): the
-  guide's Recommendations discourage shipping source `.po`/`.pot` files,
-  dev-only `package.json`/`eslint.config.js`, and `CLAUDE.md` itself in the
-  upload zip — keep only the compiled `locale/*/LC_MESSAGES/*.mo`.
+- **Upload zip: always build it with `./scripts/pack.sh`** (→
+  `dist/gnome-weather@mlkonrad.github.com.shell-extension.zip`), never by
+  zipping the repo. It ships only runtime files plus `AUTHORS`/`COPYING`
+  (as a fork, the original authors' attribution must be distributed);
+  `.po`/`.pot`, `package.json`, `eslint.config.js`, `tests/`, `scripts/` and
+  `CLAUDE.md` stay out. A new runtime `.js`/asset file must be added there as
+  an `--extra-source` or it silently won't ship. Verified 2026-09-13: `shexli`
+  on the raw repo reports `node_modules`/`.git`/`.po`/`gschemas.compiled`
+  findings, but on the packed zip it's clean - run `shexli dist/*.zip` (not
+  `shexli .`, which also crashes on the relative path) before every upload.
+  shexli 0.2.1 with `tree-sitter` 0.26.0 segfaults (exit 139) at random,
+  sometimes after already printing `clean`. Verified 2026-09-13 in two
+  throwaway venvs: `tree-sitter==0.25.2` ran clean 5/5, 0.26.0 crashed 5/5.
+  A 139 is a tool crash, not a finding.
+  Shell 50's `gnome-extensions pack` segfaults if `--out-dir` doesn't exist
+  yet, hence the script's `mkdir -p`.
 - Code must be genuinely functional, not stubs — true throughout; this was
   a from-scratch API port, not new placeholder code.
 
@@ -386,3 +424,19 @@ current. Checked clean as of 2026-09-12:
   before writing code against assumed semantics - this file exists because
   three separate assumptions turned out wrong on the first pass (timezone
   return type, application-id format, unit enum numbering).
+- `St.BoxLayout`: use `orientation: Clutter.Orientation.VERTICAL`, not
+  `vertical: true` (deprecated since Shell 48, may be removed). A nested
+  Shell run with `G_ENABLE_DIAGNOSTIC=1` logs deprecated property use, but
+  the other enabled extensions on this machine trigger the same warnings,
+  so grep this repo before blaming it.
+
+## Checks before submitting
+
+`npm run lint` (ESLint, GNOME config), `npm test` (plain-gjs tests in
+`tests/` for `helpers.js` and forecast bucketing - no Shell needed), then
+`./scripts/pack.sh && shexli dist/*.zip`. For a runtime smoke test without
+touching the real session, run `dbus-run-session -- gnome-shell --headless
+--wayland --virtual-monitor 1280x800`; `gnome-extensions info
+gnome-weather@mlkonrad.github.com` on that private bus should report
+`State: ACTIVE`, and its log should have no `JS ERROR`. That doesn't
+exercise `prefs.js` - open the real preferences window for that.

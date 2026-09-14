@@ -3,7 +3,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "test": "LC_ALL=C.UTF-8 gjs -m tests/helpers.test.js",
+    "pack": "./scripts/pack.sh"
   },
   "devDependencies": {
     "eslint": "^9.28.0",

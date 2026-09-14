@@ -3,8 +3,6 @@ import GWeather from 'gi://GWeather';
 
 import {APPLICATION_ID} from './weatherClient.js';
 
-const WORLD = GWeather.Location.get_world();
-
 /**
  * Tracks the user's live location via GeoClue and resolves it to the
  * nearest GWeather.Location, for use as a selectable, auto-refreshing
@@ -30,17 +28,14 @@ export class CurrentLocationClient {
         try {
             ({default: Geoclue} = await import('gi://Geoclue'));
         } catch (e) {
-            this._onError(e);
+            // destroy() may have run while the import was pending.
+            if (!this._cancellable.is_cancelled())
+                this._onError(e);
             return;
         }
 
-        // CITY accuracy matches the granularity find_nearest_city() resolves
-        // to anyway, and is less sensitive than STREET/EXACT. Note: since
-        // this client is created by code running inside gnome-shell itself
-        // (not a separate confined app), GeoClue's consent/attribution will
-        // likely show "GNOME Shell" as the requesting peer rather than this
-        // extension by name, and may not prompt at all if location access is
-        // already granted system-wide (e.g. automatic timezone).
+        // CITY accuracy is all find_nearest_city() needs, and is less
+        // privacy-sensitive than STREET/EXACT.
         Geoclue.Simple.new(APPLICATION_ID, Geoclue.AccuracyLevel.CITY, this._cancellable,
             (_source, result) => {
                 let simple;
@@ -62,7 +57,7 @@ export class CurrentLocationClient {
         if (!location)
             return;
 
-        const city = WORLD.find_nearest_city(location.latitude, location.longitude);
+        const city = GWeather.Location.get_world().find_nearest_city(location.latitude, location.longitude);
         if (!city)
             return;
 

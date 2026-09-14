@@ -1,8 +1,10 @@
 import GLib from 'gi://GLib';
 import GWeather from 'gi://GWeather';
 
-// Pure formatting helpers shared by indicator.js/weatherClient.js (Shell
-// process only — see prefs.js's own comment on why it doesn't import this).
+const CONCRETE_SPEED_UNITS = [
+    GWeather.SpeedUnit.MS, GWeather.SpeedUnit.KPH, GWeather.SpeedUnit.MPH,
+    GWeather.SpeedUnit.KNOTS, GWeather.SpeedUnit.BFT,
+];
 
 function windArrows(_) {
     return [
@@ -63,7 +65,33 @@ export function dayName(today, date, _) {
  * @returns {string} the formatted time
  */
 export function localeTime(date, clockFormat) {
-    return clockFormat === '12h' ? date.format('%l:%M %p') : date.format('%R');
+    return clockFormat === '12h' ? date.format('%-l:%M %p') : date.format('%R');
+}
+
+/**
+ * Resolves GWeather's locale-dependent DEFAULT temperature unit (the
+ * org.gnome.GWeather4 default) to a concrete unit temperatureString() can label.
+ *
+ * @param {GWeather.TemperatureUnit} unit - a unit from the GWeather settings
+ * @returns {GWeather.TemperatureUnit} a concrete unit, never DEFAULT
+ */
+export function realTemperatureUnit(unit) {
+    return GWeather.temperature_unit_to_real(unit);
+}
+
+/**
+ * Resolves GWeather's locale-dependent DEFAULT speed unit to a concrete unit
+ * windString() can label. libgweather has no public speed_unit_to_real(), but
+ * speed_unit_to_string() resolves DEFAULT the same way get_value_wind() does.
+ *
+ * @param {GWeather.SpeedUnit} unit - a unit from the GWeather settings
+ * @returns {GWeather.SpeedUnit} a concrete unit, never DEFAULT
+ */
+export function realSpeedUnit(unit) {
+    if (unit !== GWeather.SpeedUnit.DEFAULT)
+        return unit;
+    const label = GWeather.speed_unit_to_string(unit);
+    return CONCRETE_SPEED_UNITS.find(u => GWeather.speed_unit_to_string(u) === label) ?? GWeather.SpeedUnit.KPH;
 }
 
 /**

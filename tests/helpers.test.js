@@ -1,0 +1,89 @@
+// Run with `npm test` (plain gjs, no GNOME Shell needed). Covers the pure
+// formatting and forecast-bucketing logic; UI and GeoClue need a real or
+// nested Shell session (see scripts/dev-session.sh).
+
+import GLib from 'gi://GLib';
+import GWeather from 'gi://GWeather';
+import System from 'system';
+
+import {dayName, iconType, localeTime, realSpeedUnit, realTemperatureUnit, temperatureString, windString} from '../helpers.js';
+import {buildForecast, buildHourlyForecast} from '../weatherClient.js';
+
+const _ = s => s;
+let failures = 0;
+
+function check(name, actual, expected) {
+    if (actual === expected) {
+        print(`ok - ${name}`);
+    } else {
+        failures++;
+        printerr(`not ok - ${name}: expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`);
+    }
+}
+
+function fakeEntry(unix, temp, icon = 'weather-clear') {
+    return {
+        get_value_update: () => [unix !== null, unix ?? 0],
+        get_value_temp: () => [temp !== null, temp ?? 0],
+        get_icon_name: () => icon,
+        get_humidity: () => '50%',
+    };
+}
+
+function fakeInfo(entries) {
+    return {
+        get_forecast_list: () => entries,
+        get_location: () => ({get_timezone: () => GLib.TimeZone.new_utc()}),
+    };
+}
+
+check('iconType adds -symbolic', iconType('weather-clear', true), 'weather-clear-symbolic');
+check('iconType strips -symbolic', iconType('weather-clear-symbolic', false), 'weather-clear');
+
+const morning = GLib.DateTime.new_local(2026, 9, 13, 9, 5, 0);
+check('localeTime 12h has no padding', localeTime(morning, '12h'), '9:05 AM');
+check('localeTime 24h', localeTime(morning, '24h'), '09:05');
+
+const today = GLib.DateTime.new_local(2026, 9, 13, 15, 0, 0);
+check('dayName today', dayName(today, GLib.DateTime.new_local(2026, 9, 13, 18, 0, 0), _), 'Today');
+check('dayName tomorrow', dayName(today, GLib.DateTime.new_local(2026, 9, 14, 6, 0, 0), _), 'Tomorrow');
+check('dayName weekday', dayName(today, GLib.DateTime.new_local(2026, 9, 16, 12, 0, 0), _), 'Wednesday');
+
+check('temperatureString celsius', temperatureString(GWeather.TemperatureUnit.CENTIGRADE, 15.6, _), '16 °C');
+check('windString letters', windString(GWeather.SpeedUnit.KPH, true, 9.26, 12, false, _), 'WSW 9.3 km/h');
+check('windString invalid', windString(GWeather.SpeedUnit.KPH, false, 0, -1, false, _), '-');
+
+// org.gnome.GWeather4 defaults every unit to DEFAULT, which the formatters can't label.
+const realTemp = realTemperatureUnit(GWeather.TemperatureUnit.DEFAULT);
+const realSpeed = realSpeedUnit(GWeather.SpeedUnit.DEFAULT);
+check('realTemperatureUnit keeps concrete units', realTemperatureUnit(GWeather.TemperatureUnit.KELVIN), GWeather.TemperatureUnit.KELVIN);
+check('realSpeedUnit keeps concrete units', realSpeedUnit(GWeather.SpeedUnit.KNOTS), GWeather.SpeedUnit.KNOTS);
+check('DEFAULT temperature unit is labelled', temperatureString(realTemp, 16, _) !== 'Unknown', true);
+check('DEFAULT speed unit is labelled', windString(realSpeed, true, 9.26, 12, false, _) !== 'Unknown', true);
+check('DEFAULT speed matches GWeather', GWeather.speed_unit_to_string(realSpeed), GWeather.speed_unit_to_string(GWeather.SpeedUnit.DEFAULT));
+
+const midnight = GLib.DateTime.new_utc(2026, 9, 13, 0, 0, 0).to_unix();
+const hour = 3600;
+const days = buildForecast(fakeInfo([
+    fakeEntry(null, null),
+    fakeEntry(midnight + 9 * hour, 10, 'weather-fog'),
+    fakeEntry(midnight + 15 * hour, 20, 'weather-clear'),
+    fakeEntry(midnight + 27 * hour, null),
+    fakeEntry(midnight + 36 * hour, 5),
+]), GWeather.TemperatureUnit.CENTIGRADE);
+check('buildForecast skips placeholder and splits days', days.length, 2);
+check('buildForecast min', days[0].minTemp, 10);
+check('buildForecast max', days[0].maxTemp, 20);
+check('buildForecast prefers afternoon icon', days[0].icon, 'weather-clear');
+check('buildForecast ignores invalid temperatures', days[1].minTemp, 5);
+check('buildForecast all-invalid day has null temps',
+    buildForecast(fakeInfo([fakeEntry(midnight, null)]), GWeather.TemperatureUnit.CENTIGRADE)[0].maxTemp, null);
+
+const now = GLib.DateTime.new_now_utc().to_unix();
+check('buildHourlyForecast keeps only future entries',
+    buildHourlyForecast(fakeInfo([fakeEntry(now - hour, 1), fakeEntry(now + hour, 2)])).length, 1);
+
+if (failures) {
+    printerr(`${failures} test(s) failed`);
+    System.exit(1);
+}

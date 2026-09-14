@@ -1,17 +1,14 @@
 import GLib from 'gi://GLib';
 import GWeather from 'gi://GWeather';
 
-// Must satisfy GLib's application-id format (dotted components, no '@') or
-// gweather_info_set_application_id() silently fails its validity assertion —
-// which then makes set_enabled_providers()/update() no-ops too, so weather
-// data never loads (confirmed via journalctl: "assertion
-// 'g_application_id_is_valid (application_id)' failed").
+// Must be a valid GApplication ID (dotted, no '@'). An invalid one only logs a
+// critical, after which set_enabled_providers() and update() silently do nothing.
 export const APPLICATION_ID = 'io.github.mlkonrad.gnome-weather';
-const CONTACT_INFO = 'https://github.com/mlkonrad/gnome-weather';
+const CONTACT_INFO = 'https://github.com/mlkonrad/wetter';
 
 /**
  * Wraps a GWeather.Info for one location: creation, provider/contact setup,
- * and the "updated" signal. Callers own start()/destroy() symmetry.
+ * and the "updated" signal.
  */
 export class WeatherClient {
     constructor(location, onUpdated) {
@@ -34,6 +31,7 @@ export class WeatherClient {
 
     destroy() {
         this._info.disconnect(this._updatedId);
+        this._info.abort();
         this._info = null;
     }
 }
@@ -48,15 +46,13 @@ export class WeatherClient {
  * @param {GWeather.Info} info - the weather info to bucket into days
  * @param {GWeather.TemperatureUnit} temperatureUnit - unit for min/max temps
  * @returns {object[]} per-day buckets with icon/humidity/minTemp/maxTemp/date
+ *   (minTemp/maxTemp are null when no entry that day has a valid temperature)
  */
 export function buildForecast(info, temperatureUnit) {
     const list = info.get_forecast_list();
     if (!list.length)
         return [];
 
-    // GWeather.Location.get_timezone() already returns a GLib.TimeZone in
-    // libgweather-4 (confirmed via introspection — it has get_identifier(),
-    // not the get_tzid() the pre-port code expected), so no re-wrapping needed.
     const tz = info.get_location().get_timezone();
 
     const days = [];
@@ -66,28 +62,25 @@ export function buildForecast(info, temperatureUnit) {
         if (!entry)
             continue;
 
-        // MET Norway's forecast list always leads with one placeholder entry
-        // whose update time (and temperature) is unset - [valid, value] both
-        // read (false, 0) - which would otherwise bucket as its own bogus
-        // "day" dated the Unix epoch. Confirmed via a live fetch for Tallinn:
-        // 1 invalid entry out of 86, always at index 0.
+        // MET Norway's list leads with a placeholder entry whose time is
+        // unset, which would otherwise bucket as a day at the Unix epoch.
         const [updateValid, updateTime] = entry.get_value_update();
         if (!updateValid)
             continue;
 
         const date = GLib.DateTime.new_from_unix_local(updateTime).to_timezone(tz);
-        if (lastDayOfMonth !== null && date.get_day_of_month() !== lastDayOfMonth)
-            days.push({hours: {}, date});
-        else if (days.length === 0)
-            days.push({hours: {}, date});
+        if (date.get_day_of_month() !== lastDayOfMonth)
+            days.push({hours: {}, date, minTemp: null, maxTemp: null});
         lastDayOfMonth = date.get_day_of_month();
 
         const day = days[days.length - 1];
-        const temp = entry.get_value_temp(temperatureUnit)[1];
+        const [tempValid, temp] = entry.get_value_temp(temperatureUnit);
 
         day.hours[date.get_hour()] = entry;
-        day.minTemp = day.minTemp === undefined ? temp : Math.min(day.minTemp, temp);
-        day.maxTemp = day.maxTemp === undefined ? temp : Math.max(day.maxTemp, temp);
+        if (tempValid) {
+            day.minTemp = day.minTemp === null ? temp : Math.min(day.minTemp, temp);
+            day.maxTemp = day.maxTemp === null ? temp : Math.max(day.maxTemp, temp);
+        }
     }
 
     for (const day of days) {

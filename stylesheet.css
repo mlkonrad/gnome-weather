@@ -58,9 +58,6 @@
   padding-right: 50px;
 }
 
-.weather-forecast-iconminmax {
-}
-
 .weather-forecast-icon {
   padding-right: 10px;
 }
@@ -74,10 +71,6 @@
 .weather-forecast-humidity {
   color: #999999;
   font-size: 90%;
-  text-align: center;
-}
-
-.weather-forecast-summary {
   text-align: center;
 }
 

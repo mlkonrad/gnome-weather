@@ -1,4 +1,4 @@
-# Wetter — GNOME Weather Extension &nbsp;<img src="gnome-weather-logo.svg" height="40" valign="middle">
+# Wetter &nbsp;<img src="gnome-weather-logo.svg" height="40" valign="middle">
 
 ![Screenshot](Screenshot.png)
 
@@ -52,6 +52,15 @@ selectable entry that tracks where you are, via [GeoClue](https://gitlab.freedes
 alongside any cities you've added by hand. It refreshes itself automatically
 as your location changes — no manual re-adding a city after a trip.
 
+### Privacy
+
+If no location has been added yet, **Current Location** is turned on by
+default; switch it off in settings to use only the cities you add. The
+location is detected by GeoClue at city-level accuracy (GNOME lists the
+request as coming from GNOME Shell, since extensions run inside it). The
+selected city is sent to the weather services libgweather uses — MET Norway,
+OpenWeatherMap and METAR airport reports — to fetch its forecast.
+
 ## Debug
 
 Watch `journalctl --user` for Shell errors (search for `gnome-weather` in the
@@ -71,17 +80,17 @@ Copyright (C) 2011 - 2026
 * Mattia Meneguzzo \<odysseus@fedoraproject.org\>,
 * Marlon Konrad (GNOME 45+/libgweather-4 port).
 
-This file is part of *gnome-weather*.
+This file is part of *Wetter*.
 
-*gnome-weather* is free software: you can redistribute it and/or modify it
+*Wetter* is free software: you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by the Free
 Software Foundation, either version 3 of the License, or (at your option) any
 later version.
 
-*gnome-weather* is distributed in the hope that it will be useful, but
+*Wetter* is distributed in the hope that it will be useful, but
 WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
 FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
 details.
 
 You should have received a copy of the GNU General Public License along with
-*gnome-weather*. If not, see <http://www.gnu.org/licenses/>.
+*Wetter*. If not, see <http://www.gnu.org/licenses/>.

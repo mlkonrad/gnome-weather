@@ -9,11 +9,9 @@ export default class WeatherExtension extends Extension {
     enable() {
         this._settings = this.getSettings();
 
-        // First run only: nothing to show and 'use-current-location' has
-        // never been touched, so default to current-location instead of the
-        // empty "no location" placeholder. get_user_value() (not a lifecycle
-        // flag) makes this fire exactly once - it stays null forever after
-        // the set_boolean() below gives the key an explicit value.
+        // First run: with no cities and 'use-current-location' never set,
+        // default to the current location. set_boolean() gives the key a
+        // user value, so get_user_value() is non-null on every later enable().
         if (this._settings.get_value('city').n_children() === 0 &&
             this._settings.get_user_value('use-current-location') === null) {
             this._settings.set_boolean('use-current-location', true);
@@ -27,6 +25,7 @@ export default class WeatherExtension extends Extension {
 
     disable() {
         this._settings.disconnect(this._positionChangedId);
+        this._positionChangedId = null;
         this._indicator?.destroy();
         this._indicator = null;
         this._settings = null;

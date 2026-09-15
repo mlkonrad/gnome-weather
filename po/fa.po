@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-shell-extension-weather 0.13\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-13 23:16+0300\n"
+"POT-Creation-Date: 2026-09-15 22:30+0300\n"
 "PO-Revision-Date: 2014-04-04 20:26+0330\n"
 "Last-Translator: Nasrollah Noori <nanopqr@gmail.com>\n"
 "Language-Team: فارسی <> <nanopqr@gmail.com>\n"
@@ -488,10 +488,14 @@ msgid "Report an Issue"
 msgstr ""
 
 #: ../prefs.js:341
-msgid "Legal"
+msgid "Help support development"
 msgstr ""
 
 #: ../prefs.js:343
+msgid "Legal"
+msgstr ""
+
+#: ../prefs.js:345
 msgid "License"
 msgstr ""
 
@@ -499,21 +503,21 @@ msgstr ""
 #. manner" - it's already shown as a footnote in the panel dropdown when the
 #. active provider requires it (indicator.js's _renderAttribution()); this is
 #. an additional, always-visible credit rather than a replacement for that.
-#: ../prefs.js:349
+#: ../prefs.js:351
 #, fuzzy
 #| msgid "Weather"
 msgid "Weather Data"
 msgstr "هواشناسی"
 
-#: ../prefs.js:350
+#: ../prefs.js:352
 msgid "MET Norway (CC BY 4.0)"
 msgstr ""
 
-#: ../prefs.js:352
+#: ../prefs.js:354
 msgid "Credits"
 msgstr ""
 
-#: ../prefs.js:355
+#: ../prefs.js:357
 msgid "Contributors"
 msgstr ""
 

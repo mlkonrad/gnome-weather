@@ -6,5 +6,8 @@
     "settings-schema": "org.gnome.shell.extensions.gnome-weather",
     "gettext-domain": "wetter@mlkonrad.github.com",
     "url": "https://github.com/mlkonrad/wetter",
+    "donations": {
+        "buymeacoffee": "mlkonrad"
+    },
     "version-name": "1.0"
 }

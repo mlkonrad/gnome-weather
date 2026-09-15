@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 3.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-13 23:16+0300\n"
+"POT-Creation-Date: 2026-09-15 22:30+0300\n"
 "PO-Revision-Date: 2013-08-03 08:30+0200\n"
 "Last-Translator: Odysseus86 <hal8600@hotmail.it>\n"
 "Language-Team: \n"
@@ -484,10 +484,14 @@ msgid "Report an Issue"
 msgstr ""
 
 #: ../prefs.js:341
-msgid "Legal"
+msgid "Help support development"
 msgstr ""
 
 #: ../prefs.js:343
+msgid "Legal"
+msgstr ""
+
+#: ../prefs.js:345
 msgid "License"
 msgstr ""
 
@@ -495,21 +499,21 @@ msgstr ""
 #. manner" - it's already shown as a footnote in the panel dropdown when the
 #. active provider requires it (indicator.js's _renderAttribution()); this is
 #. an additional, always-visible credit rather than a replacement for that.
-#: ../prefs.js:349
+#: ../prefs.js:351
 #, fuzzy
 #| msgid "Weather"
 msgid "Weather Data"
 msgstr "Condizioni meteo"
 
-#: ../prefs.js:350
+#: ../prefs.js:352
 msgid "MET Norway (CC BY 4.0)"
 msgstr ""
 
-#: ../prefs.js:352
+#: ../prefs.js:354
 msgid "Credits"
 msgstr ""
 
-#: ../prefs.js:355
+#: ../prefs.js:357
 msgid "Contributors"
 msgstr ""
 

@@ -337,6 +337,8 @@ export default class WeatherPreferences extends ExtensionPreferences {
             'github.com/mlkonrad/wetter', 'https://github.com/mlkonrad/wetter'));
         linksGroup.add(this._linkRow(window, _('Report an Issue'),
             'github.com/mlkonrad/wetter/issues', 'https://github.com/mlkonrad/wetter/issues'));
+        linksGroup.add(this._linkRow(window, 'Buy Me a Coffee',
+            _('Help support development'), 'https://buymeacoffee.com/mlkonrad'));
 
         const legalGroup = new Adw.PreferencesGroup({title: _('Legal')});
         page.add(legalGroup);
